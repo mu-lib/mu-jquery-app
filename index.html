@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-wire/master/jquery.wire.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/master/jquery.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/master/composer.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/master/constructor.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/master/prototype.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/master/dom.js"></script>
+<script src="compose.js"></script>
+<script src="component.js"></script>
+<script>
+jQuery(function ($) {
+  $(document).wire("mu-wire");
+});
+</script>
+</head>
+<body>
+  <button mu-wire="mu-jquery-app/component">test</button>
+</body>
+</html>

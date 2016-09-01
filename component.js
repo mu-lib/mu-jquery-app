@@ -15,7 +15,13 @@
 })(["jquery", "mu-jquery-app/compose"], this, function($, compose) {
   return compose($.construct, {
     "on/start": function($event) {
-      console.log("started %o", $event);
+      return $.Deferred(function(deferred) {
+        console.log("init %o", $event);
+        setTimeout(function() {
+          console.log("start %o", $event);
+          deferred.resolve();
+        }, 1000);
+      }).promise();
     },
     "on/click": function($event) {
       console.log("click %o", $event);

@@ -11,9 +11,9 @@
     }));
   }
 })(["jquery", "mu-jquery-app/compose"], this, function($, compose) {
-  $(document).data("mu-jquery-app/component", compose($.construct, {
+  return compose($.construct, {
     "on/click": function() {
       console.log(arguments);
     }
-  }));
+  });
 });

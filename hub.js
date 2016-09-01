@@ -15,7 +15,7 @@
       topic = id && topics[id];
 
     if (!topic) {
-      callbacks = $.Callbacks();
+      callbacks = $.Callbacks("memory", "stopOnFalse");
       topic = {
         publish: callbacks.fire,
         subscribe: callbacks.add,

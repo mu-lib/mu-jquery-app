@@ -14,8 +14,11 @@
   }
 })(["jquery", "mu-jquery-app/compose"], this, function($, compose) {
   return compose($.construct, {
-    "on/click": function() {
-      console.log(arguments);
+    "on/start": function($event) {
+      console.log("started %o", $event);
+    },
+    "on/click": function($event) {
+      console.log("click %o", $event);
     }
   });
 });

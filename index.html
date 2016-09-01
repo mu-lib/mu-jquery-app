@@ -15,11 +15,18 @@
 jQuery(function ($) {
   $(document).wire("mu-wire", function(module) {
     return window[module];
-  }).then(console.log.bind(console), console.error.bind(console));
+  })
+  .then(function () {
+    return $($.map(arguments, function(component) {
+      return component.$element;
+    })).crank("mu-wire", "start");
+  })
+  .then(console.log.bind(console), console.error.bind(console));
 });
 </script>
 </head>
 <body>
-  <button mu-wire="mu-jquery-app/component">test</button>
+  <button mu-wire="mu-jquery-app/component">test1</button>
+  <button mu-wire="mu-jquery-app/component">test2</button>
 </body>
 </html>

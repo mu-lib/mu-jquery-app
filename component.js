@@ -7,7 +7,9 @@
     }));
   } else {
     root["mu-jquery-app/component"] = factory.apply(root, modules.map(function(m) {
-      return m === "jquery" ? root.jQuery : root[m];
+      return {
+          "jquery": root.jQuery
+        }[m] || root[m];
     }));
   }
 })(["jquery", "mu-jquery-app/compose"], this, function($, compose) {

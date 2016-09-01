@@ -15,10 +15,10 @@
   }
 })([
   "jquery",
+  "mu-jquery-app/compose",
   "mu-compose/jquery",
-  "mu-jquery-app/construct",
-  "mu-jquery-app/compose"
-], this, function($, $construct, construct, compose) {
+  "mu-jquery-app/construct"
+], this, function($, compose, $construct, construct) {
   return compose($construct, construct, {
     "on/initialize": function($event) {
       return $.Deferred(function(deferred) {
@@ -37,7 +37,7 @@
       console.log("click %o", $event);
     },
     "hub/test": function() {
-      console.log("hub %o", arguments);
+      console.log("test %o", arguments);
     }
   });
 });

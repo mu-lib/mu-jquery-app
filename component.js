@@ -12,8 +12,12 @@
         }[m] || root[m];
     }));
   }
-})(["jquery", "mu-jquery-app/compose"], this, function($, compose) {
-  return compose($.construct, {
+})([
+  "jquery",
+  "mu-jquery-app/compose",
+  "mu-jquery-app/construct"
+], this, function($, compose, construct) {
+  return compose($.construct, construct, {
     "on/start": function($event) {
       return $.Deferred(function(deferred) {
         console.log("init %o", $event);
@@ -25,6 +29,9 @@
     },
     "on/click": function($event) {
       console.log("click %o", $event);
+    },
+    "hub/test": function() {
+      console.log("hub %o", arguments);
     }
   });
 });

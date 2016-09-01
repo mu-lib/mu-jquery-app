@@ -16,5 +16,19 @@
   "mu-compose/prototype",
   "mu-compose/dom"
 ], this, function(composer, construct, proto, dom) {
-  return composer(construct, dom, proto);
+  function hub(result, data) {
+    var key = data.key;
+    var matches = key.match(/^hub\/(.+)/);
+
+    if (matches) {
+      (result.hub = result.hub || []).push({
+        "topic": matches[1],
+        "handler": data.value
+      });
+
+      return false;
+    }
+  }
+
+  return composer(construct, hub, dom, proto);
 });

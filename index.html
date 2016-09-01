@@ -9,19 +9,25 @@
 <script src="https://rawgit.com/mu-lib/mu-compose/master/constructor.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/prototype.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/dom.js"></script>
+<script src="hub.js"></script>
 <script src="compose.js"></script>
+<script src="construct.js"></script>
 <script src="component.js"></script>
 <script>
 jQuery(function ($) {
+  var hub = window["mu-jquery-app/hub"];
+
   $(document).wire("mu-wire", function(module) {
     return window[module];
-  })
+  }, hub)
   .then(function () {
     return $($.map(arguments, function(component) {
       return component.$element;
     })).crank("mu-wire", "start");
   })
-  .then(console.log.bind(console), console.error.bind(console));
+  .then(function() {
+    hub("test").publish(1,2,3);
+  }, console.error.bind(console));
 });
 </script>
 </head>

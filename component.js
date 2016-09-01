@@ -8,16 +8,18 @@
   } else {
     root["mu-jquery-app/component"] = factory.apply(root, modules.map(function(m) {
       return {
-          "jquery": root.jQuery
+          "jquery": root.jQuery,
+          "mu-compose/jquery": root.jQuery.construct
         }[m] || root[m];
     }));
   }
 })([
   "jquery",
-  "mu-jquery-app/compose",
-  "mu-jquery-app/construct"
-], this, function($, compose, construct) {
-  return compose($.construct, construct, {
+  "mu-compose/jquery",
+  "mu-jquery-app/construct",
+  "mu-jquery-app/compose"
+], this, function($, $construct, construct, compose) {
+  return compose($construct, construct, {
     "on/start": function($event) {
       return $.Deferred(function(deferred) {
         console.log("init %o", $event);

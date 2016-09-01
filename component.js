@@ -12,7 +12,7 @@
   }
 })(["jquery", "mu-jquery-app/compose"], this, function($, compose) {
   $(document).data("mu-jquery-app/component", compose($.construct, {
-    "event/click": function() {
+    "on/click": function() {
       console.log(arguments);
     }
   }));

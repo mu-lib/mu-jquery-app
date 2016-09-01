@@ -8,7 +8,11 @@
   }
 }(this, function($) {
   return function($element, ns, hub) {
-    $.each(this.constructor.hub || false, function(index, op) {
+    var me = this;
+
+    me.hub = hub;
+
+    $.each(me.constructor.hub || false, function(index, op) {
       hub(op.topic).subscribe(op.handler);
     });
   }

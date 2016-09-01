@@ -7,24 +7,29 @@
     root["mu-jquery-app/hub"] = factory(root.jQuery);
   }
 }(this, function($) {
-  var topics = {};
+  var slice = Array.prototype.slice;
 
-  return function(id) {
-    var callbacks,
-      method,
-      topic = id && topics[id];
+  return function() {
+    var args = slice.call(arguments);
+    var topics = {};
 
-    if (!topic) {
-      callbacks = $.Callbacks("memory", "stopOnFalse");
-      topic = {
-        publish: callbacks.fire,
-        subscribe: callbacks.add,
-        unsubscribe: callbacks.remove
-      };
-      if (id) {
-        topics[id] = topic;
+    return function(id) {
+      var callbacks,
+        method,
+        topic = id && topics[id];
+
+      if (!topic) {
+        callbacks = $.Callbacks.apply(null, args);
+        topic = {
+          publish: callbacks.fire,
+          subscribe: callbacks.add,
+          unsubscribe: callbacks.remove
+        };
+        if (id) {
+          topics[id] = topic;
+        }
       }
+      return topic;
     }
-    return topic;
   }
 }));

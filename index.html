@@ -14,27 +14,46 @@
 <script src="construct.js"></script>
 <script src="component.js"></script>
 <script>
-(function ($, hub) {
+(function ($, crank, slice, hub) {
+  // publish some values that will be overridden
   hub("test").publish(true, false);
 
   $(function () {
+    var info = console.info.bind(console);
+
+    // publish initial values on the 'test' topic
     hub("test").publish("a", "b", "c");
 
     $(document)
+      // wire elements
       .wire("mu-wire", function(module) {
         return window[module];
       }, hub)
+      .done(info)
+      // transform arguments to [component]
       .then(function () {
-        return $($.map(arguments, function(component) {
-          return component.$element;
-        })).crank("mu-wire", "start");
+        return slice.call(arguments);
       })
+      .done(info)
+      // crank 'initialize' and 'start' on each component in sequence
+      .then(function (components) {
+        return $.when.apply(null, $.map(components, function (component) {
+          var $element = component.$element;
+
+          return crank.call($element, "mu-wire", "initialize").done(function () {
+            return crank.call($element, "mu-wire", "start");
+          });
+        }));
+      })
+      .done(info)
+      // publish on the 'test' topic
       .done(function() {
         hub("test").publish(1,2,3);
       })
-      .then(console.log.bind(console), console.error.bind(console));
+      // add error handler
+      .fail(console.error.bind(console));
   });
-})(jQuery, window["mu-jquery-app/hub"]);
+})(jQuery, jQuery.fn.crank, Array.prototype.slice, window["mu-jquery-app/hub"]);
 </script>
 </head>
 <body>

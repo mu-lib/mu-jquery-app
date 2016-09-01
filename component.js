@@ -20,14 +20,17 @@
   "mu-jquery-app/compose"
 ], this, function($, $construct, construct, compose) {
   return compose($construct, construct, {
-    "on/start": function($event) {
+    "on/initialize": function($event) {
+      console.log("initialize %o", $event);
+
       return $.Deferred(function(deferred) {
-        console.log("init %o", $event);
         setTimeout(function() {
-          console.log("start %o", $event);
           deferred.resolve();
         }, 1000);
       }).promise();
+    },
+    "on/start": function($event) {
+      console.log("start %o", $event);
     },
     "on/click": function($event) {
       console.log("click %o", $event);

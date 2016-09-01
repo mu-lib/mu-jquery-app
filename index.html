@@ -14,21 +14,27 @@
 <script src="construct.js"></script>
 <script src="component.js"></script>
 <script>
-jQuery(function ($) {
-  var hub = window["mu-jquery-app/hub"];
+(function ($, hub) {
+  hub("test").publish(true, false);
 
-  $(document).wire("mu-wire", function(module) {
-    return window[module];
-  }, hub)
-  .then(function () {
-    return $($.map(arguments, function(component) {
-      return component.$element;
-    })).crank("mu-wire", "start");
-  })
-  .then(function() {
-    hub("test").publish(1,2,3);
-  }, console.error.bind(console));
-});
+  $(function () {
+    hub("test").publish("a", "b", "c");
+
+    $(document)
+      .wire("mu-wire", function(module) {
+        return window[module];
+      }, hub)
+      .then(function () {
+        return $($.map(arguments, function(component) {
+          return component.$element;
+        })).crank("mu-wire", "start");
+      })
+      .done(function() {
+        hub("test").publish(1,2,3);
+      })
+      .then(console.log.bind(console), console.error.bind(console));
+  });
+})(jQuery, window["mu-jquery-app/hub"]);
 </script>
 </head>
 <body>

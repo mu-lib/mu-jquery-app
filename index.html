@@ -27,20 +27,16 @@
         return window[module];
       }, hub)
       .done(info)
-      // transform arguments to [component]
+      // transform arguments to $components
       .then(function () {
-        return slice.call(arguments);
+        return $($.map(arguments, function (component) {
+          return component.$element;
+        }));
       })
       .done(info)
-      // crank 'initialize' and 'start' on each component in sequence
-      .then(function (components) {
-        return $.when.apply(null, $.map(components, function (component) {
-          var $element = component.$element;
-
-          return crank.call($element, "mu-wire", "initialize").done(function () {
-            return crank.call($element, "mu-wire", "start");
-          });
-        }));
+      // crank 'initialize' on $components
+      .then(function ($components) {
+        return $components.crank("mu-wire", "initialize");
       })
       .done(info)
       // publish on the 'test' topic

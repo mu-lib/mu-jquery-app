@@ -21,16 +21,17 @@
 ], this, function($, $construct, construct, compose) {
   return compose($construct, construct, {
     "on/initialize": function($event) {
-      console.log("initialize %o", $event);
-
       return $.Deferred(function(deferred) {
+        console.log("initialize %o", $event);
+
         setTimeout(function() {
           deferred.resolve();
         }, 1000);
-      }).promise();
-    },
-    "on/start": function($event) {
-      console.log("start %o", $event);
+      })
+        .done(function() {
+          console.log("initialized %o", $event);
+        })
+        .promise();
     },
     "on/click": function($event) {
       console.log("click %o", $event);

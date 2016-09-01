@@ -15,14 +15,11 @@
 <script src="component.js"></script>
 <script>
 (function ($, crank, slice, hub) {
-  // publish some values that will be overridden
-  hub("test").publish(true, false);
+  // publish initial values on the 'test' topic
+  hub("test").publish("a", "b", "c");
 
   $(function () {
     var info = console.info.bind(console);
-
-    // publish initial values on the 'test' topic
-    hub("test").publish("a", "b", "c");
 
     $(document)
       // wire elements

@@ -4,12 +4,12 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://cdn.rawgit.com/mu-lib/mu-jquery-wire/v1.1.0/jquery.wire.js"></script>
 <script src="https://cdn.rawgit.com/mu-lib/mu-jquery-crank/v1.1.1/jquery.crank.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-hub/master/jquery.hub.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/jquery.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/composer.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/constructor.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/prototype.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/dom.js"></script>
-<script src="hub.js"></script>
 <script src="compose.js"></script>
 <script src="construct.js"></script>
 <script src="component.js"></script>
@@ -50,7 +50,7 @@
       // add error handler
       .fail(console.error.bind(console));
   });
-})(jQuery, jQuery.fn.crank, Array.prototype.slice, window["mu-jquery-app/hub"]("memory", "stopOnFalse"));
+})(jQuery, jQuery.fn.crank, Array.prototype.slice, window["mu-jquery-hub/jquery.hub"]("memory", "stopOnFalse"));
 </script>
 </head>
 <body>

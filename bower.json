@@ -4,7 +4,7 @@
     "Mikael Karon <mikael@karon.se>"
   ],
   "description": "A jQuery app example",
-  "main": "index.html",
+  "main": "docs/index.html",
   "license": "MIT",
   "homepage": "",
   "ignore": [

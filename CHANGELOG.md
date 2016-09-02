@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v0.1.0...v1.0.0) (2016-09-02)
+
+
+### Features
+
+* support for additional arguments in jquery.weave ([1679743](https://github.com/mu-lib/mu-jquery-app/commit/1679743))
+
+
+### BREAKING CHANGES
+
+* jquery.weave no longer issues a crank after weaving.
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v0.0.1...v0.1.0) (2016-09-02)
 

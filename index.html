@@ -14,23 +14,31 @@
 <script src="construct.js"></script>
 <script src="component.js"></script>
 <script>
-(function ($, crank, slice, hub) {
+(function ($, hub) {
   // publish initial values on the `test` topic
   hub("test").publish("a", "b", "c");
 
   $(function () {
     var info = console.info.bind(console);
+    var count = 0;
 
     $(document)
       // find elements with a `mu-wire` attribute
       .find("[mu-wire]")
       // wire elements reading from the `mu-wire` attribute
-      .wire("mu-wire", function(module) {
-        var C = window[module];
+      .wire("mu-wire", function(module, index) {
+        var $element = $(this);
+        var result = window[module];
 
-        switch ($.type(C)) {
+        switch ($.type(result)) {
           case "function":
-            return new C(this, module, hub);
+            result = new result($element, module = module + "@" + ++count, hub);
+
+            $element.attr("mu-wire", function (i, attr) {
+              attr = attr.split(/\s+/);
+              attr[index] = module;
+              return attr.join(" ");
+            });
             break;
 
           case "undefined":
@@ -39,12 +47,14 @@
           default:
             throw new Error(c + " is not a supported type");
         }
+
+        return result;
       })
       .done(info)
       // transform arguments to $components
       .then(function () {
         return $($.map(arguments, function (component) {
-          return component.$element;
+          return ($.isArray(component) ? component[0] : component).$element;
         }));
       })
       .done(info)
@@ -60,11 +70,11 @@
       // add error handler
       .fail(console.error.bind(console));
   });
-})(jQuery, jQuery.fn.crank, Array.prototype.slice, window["mu-jquery-hub/jquery.hub"]("memory", "stopOnFalse"));
+})(jQuery, window["mu-jquery-hub/jquery.hub"]("memory", "stopOnFalse"));
 </script>
 </head>
 <body>
-  <button mu-wire="mu-jquery-app/component">test1</button>
+  <button mu-wire="mu-jquery-app/component mu-jquery-app/component">test1</button>
   <button mu-wire="mu-jquery-app/component">test2</button>
 </body>
 </html>

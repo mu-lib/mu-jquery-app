@@ -6,7 +6,7 @@
   } else {
     root["mu-jquery-app/widget"] = factory(root.jQuery);
   }
-}(["jquery", "mu-jqury-widget"], this, function($) {
+}(["jquery", "mu-jquery-widget"], this, function($) {
   return function($element, ns, hub) {
     var me = this;
 

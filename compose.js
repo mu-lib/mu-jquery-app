@@ -14,27 +14,8 @@
   "mu-compose/compose",
   "mu-compose/constructor",
   "mu-compose/prototype",
-  "mu-compose/regexp"
-], this, function(compose, construct, proto, regexp) {
-  return compose(
-    construct,
-    regexp(/^hub\/(.+)/, function(result, data, topic) {
-      (result.hub = result.hub || []).push({
-        "topic": topic,
-        "handler": data.value
-      });
-
-      return false;
-    }),
-    regexp(/^(on|attr|prop)\/(.+)/, function(result, data, method, type) {
-      (result.dom = result.dom || []).push({
-        "method": method,
-        "type": type,
-        "value": data.value
-      });
-
-      return false;
-    }),
-    proto
-  );
+  "mu-jquery-hub/compose",
+  "mu-jquery-widget/compose"
+], this, function(compose, construct, proto, hub, widget) {
+  return compose(construct, hub, widget, proto);
 });

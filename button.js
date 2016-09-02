@@ -15,10 +15,13 @@
 })([
   "jquery",
   "mu-jquery-app/compose",
-  "mu-jquery-app/widget"
-], this, function($, compose, widget) {
-  return compose(widget, {
+  "mu-jquery-widget/widget",
+  "mu-jquery-hub/widget"
+], this, function($, compose, widget, hub) {
+  return compose(widget, hub, {
     "on/initialize": function($event) {
+      this.on("mouseover", console.log.bind(console));
+
       return $.Deferred(function(deferred) {
         console.log("initialize %o", $event);
 
@@ -33,6 +36,7 @@
     },
     "on/click": function($event) {
       console.log("click %o", $event);
+      this.off("mouseover");
     },
     "hub/test": function() {
       console.log("test %o", arguments);

@@ -4,14 +4,16 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-wire/v2.0.0/jquery.wire.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-crank/v1.1.1/jquery.crank.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-hub/v0.0.1/jquery.hub.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v1.0.0/jquery.widget.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/compose.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/constructor.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/prototype.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/regexp.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-hub/v0.1.0/hub.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-hub/v0.1.0/widget.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-hub/v0.1.0/compose.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v2.0.0/widget.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v2.0.0/compose.js"></script>
 <script src="compose.js"></script>
-<script src="widget.js"></script>
 <script src="button.js"></script>
 <script>
 (function ($, hub) {
@@ -56,11 +58,11 @@
       // transform arguments to $widgets
       .then(function () {
         return $($.map(arguments, function (component) {
-          return ($.isArray(component) ? component[0] : component).$widget;
+          return ($.isArray(component) ? component[0] : component).$element;
         }));
       })
       .done(info)
-      // crank `initialize` on $components
+      // crank `initialize` on $widgets
       .then(function ($widgets) {
         return $widgets.crank("mu-wire", "initialize");
       })
@@ -72,7 +74,7 @@
       // add error handler
       .fail(console.error.bind(console));
   });
-})(jQuery, window["mu-jquery-hub/jquery.hub"]("memory", "stopOnFalse"));
+})(jQuery, window["mu-jquery-hub/hub"]("memory", "stopOnFalse"));
 </script>
 </head>
 <body>

@@ -26,8 +26,20 @@
       .find("[mu-wire]")
       // wire elements reading from the `mu-wire` attribute
       .wire("mu-wire", function(module) {
-        return window[module];
-      }, hub)
+        var C = window[module];
+
+        switch ($.type(C)) {
+          case "function":
+            return new C(this, module, hub);
+            break;
+
+          case "undefined":
+            break;
+
+          default:
+            throw new Error(c + " is not a supported type");
+        }
+      })
       .done(info)
       // transform arguments to $components
       .then(function () {

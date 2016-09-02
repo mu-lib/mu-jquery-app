@@ -19,7 +19,7 @@
     "mu-compose": "^1.0.0",
     "mu-jquery-wire": "^1.1.0",
     "mu-jquery-crank": "^1.1.1",
-    "mu-jquery-hub": "^0.1.0",
+    "mu-jquery-hub": "^1.0.0",
     "mu-jquery-widget": "^2.0.0"
   }
 }

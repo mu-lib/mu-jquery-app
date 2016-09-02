@@ -16,7 +16,7 @@
   "jquery",
   "mu-jquery-app/compose",
   "mu-jquery-widget/widget",
-  "mu-jquery-hub/widget"
+  "mu-jquery-app/hub"
 ], this, function($, compose, widget, hub) {
   return compose(widget, hub, {
     "on/initialize": function($event) {

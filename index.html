@@ -15,16 +15,16 @@
 <script src="component.js"></script>
 <script>
 (function ($, crank, slice, hub) {
-  // publish initial values on the 'test' topic
+  // publish initial values on the `test` topic
   hub("test").publish("a", "b", "c");
 
   $(function () {
     var info = console.info.bind(console);
 
     $(document)
-      // find elements to wire
+      // find elements with a `mu-wire` attribute
       .find("[mu-wire]")
-      // wire elements
+      // wire elements reading from the `mu-wire` attribute
       .wire("mu-wire", function(module) {
         return window[module];
       }, hub)
@@ -36,12 +36,12 @@
         }));
       })
       .done(info)
-      // crank 'initialize' on $components
+      // crank `initialize` on $components
       .then(function ($components) {
         return $components.crank("mu-wire", "initialize");
       })
       .done(info)
-      // publish on the 'test' topic
+      // publish on the `test` topic
       .done(function() {
         hub("test").publish(1,2,3);
       })

@@ -13,6 +13,7 @@
 <script src="https://rawgit.com/mu-lib/mu-jquery-widget/v2.0.0/compose.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-app/master/compose.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-app/master/hub.js"></script>
+<script src="../jquery.weave.js"></script>
 <script src="button.js"></script>
 <script>
 (function(modules, root, factory) {
@@ -23,10 +24,9 @@
   }));
 }([
   "jquery",
-  "mu-jquery-wire/jquery.wire",
-  "mu-jquery-crank/jquery.crank",
+  "mu-jquery-app/jquery.weave",
   "mu-jquery-hub/hub"
-], this, function (jQuery, wire, crank, hub) {
+], this, function (jQuery, weave, hub) {
   // construct hub with flags
   hub = hub("memory", "stopOnFalse");
 
@@ -34,58 +34,22 @@
     // publish initial values on the `test` topic
     hub("test").publish("a", "b", "c");
 
-    var info = console.info.bind(console);
-    var count = 0;
-
     // find elements with a `mu-wire` attribute
     var $elements = $(document).find("[mu-wire]");
 
-    // wire elements from the `mu-wire` attribute
-    wire.call($elements, "mu-wire", function(module, index) {
-      var result = window[module];
-      var $element;
-
-      switch ($.type(result)) {
-        case "function":
-          // create instance and update `$element` and `module`
-          result = new result($element = $(this), module = module + "@" + ++count, hub);
-
-          // update attribute
-          $element.attr("mu-wire", function (i, attr) {
-            attr = attr.split(/\s+/);
-            attr[index] = module;
-            return attr.join(" ");
-          });
-          break;
-
-        case "undefined":
-          break;
-
-        default:
-          throw new Error(c + " is not a supported type");
-      }
-
-      return result;
-    })
-    .done(info)
-    // transform arguments to $widgets
-    .then(function () {
-      return $($.map(arguments, function (component) {
-        return ($.isArray(component) ? component[0] : component).$element;
-      }));
-    })
-    .done(info)
-    // crank `initialize` on $widgets
-    .then(function ($widgets) {
-      return crank.call($widgets, "mu-wire", "initialize");
-    })
-    .done(info)
-    // publish on the `test` topic
-    .done(function() {
-      hub("test").publish(1,2,3);
-    })
-    // add error handler
-    .fail(console.error.bind(console));
+    weave
+      // weave elements from the `mu-wire` attribute
+      .call($elements, "mu-wire", function(module) {
+        return window[module];
+      }, hub)
+      // info
+      .done(console.info.bind(console))
+      // publish on the `test` topic
+      .done(function() {
+        hub("test").publish(1,2,3);
+      })
+      // add error handler
+      .fail(console.error.bind(console));
   });
 }));
 </script>

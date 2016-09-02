@@ -1,0 +1,22 @@
+{
+  "name": "mu-jquery-app",
+  "version": "0.0.1",
+  "description": "A jQuery app example",
+  "main": "index.html",
+  "scripts": {
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mu-lib/mu-jquery-app.git"
+  },
+  "author": "Mikael Karon <mikael@karon.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mu-lib/mu-jquery-app/issues"
+  },
+  "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
+  "devDependencies": {
+    "standard-version": "^2.4.0"
+  }
+}

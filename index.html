@@ -5,14 +5,14 @@
 <script src="https://rawgit.com/mu-lib/mu-jquery-wire/v2.0.0/jquery.wire.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-crank/v1.1.1/jquery.crank.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-hub/v0.0.1/jquery.hub.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-compose/master/jquery.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-compose/master/composer.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-compose/master/constructor.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-compose/master/prototype.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-compose/master/dom.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v1.0.0/jquery.widget.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/compose.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/constructor.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/prototype.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-compose/v1.0.0/regexp.js"></script>
 <script src="compose.js"></script>
-<script src="construct.js"></script>
-<script src="component.js"></script>
+<script src="widget.js"></script>
+<script src="button.js"></script>
 <script>
 (function ($, hub) {
   // publish initial values on the `test` topic
@@ -25,15 +25,17 @@
     $(document)
       // find elements with a `mu-wire` attribute
       .find("[mu-wire]")
-      // wire elements reading from the `mu-wire` attribute
+      // wire elements from the `mu-wire` attribute
       .wire("mu-wire", function(module, index) {
-        var $element = $(this);
         var result = window[module];
+        var $element;
 
         switch ($.type(result)) {
           case "function":
-            result = new result($element, module = module + "@" + ++count, hub);
+            // create instance and update `$element` and `module`
+            result = new result($element = $(this), module = module + "@" + ++count, hub);
 
+            // update attribute
             $element.attr("mu-wire", function (i, attr) {
               attr = attr.split(/\s+/);
               attr[index] = module;
@@ -51,16 +53,16 @@
         return result;
       })
       .done(info)
-      // transform arguments to $components
+      // transform arguments to $widgets
       .then(function () {
         return $($.map(arguments, function (component) {
-          return ($.isArray(component) ? component[0] : component).$element;
+          return ($.isArray(component) ? component[0] : component).$widget;
         }));
       })
       .done(info)
       // crank `initialize` on $components
-      .then(function ($components) {
-        return $components.crank("mu-wire", "initialize");
+      .then(function ($widgets) {
+        return $widgets.crank("mu-wire", "initialize");
       })
       .done(info)
       // publish on the `test` topic
@@ -74,7 +76,7 @@
 </script>
 </head>
 <body>
-  <button mu-wire="mu-jquery-app/component mu-jquery-app/component">test1</button>
-  <button mu-wire="mu-jquery-app/component">test2</button>
+  <button mu-wire="mu-jquery-app/button mu-jquery-app/button">test1</button>
+  <button mu-wire="mu-jquery-app/button">test2</button>
 </body>
 </html>

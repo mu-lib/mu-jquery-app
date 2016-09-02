@@ -11,24 +11,30 @@
     }));
   }
 })([
-  "mu-compose/composer",
+  "mu-compose/compose",
   "mu-compose/constructor",
   "mu-compose/prototype",
-  "mu-compose/dom"
-], this, function(composer, construct, proto, dom) {
-  function hub(result, data) {
-    var key = data.key;
-    var matches = key.match(/^hub\/(.+)/);
-
-    if (matches) {
+  "mu-compose/regexp"
+], this, function(compose, construct, proto, regexp) {
+  return compose(
+    construct,
+    regexp(/^hub\/(.+)/, function(result, data, topic) {
       (result.hub = result.hub || []).push({
-        "topic": matches[1],
+        "topic": topic,
         "handler": data.value
       });
 
       return false;
-    }
-  }
+    }),
+    regexp(/^(on|attr|prop)\/(.+)/, function(result, data, method, type) {
+      (result.dom = result.dom || []).push({
+        "method": method,
+        "type": type,
+        "value": data.value
+      });
 
-  return composer(construct, hub, dom, proto);
+      return false;
+    }),
+    proto
+  );
 });

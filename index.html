@@ -15,11 +15,25 @@
 <script src="hub.js"></script>
 <script src="button.js"></script>
 <script>
-(function ($, wire, crank, hub) {
-  // publish initial values on the `test` topic
-  hub("test").publish("a", "b", "c");
+(function(modules, root, factory) {
+  factory.apply(root, modules.map(function(m) {
+    return {
+      "jquery": jQuery
+    }[m] || root[m];
+  }));
+}([
+  "jquery",
+  "mu-jquery-wire/jquery.wire",
+  "mu-jquery-crank/jquery.crank",
+  "mu-jquery-hub/hub"
+], this, function (jQuery, wire, crank, hub) {
+  // construct hub with flags
+  hub = hub("memory", "stopOnFalse");
 
-  $(function () {
+  jQuery(function ($) {
+    // publish initial values on the `test` topic
+    hub("test").publish("a", "b", "c");
+
     var info = console.info.bind(console);
     var count = 0;
 
@@ -73,7 +87,7 @@
     // add error handler
     .fail(console.error.bind(console));
   });
-})(jQuery, window["mu-jquery-wire/jquery.wire"], window["mu-jquery-crank/jquery.crank"], window["mu-jquery-hub/hub"]("memory", "stopOnFalse"));
+}));
 </script>
 </head>
 <body>

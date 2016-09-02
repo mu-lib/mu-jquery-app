@@ -12,50 +12,39 @@
   }
 }([
   "jquery",
-  "mu-jquery-wire/jquery.wire",
-  "mu-jquery-crank/jquery.crank"
-], this, function($, wire, crank) {
+  "mu-jquery-wire/jquery.wire"
+], this, function($, wire) {
+  var slice = Array.prototype.slice;
+  var bind = Function.prototype.bind;
   var count = 0;
 
-  return function(attr, callback, hub) {
-    return wire
-      // wire elements from the `mu-wire` attribute
-      .call(this, attr, function(module, index) {
-        var self = this;
+  function create(c, args) {
+    return new (bind.apply(c, [null].concat(args)))();
+  }
 
-        return $.when(callback(module)).then(function(result) {
-          var $element;
+  return function(attr, callback) {
+    var args = slice.call(arguments, 2);
 
-          switch ($.type(result)) {
-            case "function":
-              // create instance and update `$element` and `module`
-              result = new result($element = $(self), module = module + "@" + ++count, hub);
+    return wire.call(this, attr, function(module, index) {
+      var self = this;
 
-              // update attribute
-              $element.attr(attr, function(i, value) {
-                value = value.split(/\s+/);
-                value[index] = module;
-                return value.join(" ");
-              });
-              break;
+      return $.when(callback.call(self, module, index)).then(function(result) {
+        var $element;
 
-            case "undefined":
-              break;
+        if ($.type(result) === "function") {
+          // create instance and update `$element` and `module`
+          result = create(result, [$element = $(self), module = module + "@" + ++count].concat(args));
 
-            default:
-              throw new Error(c + " is not a supported type");
-          }
+          // update attribute
+          $element.attr(attr, function(i, value) {
+            value = value.split(/\s+/);
+            value[index] = module;
+            return value.join(" ");
+          });
+        }
 
-          return result;
-        });
-      })
-      .then(function() {
-        return $($.map(arguments, function(component) {
-          return ($.isArray(component) ? component[0] : component).$element;
-        }));
-      })
-      .then(function($widgets) {
-        return crank.call($widgets, attr, "initialize");
+        return result;
       });
+    });
   }
 }));

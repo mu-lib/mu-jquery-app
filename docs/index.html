@@ -25,12 +25,15 @@
 }([
   "jquery",
   "mu-jquery-app/jquery.weave",
+  "mu-jquery-crank/jquery.crank",
   "mu-jquery-hub/hub"
-], this, function (jQuery, weave, hub) {
+], this, function (jQuery, weave, crank, hub) {
   // construct hub with flags
   hub = hub("memory", "stopOnFalse");
 
   jQuery(function ($) {
+    var info = console.info.bind(console);
+
     // publish initial values on the `test` topic
     hub("test").publish("a", "b", "c");
 
@@ -42,8 +45,19 @@
       .call($elements, "mu-wire", function(module) {
         return window[module];
       }, hub)
-      // info
-      .done(console.info.bind(console))
+      .done(info)
+      // convert widgets to $widgets
+      .then(function() {
+        return $($.map(arguments, function(widget) {
+          return ($.isArray(widget) ? widget[0] : widget).$element;
+        }));
+      })
+      .done(info)
+      // crank `initialize` on `$widgets`
+      .then(function($widgets) {
+        return crank.call($widgets, "mu-wire", "initialize");
+      })
+      .done(info)
       // publish on the `test` topic
       .done(function() {
         hub("test").publish(1,2,3);

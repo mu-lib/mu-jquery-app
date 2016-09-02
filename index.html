@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src="https://cdn.rawgit.com/mu-lib/mu-jquery-wire/v1.1.0/jquery.wire.js"></script>
+<script src="https://cdn.rawgit.com/mu-lib/mu-jquery-wire/v2.0.0/jquery.wire.js"></script>
 <script src="https://cdn.rawgit.com/mu-lib/mu-jquery-crank/v1.1.1/jquery.crank.js"></script>
 <script src="https://cdn.rawgit.com/mu-lib/mu-jquery-hub/v0.0.1/jquery.hub.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-compose/master/jquery.js"></script>
@@ -22,6 +22,8 @@
     var info = console.info.bind(console);
 
     $(document)
+      // find elements to wire
+      .find("[mu-wire]")
       // wire elements
       .wire("mu-wire", function(module) {
         return window[module];

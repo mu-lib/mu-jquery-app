@@ -40,9 +40,8 @@
     // find elements with a `mu-widget` attribute
     var $elements = $(document).find("[mu-widget]");
 
-    weave
-      // weave elements from the `mu-widget` attribute
-      .call($elements, "mu-widget", function(module) {
+    // weave elements from the `mu-widget` attribute
+    weave.call($elements, "mu-widget", function(module) {
         return window[module];
       }, hub)
       .done(info)

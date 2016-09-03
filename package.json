@@ -4,7 +4,8 @@
   "description": "A jQuery app example",
   "main": "index.html",
   "scripts": {
-    "release": "standard-version"
+    "release": "standard-version",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
     "standard-version": "^2.4.0"
   }
 }

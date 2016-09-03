@@ -4,7 +4,7 @@ var concat = require("gulp-concat");
 gulp.task("default", function() {
   return gulp.src([
     "bower_components/mu-jquery-wire/jquery.wire.js",
-    "bower_components/mu-jquery-crank/v2.0.2/jquery.crank.js",
+    "bower_components/mu-jquery-crank/jquery.crank.js",
     "bower_components/mu-compose/compose.js",
     "bower_components/mu-compose/constructor.js",
     "bower_components/mu-compose/prototype.js",

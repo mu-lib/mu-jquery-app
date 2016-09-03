@@ -11,7 +11,7 @@
 ], this, function($, weave, crank) {
   var slice = Array.prototype.slice;
 
-  return function(attr, callback) {
+  return function(attr) {
     // weave elements from `attr` attribute
     return weave.apply(this, slice.call(arguments))
       // convert widgets to $widgets

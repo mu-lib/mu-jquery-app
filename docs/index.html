@@ -37,12 +37,12 @@
     // publish initial values on the `test` topic
     hub("test").publish("a", "b", "c");
 
-    // find elements with a `mu-wire` attribute
-    var $elements = $(document).find("[mu-wire]");
+    // find elements with a `mu-widget` attribute
+    var $elements = $(document).find("[mu-widget]");
 
     weave
-      // weave elements from the `mu-wire` attribute
-      .call($elements, "mu-wire", function(module) {
+      // weave elements from the `mu-widget` attribute
+      .call($elements, "mu-widget", function(module) {
         return window[module];
       }, hub)
       .done(info)
@@ -55,7 +55,7 @@
       .done(info)
       // crank `initialize` on `$widgets`
       .then(function($widgets) {
-        return crank.call($widgets, "mu-wire", "initialize");
+        return crank.call($widgets, "mu-widget", "initialize");
       })
       .done(info)
       // publish on the `test` topic
@@ -69,7 +69,7 @@
 </script>
 </head>
 <body>
-  <button mu-wire="mu-jquery-app/button mu-jquery-app/button">test1</button>
-  <button mu-wire="mu-jquery-app/button">test2</button>
+  <button mu-widget="mu-jquery-app/button mu-jquery-app/button">test1</button>
+  <button mu-widget="mu-jquery-app/button">test2</button>
 </body>
 </html>

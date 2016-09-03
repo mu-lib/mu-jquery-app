@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.0.0...v2.1.0) (2016-09-03)
+
+
+### Bug Fixes
+
+* UMD fixes ([180c0a4](https://github.com/mu-lib/mu-jquery-app/commit/180c0a4))
+
+
+### Features
+
+* bumped deps ([e687408](https://github.com/mu-lib/mu-jquery-app/commit/e687408))
+* use mu-jquery-app/jquery.weave ([9440235](https://github.com/mu-lib/mu-jquery-app/commit/9440235))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v1.0.0...v2.0.0) (2016-09-02)
 

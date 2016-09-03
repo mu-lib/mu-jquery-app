@@ -13,10 +13,10 @@
 
   return function(attr, callback) {
     // weave elements from `attr` attribute
-    return weave.apply(this, arguments)
+    return weave.apply(this, slice.call(arguments))
       // convert widgets to $widgets
       .then(function() {
-        return $($.map(arguments, function(widget) {
+        return $($.map(slice.call(arguments), function(widget) {
           return ($.isArray(widget) ? widget[0] : widget).$element;
         }));
       })

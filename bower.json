@@ -12,13 +12,14 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "docs"
   ],
   "dependencies": {
     "jquery": "^3.1.0",
     "mu-compose": "^1.0.1",
     "mu-jquery-crank": "^2.0.2",
     "mu-jquery-hub": "^1.0.1",
-    "mu-jquery-widget": "^2.1.1"
+    "mu-jquery-widget": "^2.2.0"
   }
 }

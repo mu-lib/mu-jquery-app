@@ -14,6 +14,7 @@
 <script src="https://rawgit.com/mu-lib/mu-jquery-widget/v2.1.1/jquery.weave.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-app/v2.0.0/compose.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-app/v2.0.0/hub.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-app/master/jquery.weave.js"></script>
 <script src="button.js"></script>
 <script>
 (function(modules, root, factory) {
@@ -24,16 +25,13 @@
   }));
 })([
   "jquery",
-  "mu-jquery-widget/jquery.weave",
-  "mu-jquery-crank/jquery.crank",
+  "mu-jquery-app/jquery.weave",
   "mu-jquery-hub/hub"
-], this, function (jQuery, weave, crank, hub) {
+], this, function (jQuery, weave, hub) {
   // construct hub with flags
   hub = hub("memory", "stopOnFalse");
 
   jQuery(function ($) {
-    var info = console.info.bind(console);
-
     // publish initial values on the `test` topic
     hub("test").publish("a", "b", "c");
 
@@ -44,19 +42,7 @@
     weave.call($elements, "mu-widget", function(module) {
         return window[module];
       }, hub)
-      .done(info)
-      // convert widgets to $widgets
-      .then(function() {
-        return $($.map(arguments, function(widget) {
-          return ($.isArray(widget) ? widget[0] : widget).$element;
-        }));
-      })
-      .done(info)
-      // crank `initialize` on `$widgets`
-      .then(function($widgets) {
-        return crank.call($widgets, "mu-widget", "initialize");
-      })
-      .done(info)
+      .done(console.info.bind(console))
       // publish on the `test` topic
       .done(function() {
         hub("test").publish(1,2,3);

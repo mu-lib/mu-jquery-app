@@ -134,11 +134,29 @@
   }
 
   function Composition() {
-    var args = arguments;
+    var self = this;
 
-    return (this.constructor.constructors || []).reduce(function(result, c) {
-      return c.apply(result, args) || result;
-    }, this);
+    (this.constructor.constructors || []).reduce(function(args, c) {
+      var result = c.apply(self, args);
+
+      switch (toString.call(result)) {
+        case "[object String]":
+        case "[object Object]":
+        case "[object Number]":
+        case "[object Boolean]":
+          result = [result];
+          break;
+
+        case "[object Array]":
+        case "[object Arguments]":
+          break;
+
+        default:
+          result = args;
+      }
+
+      return result;
+    }, arguments);
   }
 
   return function() {

@@ -17,17 +17,14 @@
   "mu-compose/regexp",
   "mu-jquery-widget/compose"
 ], this, function(compose, construct, proto, regexp, widget) {
-  return compose(
-    construct,
-    regexp(/^hub\/(.+)/, function(result, data, topic) {
-      (result.hub = result.hub || []).push({
-        "topic": topic,
-        "handler": data.value
-      });
+  var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
+    (result.hub = result.hub || []).push({
+      "topic": topic,
+      "handler": data.value
+    });
 
-      return false;
-    }),
-    widget,
-    proto
-  );
+    return false;
+  })
+
+  return compose(construct, hub, widget, proto);
 });

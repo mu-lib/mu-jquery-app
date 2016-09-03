@@ -28,6 +28,8 @@
   "mu-jquery-app/jquery.weave",
   "mu-jquery-hub/hub"
 ], this, function (jQuery, weave, hub) {
+  var self = this;
+
   // construct hub with flags
   hub = hub("memory", "stopOnFalse");
 
@@ -40,7 +42,7 @@
 
     // weave elements from the `mu-widget` attribute
     weave.call($elements, "mu-widget", function(module) {
-        return window[module];
+        return self[module];
       }, hub)
       .done(console.info.bind(console))
       // publish on the `test` topic

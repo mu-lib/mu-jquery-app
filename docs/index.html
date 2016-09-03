@@ -31,16 +31,18 @@
   var slice = Array.prototype.slice;
   var self = this;
 
+  // construct hub with flags
+  hub = hub("memory", "stopOnFalse");
+
+  // static loader from `self`
   function load(module) {
     return self[module];
   }
 
+  // define `$.fn.weave` with attribute and args set
   jQuery.fn.weave = function() {
-    return weave.apply(this.find("[mu-widget]"), [ "mu-widget", load, hub].concat(slice.call(arguments)));
-  }
-
-  // construct hub with flags
-  hub = hub("memory", "stopOnFalse");
+    return weave.apply(this.find("[mu-widget]"), ["mu-widget", load, hub].concat(slice.call(arguments)));
+  };
 
   // wait for `ready`
   jQuery(function ($) {

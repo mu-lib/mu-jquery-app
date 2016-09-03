@@ -6,7 +6,7 @@
   } else {
     root["mu-jquery-app/hub"] = factory(root.jQuery);
   }
-}(["jquery"], this, function($) {
+})(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
 
   return function($element, ns, hub) {
@@ -27,4 +27,4 @@
       me.subscribe(op.topic, op.handler);
     });
   }
-}));
+});

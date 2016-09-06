@@ -299,7 +299,7 @@
       $.each(me.constructor.dom || false, function(index, op) {
         switch (op.method) {
           case "on":
-            me.on(op.type, op.value);
+            me.on(op.type, op.args, op.value);
             break;
 
           case "attr":
@@ -313,15 +313,31 @@
       });
     },
     {
-      "on": function(events, handler) {
+      "on": function(events, selector, data, handler) {
         var me = this;
 
-        me.$element.on(name.call(events, me.ns), $.proxy(handler, me));
+        switch (arguments.length) {
+          case 3:
+            handler = data;
+            data = undefined;
+            break;
+
+          case 2:
+            handler = selector;
+            selector = undefined;
+            data = undefined;
+            break;
+
+          default:
+            throw new Error("not enough arguments");
+        }
+
+        me.$element.on(name.call(events, me.ns), selector, data, $.proxy(handler, me));
       },
-      "off": function(events, handler) {
+      "off": function(events, selector, handler) {
         var me = this;
 
-        me.$element.off(name.call(events, me.ns), handler);
+        me.$element.off(name.call(events, me.ns), selector, handler);
       }
     }
   ]
@@ -340,10 +356,11 @@
     }));
   }
 })(["mu-compose/regexp"], this, function(regexp) {
-  return regexp(/^(on|attr|prop)\/(.+)/, function(result, data, method, type) {
+  return regexp(/^(on|attr|prop)\/(.+?)(?:\((.*)\))?$/, function(result, data, method, type, args) {
     (result.dom = result.dom || []).push({
       "method": method,
       "type": type,
+      "args": args,
       "value": data.value
     });
 

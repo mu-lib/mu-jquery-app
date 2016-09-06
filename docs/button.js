@@ -35,6 +35,9 @@
       console.log("click %o", $event);
       this.off("mouseover");
     },
+    "on/click(.special)": function($event) {
+      console.log("special %o", $event);
+    },
     "hub/test": function() {
       console.log("test %o", arguments);
     }

@@ -262,6 +262,29 @@
   return function() {
     var args = slice.call(arguments);
     var topics = {};
+    var proxied = {};
+
+    function subscribe(add) {
+      return function() {
+        var self = this;
+
+        return add.apply(self, $.map(arguments, function (arg) {
+          proxy = $.proxy(arg, self);
+          proxied[proxy.guid] = arg;
+          return proxy;
+        }));
+      }
+    }
+
+    function unsubscribe(remove) {
+      return function() {
+        var self = this;
+
+        return remove.apply(self, $.map(arguments, function (arg) {
+          return proxied[arg.guid] || arg;
+        }));
+      }
+    }
 
     return function(id) {
       var callbacks,
@@ -270,10 +293,11 @@
 
       if (!topic) {
         callbacks = $.Callbacks.apply(null, args);
+
         topic = {
           publish: callbacks.fire,
-          subscribe: callbacks.add,
-          unsubscribe: callbacks.remove
+          subscribe: subscribe(callbacks.add),
+          unsubscribe: unsubscribe(callbacks.remove)
         };
         if (id) {
           topics[id] = topic;
@@ -485,15 +509,19 @@
     var me = this;
 
     me.subscribe = function(topic, handler) {
-      return hub(topic).subscribe(handler);
+      return hub(topic).subscribe.call(this, handler);
+    };
+
+    me.unsubscribe = function(topic, handler) {
+      return hub(topic).unsubscribe.call(this, handler);
     };
 
     me.publish = function(topic) {
       var t = hub(topic);
       var p = t.publish;
 
-      return p.apply(t, slice.call(arguments, 1));
-    }
+      return p.apply(this, slice.call(arguments, 1));
+    };
 
     $.each(me.constructor.hub || false, function(index, op) {
       me.subscribe(op.topic, op.handler);

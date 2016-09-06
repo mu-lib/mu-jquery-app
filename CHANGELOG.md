@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.6.0"></a>
+# [2.6.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.5.1...v2.6.0) (2016-09-06)
+
+
+### Features
+
+* bump mu-jquery-hub to 1.1.0 ([18a54cd](https://github.com/mu-lib/mu-jquery-app/commit/18a54cd))
+
+
+
 <a name="2.5.1"></a>
 ## [2.5.1](https://github.com/mu-lib/mu-jquery-app/compare/v2.5.0...v2.5.1) (2016-09-06)
 

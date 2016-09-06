@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.5.0"></a>
+# [2.5.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.4.0...v2.5.0) (2016-09-06)
+
+
+### Features
+
+* bump mu-jquery-widget and mu-jquery-crank to latest version ([fcfaed4](https://github.com/mu-lib/mu-jquery-app/commit/fcfaed4))
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.3.0...v2.4.0) (2016-09-06)
 

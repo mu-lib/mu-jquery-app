@@ -8,11 +8,14 @@
   }
 })(this, function($) {
   var slice = Array.prototype.slice;
+  var resolved = $.Deferred(function (dfd) {
+    dfd.resolve();
+  });
 
   return function(input, callback) {
     var args = slice.call(arguments, 2);
 
-    return $.when.apply(null, this.map(function(i, element) {
+    return this.length === 0 ? resolved : $.when.apply(null, this.map(function(i, element) {
       return $.when.apply(null, input
         .apply(element, args)
         .map(function(output, index) {

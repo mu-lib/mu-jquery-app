@@ -18,8 +18,8 @@
   "dependencies": {
     "jquery": "^3.1.0",
     "mu-compose": "^1.0.1",
-    "mu-jquery-crank": "^2.0.2",
+    "mu-jquery-crank": "^2.1.0",
     "mu-jquery-hub": "^2.0.0",
-    "mu-jquery-widget": "^2.3.0"
+    "mu-jquery-widget": "^2.4.0"
   }
 }

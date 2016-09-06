@@ -7,12 +7,16 @@
     root["mu-jquery-wire/jquery.wire"] = factory(root.jQuery);
   }
 })(this, function($) {
-  return function(attr, callback) {
+  var slice = Array.prototype.slice;
+
+  return function(input, callback) {
+    var args = slice.call(arguments, 2);
+
     return $.when.apply(null, this.map(function(i, element) {
-      return $.when.apply(null, ($(element).attr(attr) || "")
-        .split(/\s+/)
-        .map(function(module, index) {
-          return $.when(callback.call(element, module, index));
+      return $.when.apply(null, input
+        .apply(element, args)
+        .map(function(output, index) {
+          return $.when(callback.call(element, output, index));
         }));
     }));
   };
@@ -37,15 +41,21 @@
   "mu-jquery-wire/jquery.wire"
 ], this, function($, wire) {
   var slice = Array.prototype.slice;
+  var re = /\s+/;
 
   function crank(attr, eventType) {
     var args = slice.call(arguments, 2);
 
-    return wire.call(this, attr, function(ns) {
-      return $.when($(this).triggerHandler(eventType + "." + ns, args)).then(function(result) {
-        return arguments.length > 1 ? slice.call(arguments) : result || ns;
-      });
-    });
+    return wire.call(this,
+      function(name) {
+        return ($(this).attr(name) || "").split(re);
+      },
+      function(ns) {
+        return $.when($(this).triggerHandler(eventType + "." + ns, args)).then(function(result) {
+          return arguments.length > 1 ? slice.call(arguments) : result || ns;
+        });
+      },
+      attr);
   }
 
   return function() {
@@ -386,7 +396,8 @@
 ], this, function($, wire) {
   var slice = Array.prototype.slice;
   var bind = Function.prototype.bind;
-  var re = /@\d+$/;
+  var re_space = /\s+/;
+  var re_instance = /@\d+$/;
   var count = 0;
 
   function create(c, args) {
@@ -396,27 +407,32 @@
   return function(attr, callback) {
     var args = slice.call(arguments, 2);
 
-    return wire.call(this, attr, function(module, index) {
-      var self = this;
+    return wire.call(this,
+      function(name) {
+        return ($(this).attr(name) || "").split(re_space);
+      },
+      function(module, index) {
+        var self = this;
 
-      return re.test(module) ? module : $.when(callback.call(self, module, index)).then(function(result) {
-        var $element;
+        return re_instance.test(module) ? module : $.when(callback.call(self, module, index)).then(function(result) {
+          var $element;
 
-        if ($.type(result) === "function") {
-          // create instance and update `$element` and `module`
-          result = create(result, [$element = $(self), module = module + "@" + ++count].concat(args));
+          if ($.type(result) === "function") {
+            // create instance and update `$element` and `module`
+            result = create(result, [$element = $(self), module = module + "@" + ++count].concat(args));
 
-          // update attribute
-          $element.attr(attr, function(i, value) {
-            value = value.split(/\s+/);
-            value[index] = module;
-            return value.join(" ");
-          });
-        }
+            // update attribute
+            $element.attr(attr, function(i, value) {
+              value = value.split(/\s+/);
+              value[index] = module;
+              return value.join(" ");
+            });
+          }
 
-        return result;
-      });
-    });
+          return result;
+        });
+      },
+      attr);
   }
 });
 

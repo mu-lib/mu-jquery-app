@@ -2,21 +2,19 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(function(m) {
-      return require(m);
-    }));
+    module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-app/button"] = factory.apply(root, modules.map(function(m) {
       return {
-          "jquery": root.jQuery
-        }[m] || root[m];
+        "jquery": root.jQuery
+      }[m = m.replace(/^\./, "mu-jquery-app")] || root[m];
     }));
   }
 })([
   "jquery",
-  "mu-jquery-app/compose",
+  "./compose",
   "mu-jquery-widget/widget",
-  "mu-jquery-app/hub"
+  "./hub"
 ], this, function($, compose, widget, hub) {
   return compose(widget, hub, {
     "on/initialize": function($event) {

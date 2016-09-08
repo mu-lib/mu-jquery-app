@@ -1,12 +1,16 @@
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["jquery"], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("jquery"));
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-wire/jquery.wire"] = factory(root.jQuery);
+    root["mu-jquery-wire/jquery.wire"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
   }
-})(this, function($) {
+})(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
   var resolved = $.Deferred(function (dfd) {
     dfd.resolve();
@@ -24,19 +28,16 @@
     }));
   };
 });
-
 (function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(function(m) {
-      return require(m);
-    }));
+    module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-crank/jquery.crank"] = factory.apply(root, modules.map(function(m) {
       return {
-          "jquery": root.jQuery
-        }[m] || root[m];
+        "jquery": root.jQuery
+      }[m] || root[m];
     }));
   }
 })([
@@ -80,129 +81,171 @@
   };
 });
 
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/compose"] = factory();
+    root["mu-compose/transform"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
   }
-})(this, function() {
-  var w = this;
-  var concat = Array.prototype.concat;
+})([], this, function() {
+  var slice = Array.prototype.slice;
   var toString = Object.prototype.toString
 
-  function flip(key) {
+  function value(key) {
     return {
       "key": key,
       "value": this[key]
     };
   }
 
-  function transform(data, index) {
+  function transpose(keys) {
+    return keys.map(value, this);
+  }
+
+  return function(data) {
     var type = toString.call(data);
+    var transformed;
 
-    switch (type) {
-      case "[object Object]":
-        if (!data.hasOwnProperty("key")) {
-          data = Object.keys(data).map(flip, data);
-        }
-        break;
-
-      default:
-        data = {
-          "key": type,
-          "value": data
-        }
+    if (type === "[object Arguments]") {
+      return {
+        "key": "[object Array]",
+        "value": slice.call(data)
+      };
     }
 
-    return data;
+    if (type === "[object Object]") {
+      if (data.hasOwnProperty("key")) {
+        return data;
+      }
+
+      transformed = transpose.call(data, Object.keys(data));
+
+      if (transformed.length) {
+        return transformed;
+      }
+    }
+
+    return {
+      "key": type,
+      "value": data
+    };
   }
+});
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-compose/process"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
+  }
+})([], this, function() {
+  var slice = Array.prototype.slice;
+  var concat = Array.prototype.concat;
+
+  return function() {
+    var self = this;
+    var rules = concat.apply([], arguments);
+
+    return function(input) {
+      var skip = false;
+      var args = slice.call(arguments, 1);
+
+      return rules.reduce(function(output, rule) {
+        var composed = skip ? output : rule.apply(self, concat.call([output], args));
+
+        if (composed !== undefined) {
+          if (composed === false) {
+            skip = true;
+          }
+          else {
+            output = composed;
+          }
+        }
+
+        return output;
+      }, input);
+    }
+  }
+});
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-compose/compose"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
+  }
+})(["./transform", "./process"], this, function(transform, process) {
+  var root = this;
+  var array = Array.prototype;
+  var slice = array.slice;
+  var concat = array.concat;
 
   function clean(data) {
     return !!data;
   }
 
-  function compose(composers) {
-    var config = this;
-
-    return function(instance, data, index, array) {
-      var skip = false;
-
-      return composers.reduce(function(result, composer) {
-        var composed = skip ? result : composer.call(config, result, data, index, array);
-
-        if (composed !== undefined && composed !== null) {
-          if (composed === false) {
-            skip = true;
-          } else {
-            result = composed;
-          }
-        }
-
-        return result;
-      }, instance);
-    }
-  }
-
-  function Composition() {
-    var self = this;
-
-    (this.constructor.constructors || []).reduce(function(args, c) {
-      var result = c.apply(self, args);
-
-      switch (toString.call(result)) {
-        case "[object String]":
-        case "[object Object]":
-        case "[object Number]":
-        case "[object Boolean]":
-          result = [result];
-          break;
-
-        case "[object Array]":
-        case "[object Arguments]":
-          break;
-
-        default:
-          result = args;
-      }
-
-      return result;
-    }, arguments);
-  }
-
   return function() {
-    var config = this === w ? {} : this;
-    var composers = concat.apply([], arguments);
+    var rules = slice.call(arguments);
 
     return function() {
-      var _config = this === w ? config : this;
-      var result = arguments;
+      var config = this === root ? {} : this;
+      var result = slice.call(arguments);
 
-      // Flatten
-      result = concat.apply([], result);
+      // Flatten & Clean
+      result = concat.apply(array, result).filter(clean, config);
       // Transform
-      result = result.map(_config.transform || transform, _config);
-      // Flatten
-      result = concat.apply([], result);
-      // Clean
-      result = result.filter(_config.clean || clean, _config);
-      // Compose
-      return result.reduce(compose.call(_config, composers), _config.composition || Composition);
+      result = result.map(config.transform || transform, config);
+      // Flatten & Clean
+      result = concat.apply(array, result).filter(clean, config);
+      // Process
+      result = result.reduce(process.apply(config, rules), function Composition() {
+        var self = this;
+
+        (this.constructor.constructors || []).reduce(function(args, c) {
+          var r = c.apply(self, args);
+
+          switch (toString.call(r)) {
+            case "[object String]":
+            case "[object Object]":
+            case "[object Number]":
+            case "[object Boolean]":
+              r = [r];
+              break;
+
+            default:
+              r = r && r.length ? r : args;
+          }
+
+          return r;
+        }, arguments);
+      });
+
+      return result;
     }
   }
 });
 
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/constructor"] = factory();
+    root["mu-compose/constructor"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
   }
-})(this, function() {
+})([], this, function() {
   return function(result, data) {
     var key = data.key;
 
@@ -214,29 +257,33 @@
   }
 });
 
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/prototype"] = factory();
+    root["mu-compose/prototype"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
   }
-})(this, function() {
+})([], this, function() {
   return function(result, data) {
     result.prototype[data.key] = data.value;
   }
 });
 
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/regexp"] = factory();
+    root["mu-compose/regexp"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-compose")];
+    }));
   }
-})(this, function() {
+})([], this, function() {
   return function(regexp, callback) {
     return function(result, data) {
       var matches = data.key.match(regexp);
@@ -248,15 +295,19 @@
   }
 });
 
-(function(root, factory) {
+(function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["jquery"], factory);
+    define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("jquery"));
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-hub/hub"] = factory(root.jQuery);
+    root["mu-jquery-hub/hub"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
   }
-})(this, function($) {
+})(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
 
   return function() {
@@ -312,9 +363,13 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules);
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-widget/widget"] = factory(root.jQuery);
+    root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
   }
 })(["jquery"], this, function($) {
   function name(ns) {
@@ -384,9 +439,7 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(function(m) {
-      return require(m);
-    }));
+    module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-widget/compose"] = factory.apply(root, modules.map(function(m) {
       return root[m];
@@ -409,12 +462,12 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules);
+    module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-widget/jquery.weave"] = factory.apply(root, modules.map(function(m) {
       return {
-          "jquery": jQuery
-        }[m] || root[m];
+        "jquery": root.jQuery
+      }[m] || root[m];
     }));
   }
 })([

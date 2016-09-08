@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.6.1"></a>
+## [2.6.1](https://github.com/mu-lib/mu-jquery-app/compare/v2.6.0...v2.6.1) (2016-09-08)
+
+
+### Bug Fixes
+
+* UMD fixes and library bumps ([d63b4a2](https://github.com/mu-lib/mu-jquery-app/commit/d63b4a2))
+
+
+
 <a name="2.6.0"></a>
 # [2.6.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.5.1...v2.6.0) (2016-09-06)
 

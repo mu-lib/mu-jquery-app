@@ -25,7 +25,7 @@
     return this + "@" + i;
   }
 
-  QUnit.module("jquery.weave");
+  QUnit.module("mu-jquery-app/jquery.weave");
   
   QUnit.test("single element", function(assert) {
     return $.Deferred(function(deferred) {

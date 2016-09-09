@@ -23,16 +23,15 @@
   QUnit.module("jquery.weave");
   
   QUnit.test("single element", function(assert) {
-    assert.expect(1);
-
     return $.Deferred(function(deferred) {
-      var $button = $("<button></button>")
-        .attr("mu-widget", "mu-jquery-app/button");
+      var $elements = $("<button>")
+        .attr("mu-widget", "mu-jquery-app/button")
+        .appendTo("#qunit-fixture");
 
-      $("#qunit-fixture").append($button);
+      assert.expect(1);
 
       weave
-        .call($button, "mu-widget", load)
+        .call($elements, "mu-widget", load)
         .done(function() {
           assert.deepEqual(slice.call(arguments), ["mu-jquery-app/button@1"]);
         })
@@ -41,16 +40,15 @@
   });
 
   QUnit.test("multiple elements", function(assert) {
-    assert.expect(1);
-
     return $.Deferred(function(deferred) {
-      var $buttons = $("<button><button>")
-        .attr("mu-widget", "mu-jquery-app/button");
+      var $elements = $("<button><button>")
+        .attr("mu-widget", "mu-jquery-app/button")
+        .appendTo("#qunit-fixture");
 
-      $("#qunit-fixture").append($buttons);
+      assert.expect(1);
 
       weave
-        .call($buttons, "mu-widget", load)
+        .call($elements, "mu-widget", load)
         .done(function() {
           assert.deepEqual(slice.call(arguments), ["mu-jquery-app/button@1", "mu-jquery-app/button@2"]);
         })
@@ -59,16 +57,15 @@
   });
 
   QUnit.test("single element, multiple widgets", function(assert) {
-    assert.expect(1);
-
     return $.Deferred(function(deferred) {
-      var $button = $("<button>")
-        .attr("mu-widget", "mu-jquery-app/button mu-jquery-app/button");
+      var $elements = $("<button>")
+        .attr("mu-widget", "mu-jquery-app/button mu-jquery-app/button")
+        .appendTo("#qunit-fixture");
 
-      $("#qunit-fixture").append($button);
+      assert.expect(1);
 
       weave
-        .call($button, "mu-widget", load)
+        .call($elements, "mu-widget", load)
         .done(function() {
           assert.deepEqual(slice.call(arguments), [["mu-jquery-app/button@1", "mu-jquery-app/button@2"]]);
         })

@@ -4,7 +4,7 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/button"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-app/docs/button"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
       }[m = m.replace(/^\./, "mu-jquery-app")] || root[m];

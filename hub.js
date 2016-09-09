@@ -2,9 +2,13 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules);
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/hub"] = factory(root.jQuery);
+    root["mu-jquery-app/hub"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
   }
 })(["jquery"], this, function($) {
   var slice = Array.prototype.slice;

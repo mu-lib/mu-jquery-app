@@ -21,5 +21,8 @@
     "mu-jquery-crank": "^2.1.2",
     "mu-jquery-hub": "^1.1.1",
     "mu-jquery-widget": "^2.4.2"
+  },
+  "devDependencies": {
+    "qunit": "^2.0.1"
   }
 }

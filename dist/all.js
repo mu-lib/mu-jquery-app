@@ -478,7 +478,6 @@
   var bind = Function.prototype.bind;
   var re_space = /\s+/;
   var re_instance = /@\d+$/;
-  var count = 0;
 
   function create(c, args) {
     return new (bind.apply(c, [null].concat(args)))();
@@ -486,6 +485,7 @@
 
   return function(attr, callback) {
     var args = slice.call(arguments, 2);
+    var count = 0;
 
     return wire.call(this,
       function(name) {
@@ -551,9 +551,13 @@
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules);
+    module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/hub"] = factory(root.jQuery);
+    root["mu-jquery-app/hub"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
   }
 })(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
@@ -583,11 +587,17 @@
 });
 
 (function(modules, root, factory) {
-  root["mu-jquery-app/jquery.weave"] = factory.apply(root, modules.map(function(m) {
-    return {
-        "jquery": jQuery
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-app/jquery.weave"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
       }[m] || root[m];
-  }));
+    }));
+  }
 })([
   "jquery",
   "mu-jquery-widget/jquery.weave",

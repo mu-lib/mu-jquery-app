@@ -11,20 +11,20 @@
   <div id="qunit-fixture"></div>
   <script src="../bower_components/qunit/qunit/qunit.js"></script>
   <script src="../bower_components/jquery/dist/jquery.js"></script>
-  <script src="../dist/all.js"></script>
-  <script>
-  (function(modules, root, factory) {
-    root["mu-jquery-app/load"] = factory.apply(root, modules.map(function(m) {
-      return root[m];
-    }));
-  })([], this, function() {
-    var root = this;
-
-    return function (module) {
-      return root[module];
-    };
-  });
-  </script>
+  <script src="../bower_components/mu-compose/transform.js"></script>
+  <script src="../bower_components/mu-compose/process.js"></script>
+  <script src="../bower_components/mu-compose/compose.js"></script>
+  <script src="../bower_components/mu-compose/constructor.js"></script>
+  <script src="../bower_components/mu-compose/prototype.js"></script>
+  <script src="../bower_components/mu-compose/regexp.js"></script>
+  <script src="../bower_components/mu-jquery-wire/jquery.wire.js"></script>
+  <script src="../bower_components/mu-jquery-crank/jquery.crank.js"></script>
+  <script src="../bower_components/mu-jquery-widget/compose.js"></script>
+  <script src="../bower_components/mu-jquery-widget/widget.js"></script>
+  <script src="../bower_components/mu-jquery-widget/jquery.weave.js"></script>
+  <script src="../compose.js"></script>
+  <script src="../jquery.weave.js"></script>
+  <script src="load.root.js"></script>
   <script src="button.js"></script>
   <script src="jquery.weave.js"></script>
 </body>

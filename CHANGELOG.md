@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.8.0"></a>
+# [2.8.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.7.0...v2.8.0) (2016-09-12)
+
+
+### Features
+
+* bumped deps ([d1d5af0](https://github.com/mu-lib/mu-jquery-app/commit/d1d5af0))
+
+
+
 <a name="2.7.0"></a>
 # [2.7.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.6.1...v2.7.0) (2016-09-12)
 

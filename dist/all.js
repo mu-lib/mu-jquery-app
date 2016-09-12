@@ -219,14 +219,19 @@
           return r;
         }, arguments);
       });
-      // Store blueprints
-      result.blueprints = blueprints;
+
+      // Expose blueprints extension point
+      result.concat = function() {
+        return concat.apply(blueprints, slice.call(arguments));
+      };
 
       return result;
     }
 
-    // Store rules
-    compose.rules = rules;
+    // Expose rules extension point
+    compose.concat = function() {
+      return concat.apply(rules, slice.call(arguments));
+    };
 
     return compose;
   }

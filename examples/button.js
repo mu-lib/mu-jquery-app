@@ -4,17 +4,17 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/docs/button"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-app/examples/button"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
-      }[m = m.replace(/^\./, "mu-jquery-app")] || root[m];
+      }[m = m.replace(/^\.{2}/, "mu-jquery-app")] || root[m];
     }));
   }
 })([
   "jquery",
-  "./compose",
+  "../compose",
   "mu-jquery-widget/widget",
-  "./hub"
+  "../hub"
 ], this, function($, compose, widget, hub) {
   return compose(widget, hub, {
     "on/initialize": function($event) {

@@ -17,5 +17,8 @@
     "mu-compose": "^2.1.1",
     "mu-jquery-hub": "^5.0.0",
     "mu-jquery-widget": "^3.0.0"
+  },
+  "devDependencies": {
+    "qunit": "^2.0.1"
   }
 }

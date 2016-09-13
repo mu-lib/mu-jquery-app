@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v3.0.0...v4.0.0) (2016-09-13)
+
+
+### Features
+
+* bump deps ([f0ed757](https://github.com/mu-lib/mu-jquery-app/commit/f0ed757))
+
+
+### BREAKING CHANGES
+
+* Dependencies renamed and relocated modules, all users
+need to update their code.
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v2.10.0...v3.0.0) (2016-09-13)
 

@@ -12,11 +12,11 @@
   }
 })([
   "jquery",
-  "../compose",
+  "../create",
   "mu-jquery-widget/widget",
   "../hub"
-], this, function($, compose, widget, hub) {
-  return compose(widget, hub, {
+], this, function($, create, widget, hub) {
+  return create(widget, hub, {
     "on/initialize": function($event) {
       this.on("mouseover", console.log.bind(console));
 

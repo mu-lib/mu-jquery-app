@@ -4,17 +4,17 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/compose"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-app/create"] = factory.apply(root, modules.map(function(m) {
       return root[m];
     }));
   }
 })([
-  "mu-compose/compose",
-  "mu-compose/constructor",
-  "mu-compose/prototype",
-  "mu-compose/regexp",
+  "mu-create/create",
+  "mu-create/constructor",
+  "mu-create/prototype",
+  "mu-create/regexp",
   "mu-jquery-widget/dom"
-], this, function(compose, construct, proto, regexp, dom) {
+], this, function(create, construct, proto, regexp, dom) {
   var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
     (result.hub = result.hub || []).push({
       "topic": topic,
@@ -24,5 +24,5 @@
     return false;
   });
 
-  return compose(construct, hub, dom, proto);
+  return create(construct, hub, dom, proto);
 });

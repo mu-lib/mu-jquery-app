@@ -213,8 +213,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/transform"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/transform"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })([], this, function() {
@@ -267,8 +267,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/process"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/process"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })([], this, function() {
@@ -284,14 +284,14 @@
       var args = slice.call(arguments, 1);
 
       return rules.reduce(function(output, rule) {
-        var composed = skip ? output : rule.apply(self, concat.call([output], args));
+        var created = skip ? output : rule.apply(self, concat.call([output], args));
 
-        if (composed !== undefined) {
-          if (composed === false) {
+        if (created !== undefined) {
+          if (created === false) {
             skip = true;
           }
           else {
-            output = composed;
+            output = created;
           }
         }
 
@@ -306,8 +306,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/compose"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/create"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })(["./transform", "./process"], this, function(transform, process) {
@@ -323,7 +323,7 @@
   return function configure() {
     var rules = slice.call(arguments);
 
-    function compose() {
+    function create() {
       var config = this === root ? {} : this;
       var result = slice.call(arguments);
       var blueprints;
@@ -362,21 +362,21 @@
       };
 
       result.extend = function() {
-        return compose.apply(this, result.concat.apply(this, arguments));
+        return create.apply(this, result.concat.apply(this, arguments));
       };
 
       return result;
     }
 
-    compose.concat = function() {
+    create.concat = function() {
       return concat.apply(rules, arguments);
     };
 
-    compose.extend = function() {
-      return configure.apply(this, compose.concat.apply(this, arguments));
+    create.extend = function() {
+      return configure.apply(this, create.concat.apply(this, arguments));
     };
 
-    return compose;
+    return create;
   }
 });
 
@@ -386,8 +386,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/constructor"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/constructor"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })([], this, function() {
@@ -407,8 +407,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/prototype"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/prototype"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })([], this, function() {
@@ -423,8 +423,8 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-compose/regexp"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-compose")];
+    root["mu-create/regexp"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
     }));
   }
 })([], this, function() {
@@ -527,7 +527,7 @@
       return root[m];
     }));
   }
-})(["mu-compose/regexp"], this, function(regexp) {
+})(["mu-create/regexp"], this, function(regexp) {
   return regexp(/^(on|attr|prop)\/(.+?)(?:\((.*)\))?$/, function(result, data, method, type, args) {
     (result.dom = result.dom || []).push({
       "method": method,
@@ -546,17 +546,17 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-widget/compose"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-widget/create"] = factory.apply(root, modules.map(function(m) {
       return root[m.replace(/^\./, "mu-jquery-widget")];
     }));
   }
 })([
-  "mu-compose/compose",
-  "mu-compose/constructor",
-  "mu-compose/prototype",
+  "mu-create/create",
+  "mu-create/constructor",
+  "mu-create/prototype",
   "./dom"
-], this, function(compose, construct, proto, dom) {
-    return compose(construct, proto, dom);
+], this, function(create, construct, proto, dom) {
+    return create(construct, proto, dom);
 });
 (function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
@@ -628,17 +628,17 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/compose"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-app/create"] = factory.apply(root, modules.map(function(m) {
       return root[m];
     }));
   }
 })([
-  "mu-compose/compose",
-  "mu-compose/constructor",
-  "mu-compose/prototype",
-  "mu-compose/regexp",
+  "mu-create/create",
+  "mu-create/constructor",
+  "mu-create/prototype",
+  "mu-create/regexp",
   "mu-jquery-widget/dom"
-], this, function(compose, construct, proto, regexp, dom) {
+], this, function(create, construct, proto, regexp, dom) {
   var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
     (result.hub = result.hub || []).push({
       "topic": topic,
@@ -648,7 +648,7 @@
     return false;
   });
 
-  return compose(construct, hub, dom, proto);
+  return create(construct, hub, dom, proto);
 });
 
 (function(modules, root, factory) {

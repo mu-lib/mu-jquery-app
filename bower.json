@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "jquery": "^3.1.0",
-    "mu-compose": "^3.1.0",
+    "mu-create": "^4.0.0",
     "mu-jquery-hub": "^1.1.1",
     "mu-jquery-widget": "^4.0.0",
     "mu-jquery-component": "^0.0.0"

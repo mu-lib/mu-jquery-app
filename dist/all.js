@@ -76,6 +76,143 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
+    root["mu-jquery-component/create"] = factory.apply(root, modules.map(function(m) {
+      return root[m];
+    }));
+  }
+})([], this, function() {
+  var bind = Function.prototype.bind;
+
+  return function (c, args) {
+    return new (bind.apply(c, [null].concat(args)))();
+  }
+});
+
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-component/jquery.twist"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m = m.replace(/^\./, "mu-jquery-component")] || root[m];
+    }));
+  }
+})([
+  "jquery",
+  "mu-jquery-wire/jquery.wire",
+  "./create"
+], this, function($, wire, create) {
+  var slice = Array.prototype.slice;
+  var re_space = /\s+/;
+  var re_clean = /@\d+$/;
+
+  function clean(value) {
+    return !re_clean.test(value);
+  }
+
+  return function(attr, callback) {
+    var args = slice.call(arguments, 2);
+    var count = 0;
+
+    return wire.call(this,
+      function($element) {
+        return ($element.attr(attr) || "").split(re_space).filter(clean);
+      },
+      function($element, index, module) {
+        var self = this;
+
+        return $.when(callback.call(self, module, index)).then(function(result) {
+          result = create(result, [$element, module = module + "@" + ++count].concat(args));
+
+          $element.attr(attr, function(i, value) {
+            value = value.split(re_space);
+            value[index] = module;
+            return value.join(" ");
+          });
+
+          return result;
+        });
+      });
+  }
+});
+
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-component/jquery.weave"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m.replace(/^\./, "mu-jquery-component")];
+    }));
+  }
+})([
+  "jquery",
+  "./jquery.twist",
+  "mu-jquery-crank/jquery.crank"
+], this, function($, twist, crank) {
+  var slice = Array.prototype.slice;
+
+  function collect() {
+    return slice.call(arguments);
+  }
+
+  function ns(widget) {
+    return widget.ns;
+  }
+
+  function initialize(widgets, index) {
+    return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize").then(function() {
+      return widgets;
+    });
+  }
+
+  function weave(result) {
+    return $.when.apply(null, $.map(result, initialize)).then(collect);
+  }
+
+  return function() {
+    return twist.apply(this, slice.call(arguments)).then(weave);
+  }
+});
+
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-component/jquery.crank"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})([
+  "jquery",
+  "mu-jquery-wire/jquery.crank"
+], this, function($, crank) {
+  var slice = Array.prototype.slice;
+  var re = /\s+/;
+
+  return function (attr) {
+      return crank.apply(this, [function($element) {
+        return ($element.attr(attr) || "").split(re);
+      }].concat(slice.call(arguments, 1)));
+  }
+});
+
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
     root["mu-compose/transform"] = factory.apply(root, modules.map(function(m) {
       return root[m.replace(/^\./, "mu-compose")];
     }));
@@ -308,70 +445,6 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-hub/hub"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
-  }
-})(["jquery"], this, function($) {
-  var slice = Array.prototype.slice;
-
-  return function() {
-    var args = slice.call(arguments);
-    var topics = {};
-    var proxied = {};
-
-    function subscribe(add) {
-      return function() {
-        var self = this;
-
-        return add.apply(self, $.map(arguments, function (arg) {
-          proxy = $.proxy(arg, self);
-          proxied[proxy.guid] = arg;
-          return proxy;
-        }));
-      }
-    }
-
-    function unsubscribe(remove) {
-      return function() {
-        var self = this;
-
-        return remove.apply(self, $.map(arguments, function (arg) {
-          return proxied[arg.guid] || arg;
-        }));
-      }
-    }
-
-    return function(id) {
-      var callbacks,
-        method,
-        topic = id && topics[id];
-
-      if (!topic) {
-        callbacks = $.Callbacks.apply(null, args);
-
-        topic = {
-          publish: callbacks.fire,
-          subscribe: subscribe(callbacks.add),
-          unsubscribe: unsubscribe(callbacks.remove)
-        };
-        if (id) {
-          topics[id] = topic;
-        }
-      }
-      return topic;
-    }
-  }
-});
-
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
     root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
@@ -491,134 +564,61 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-widget/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m];
-    }));
-  }
-})([], this, function() {
-  var bind = Function.prototype.bind;
-
-  return function (c, args) {
-    return new (bind.apply(c, [null].concat(args)))();
-  }
-});
-
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/jquery.twist"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m = m.replace(/^\./, "mu-jquery-widget")] || root[m];
-    }));
-  }
-})([
-  "jquery",
-  "mu-jquery-wire/jquery.wire",
-  "./create"
-], this, function($, wire, create) {
-  var slice = Array.prototype.slice;
-  var re_space = /\s+/;
-  var re_clean = /@\d+$/;
-
-  function clean(value) {
-    return !re_clean.test(value);
-  }
-
-  return function(attr, callback) {
-    var args = slice.call(arguments, 2);
-    var count = 0;
-
-    return wire.call(this,
-      function($element) {
-        return ($element.attr(attr) || "").split(re_space).filter(clean);
-      },
-      function($element, index, module) {
-        var self = this;
-
-        return $.when(callback.call(self, module, index)).then(function(result) {
-          result = create(result, [$element, module = module + "@" + ++count].concat(args));
-
-          $element.attr(attr, function(i, value) {
-            value = value.split(re_space);
-            value[index] = module;
-            return value.join(" ");
-          });
-
-          return result;
-        });
-      });
-  }
-});
-
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/jquery.weave"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m.replace(/^\./, "mu-jquery-widget")];
-    }));
-  }
-})([
-  "jquery",
-  "./jquery.twist",
-  "mu-jquery-crank/jquery.crank"
-], this, function($, twist, crank) {
-  var slice = Array.prototype.slice;
-
-  function collect() {
-    return slice.call(arguments);
-  }
-
-  function ns(widget) {
-    return widget.ns;
-  }
-
-  function initialize(widgets, index) {
-    return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize").then(function() {
-      return widgets;
-    });
-  }
-
-  function weave(result) {
-    return $.when.apply(null, $.map(result, initialize)).then(collect);
-  }
-
-  return function() {
-    return twist.apply(this, slice.call(arguments)).then(weave);
-  }
-});
-
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/jquery.crank"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-hub/hub"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
       }[m] || root[m];
     }));
   }
-})([
-  "jquery",
-  "mu-jquery-wire/jquery.crank"
-], this, function($, crank) {
+})(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
-  var re = /\s+/;
 
-  return function (attr) {
-      return crank.apply(this, [function($element) {
-        return ($element.attr(attr) || "").split(re);
-      }].concat(slice.call(arguments, 1)));
+  return function() {
+    var args = slice.call(arguments);
+    var topics = {};
+    var proxied = {};
+
+    function subscribe(add) {
+      return function() {
+        var self = this;
+
+        return add.apply(self, $.map(arguments, function (arg) {
+          proxy = $.proxy(arg, self);
+          proxied[proxy.guid] = arg;
+          return proxy;
+        }));
+      }
+    }
+
+    function unsubscribe(remove) {
+      return function() {
+        var self = this;
+
+        return remove.apply(self, $.map(arguments, function (arg) {
+          return proxied[arg.guid] || arg;
+        }));
+      }
+    }
+
+    return function(id) {
+      var callbacks,
+        method,
+        topic = id && topics[id];
+
+      if (!topic) {
+        callbacks = $.Callbacks.apply(null, args);
+
+        topic = {
+          publish: callbacks.fire,
+          subscribe: subscribe(callbacks.add),
+          unsubscribe: unsubscribe(callbacks.remove)
+        };
+        if (id) {
+          topics[id] = topic;
+        }
+      }
+      return topic;
+    }
   }
 });
 

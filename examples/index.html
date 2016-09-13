@@ -10,63 +10,17 @@
 <script src="https://rawgit.com/mu-lib/mu-compose/v3.1.0/regexp.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-wire/v5.0.0/jquery.wire.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-crank/v3.0.0/jquery.crank.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/dom.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/compose.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/widget.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/create.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/jquery.twist.js"></script>
-<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v3.3.0/jquery.weave.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v4.0.0/dom.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v4.0.0/compose.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-widget/v4.0.0/widget.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-component/v0.0.0/create.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-component/v0.0.0/jquery.twist.js"></script>
+<script src="https://rawgit.com/mu-lib/mu-jquery-component/v0.0.0/jquery.weave.js"></script>
 <script src="https://rawgit.com/mu-lib/mu-jquery-hub/v1.1.1/hub.js"></script>
 <script src="../compose.js"></script>
 <script src="../hub.js"></script>
 <script src="button.js"></script>
-<script>
-(function(modules, root, factory) {
-  factory.apply(root, modules.map(function(m) {
-    return {
-      "jquery": jQuery
-    }[m] || root[m];
-  }));
-})([
-  "jquery",
-  "mu-jquery-widget/jquery.weave",
-  "mu-jquery-hub/hub"
-], this, function (jQuery, weave, hub) {
-  var slice = Array.prototype.slice;
-  var self = this;
-
-  // construct hub with flags
-  hub = hub("memory", "stopOnFalse");
-
-  // static loader from `self`
-  function load(module) {
-    return self[module];
-  }
-
-  // define `$.fn.weave` with attribute and args set
-  jQuery.fn.weave = function() {
-    return weave.apply(this.find("[mu-widget]"), ["mu-widget", load, hub].concat(slice.call(arguments)));
-  };
-
-  // wait for `ready`
-  jQuery(function ($) {
-    // publish initial values on the `test` topic
-    hub("test").publish("a", "b", "c");
-
-    $(document)
-      // weave elements
-      .weave()
-      // log
-      .done(console.info.bind(console))
-      // publish on the `test` topic
-      .done(function() {
-        hub("test").publish(1,2,3);
-      })
-      // add error handler
-      .fail(console.error.bind(console));
-  });
-});
-</script>
+<script src="app.js"></script>
 </head>
 <body>
   <button mu-widget="mu-jquery-app/examples/button mu-jquery-app/examples/button">test1</button>

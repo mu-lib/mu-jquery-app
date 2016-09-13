@@ -4,52 +4,8 @@
 <script src="https://rawgit.com/jquery/jquery/3.1.0/dist/jquery.js"></script>
 <script src="../dist/all.js"></script>
 <script src="button.js"></script>
+<script src="app.js"></script>
 <script>
-(function(modules, root, factory) {
-  factory.apply(root, modules.map(function(m) {
-    return {
-      "jquery": jQuery
-    }[m] || root[m];
-  }));
-})([
-  "jquery",
-  "mu-jquery-widget/jquery.weave",
-  "mu-jquery-hub/hub"
-], this, function (jQuery, weave, hub) {
-  var slice = Array.prototype.slice;
-  var self = this;
-
-  // construct hub with flags
-  hub = hub("memory", "stopOnFalse");
-
-  // static loader from `self`
-  function load(module) {
-    return self[module];
-  }
-
-  // define `$.fn.weave` with attribute and args set
-  jQuery.fn.weave = function() {
-    return weave.apply(this.find("[mu-widget]"), ["mu-widget", load, hub].concat(slice.call(arguments)));
-  };
-
-  // wait for `ready`
-  jQuery(function ($) {
-    // publish initial values on the `test` topic
-    hub("test").publish("a", "b", "c");
-
-    $(document)
-      // weave elements
-      .weave()
-      // log
-      .done(console.info.bind(console))
-      // publish on the `test` topic
-      .done(function() {
-        hub("test").publish(1,2,3);
-      })
-      // add error handler
-      .fail(console.error.bind(console));
-  });
-});
 </script>
 </head>
 <body>

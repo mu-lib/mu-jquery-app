@@ -183,7 +183,7 @@
     return !!data;
   }
 
-  return function() {
+  return function configure() {
     var rules = slice.call(arguments);
 
     function compose() {
@@ -220,17 +220,23 @@
         }, arguments);
       });
 
-      // Expose blueprints extension point
       result.concat = function() {
-        return concat.apply(blueprints, slice.call(arguments));
+        return concat.apply(blueprints, arguments);
+      };
+
+      result.extend = function() {
+        return compose.apply(this, result.concat.apply(this, arguments));
       };
 
       return result;
     }
 
-    // Expose rules extension point
     compose.concat = function() {
-      return concat.apply(rules, slice.call(arguments));
+      return concat.apply(rules, arguments);
+    };
+
+    compose.extend = function() {
+      return configure.apply(this, compose.concat.apply(this, arguments));
     };
 
     return compose;

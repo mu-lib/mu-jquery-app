@@ -439,55 +439,52 @@
   }
 });
 
-(function(modules, root, factory) {
+(function (modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function (m) {
       return {
         "jquery": root.jQuery
       }[m] || root[m];
     }));
   }
-})(["jquery"], this, function($) {
+})(["jquery"], this, function ($) {
   var re = /\s+/;
 
   function name(ns) {
     return this
       .split(re)
-      .map(function(type) {
+      .map(function (type) {
         return type + "." + ns;
       })
       .join(" ");
   }
 
   return [
-    function($element, ns) {
+    function ($element, ns) {
       var me = this;
 
       me.ns = ns;
       me.$element = $element;
 
-      $.each(me.constructor.dom || false, function(index, op) {
+      $.each(me.constructor.dom, function (index, op) {
         switch (op.method) {
           case "on":
-            me.on(op.type, op.args, op.value);
+            me.on(op.events, op.selector, op.data, op.handler);
             break;
 
           case "attr":
-            $element.attr(op.type, op.value);
-            break;
-
           case "prop":
-            $element.prop(op.type, op.value);
+            $element[op.method](op.name, op.value);
             break;
         }
       });
     },
     {
-      "on": function(events, selector, data, handler) {
+      "on": function (events, selector, data, handler) {
         var me = this;
 
         switch (arguments.length) {
@@ -502,13 +499,13 @@
             data = undefined;
             break;
 
-          default:
+          case 1:
             throw new Error("not enough arguments");
         }
 
         me.$element.on(name.call(events, me.ns), selector, data, $.proxy(handler, me));
       },
-      "off": function(events, selector, handler) {
+      "off": function (events, selector, handler) {
         var me = this;
 
         me.$element.off(name.call(events, me.ns), selector, handler);
@@ -517,24 +514,47 @@
   ]
 });
 
-(function(modules, root, factory) {
+(function (modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-widget/dom"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-widget/dom"] = factory.apply(root, modules.map(function (m) {
       return root[m];
     }));
   }
-})(["mu-create/regexp"], this, function(regexp) {
-  return regexp(/^(on|attr|prop)\/(.+?)(?:\((.*)\))?$/, function(result, data, method, type, args) {
-    (result.dom = result.dom || []).push({
-      "method": method,
-      "type": type,
-      "args": args,
-      "value": data.value
-    });
+})(["mu-create/regexp"], this, function (regexp) {
+  var toString = Object.prototype.toString;
+
+  function copy(o) {
+    return Object.keys(o).reduce(function (result, key) {
+      if (!result.hasOwnProperty(key)) {
+        result[key] = o[key];
+      }
+      return result;
+    }, this);
+  }
+
+  return regexp(/^(on|attr|prop)\/(.+?)(?:\((.*)\))?$/, function (result, data, method, type, args) {
+    var dom = toString.call(data.value) === "[object Object]"
+      ? data.value
+      : method === "on"
+        ? { "handler": data.value }
+        : { "value": data.value };
+
+    dom = copy.call(dom, method === "on"
+      ? {
+        "method": method,
+        "events": type,
+        "selector": args
+      }
+      : {
+        "method": method,
+        "name": type
+      });
+
+    (result.dom = result.dom || []).push(dom);
 
     return false;
   });

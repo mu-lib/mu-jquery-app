@@ -420,7 +420,12 @@
   }
 })([], this, function() {
   return function(result, data) {
-    result.prototype[data.key] = data.value;
+    if (data.key === "prototype") {
+      result.prototype = data.value;
+    }
+    else {
+      result.prototype[data.key] = data.value;
+    }
   }
 });
 

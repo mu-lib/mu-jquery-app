@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.4.0"></a>
+# [4.4.0](https://github.com/mu-lib/mu-jquery-app/compare/v4.3.0...v4.4.0) (2016-09-23)
+
+
+### Features
+
+* **deps:** bumped deps ([2e56f10](https://github.com/mu-lib/mu-jquery-app/commit/2e56f10))
+
+
+### BREAKING CHANGES
+
+* deps: mu-jquery-component has been renamed to mu-jquery-loom,
+update your code kids.
+
+
+
 <a name="4.3.0"></a>
 # [4.3.0](https://github.com/mu-lib/mu-jquery-app/compare/v4.2.0...v4.3.0) (2016-09-22)
 

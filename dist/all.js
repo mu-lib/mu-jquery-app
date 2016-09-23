@@ -76,7 +76,7 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-component/create"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-loom/create"] = factory.apply(root, modules.map(function(m) {
       return root[m];
     }));
   }
@@ -94,10 +94,10 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-component/jquery.twist"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-loom/jquery.twist"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
-      }[m = m.replace(/^\./, "mu-jquery-component")] || root[m];
+      }[m = m.replace(/^\./, "mu-jquery-loom")] || root[m];
     }));
   }
 })([
@@ -152,10 +152,10 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-component/jquery.weave"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-loom/jquery.weave"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
-      }[m] || root[m.replace(/^\./, "mu-jquery-component")];
+      }[m] || root[m.replace(/^\./, "mu-jquery-loom")];
     }));
   }
 })([
@@ -194,7 +194,7 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-component/jquery.crank"] = factory.apply(root, modules.map(function(m) {
+    root["mu-jquery-loom/jquery.crank"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
       }[m] || root[m];
@@ -465,6 +465,7 @@
   }
 })(["jquery"], this, function ($) {
   var re = /\s+/;
+  var result = [];
 
   function name(ns) {
     return this
@@ -475,57 +476,57 @@
       .join(" ");
   }
 
-  return [
-    function ($element, ns) {
+  result.push(result.widget = function($element, ns) {
+    var me = this;
+
+    me.ns = ns;
+    me.$element = $element;
+
+    $.each(me.constructor.dom, function (index, op) {
+      switch (op.method) {
+        case "on":
+          me.on(op.events, op.selector, op.data, op.handler);
+          break;
+
+        case "attr":
+        case "prop":
+          $element[op.method](op.name, op.value);
+          break;
+      }
+    });
+  });
+
+  result.push(result.blueprint = {
+    "on": function (events, selector, data, handler) {
       var me = this;
 
-      me.ns = ns;
-      me.$element = $element;
+      switch (arguments.length) {
+        case 3:
+          handler = data;
+          data = undefined;
+          break;
 
-      $.each(me.constructor.dom, function (index, op) {
-        switch (op.method) {
-          case "on":
-            me.on(op.events, op.selector, op.data, op.handler);
-            break;
+        case 2:
+          handler = selector;
+          selector = undefined;
+          data = undefined;
+          break;
 
-          case "attr":
-          case "prop":
-            $element[op.method](op.name, op.value);
-            break;
-        }
-      });
-    },
-    {
-      "on": function (events, selector, data, handler) {
-        var me = this;
-
-        switch (arguments.length) {
-          case 3:
-            handler = data;
-            data = undefined;
-            break;
-
-          case 2:
-            handler = selector;
-            selector = undefined;
-            data = undefined;
-            break;
-
-          case 1:
-            throw new Error("not enough arguments");
-        }
-
-        me.$element.on(name.call(events, me.ns), selector, data, $.proxy(handler, me));
-      },
-      "off": function (events, selector, handler) {
-        var me = this;
-
-        me.$element.off(name.call(events, me.ns), selector, handler);
+        case 1:
+          throw new Error("not enough arguments");
       }
-    }
-  ]
-});
 
+      me.$element.on(name.call(events, me.ns), selector, data, $.proxy(handler, me));
+    },
+    "off": function (events, selector, handler) {
+      var me = this;
+
+      me.$element.off(name.call(events, me.ns), selector, handler);
+    }
+  });
+  
+  return result;
+});
 (function (modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
@@ -572,24 +573,6 @@
   });
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-jquery-widget")];
-    }));
-  }
-})([
-  "mu-create/create",
-  "mu-create/constructor",
-  "mu-create/prototype",
-  "./dom"
-], this, function(create, construct, proto, dom) {
-    return create(construct, proto, dom);
-});
 (function(modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);

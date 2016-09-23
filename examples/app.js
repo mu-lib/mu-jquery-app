@@ -6,7 +6,7 @@
   }));
 })([
   "jquery",
-  "mu-jquery-component/jquery.weave",
+  "mu-jquery-loom/jquery.weave",
   "mu-jquery-hub/hub"
 ], this, function (jQuery, weave, hub) {
   var slice = Array.prototype.slice;

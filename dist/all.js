@@ -1,12 +1,6 @@
-(function (modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-wire/jquery.wire"] = factory(root.jQuery);
-  }
-})(["jquery"], this, function ($) {
+(function(umd) {
+
+umd("mu-jquery-wire/jquery.wire")(["jquery"], this, function ($) {
   var slice = Array.prototype.slice;
 
   function collect() {
@@ -37,19 +31,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-crank/jquery.crank"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
-  }
-})(["jquery","mu-jquery-wire/jquery.wire"], this, function($, wire) {
+umd("mu-jquery-crank/jquery.crank")(["jquery","mu-jquery-wire/jquery.wire"], this, function($, wire) {
   var slice = Array.prototype.slice;
 
   return function(input, eventType) {
@@ -62,8 +44,6 @@
     });
   }
 });
-
-(function(umd) {
 
 umd("mu-jquery-loom/create")([], this, function() {
   var bind = Function.prototype.bind;
@@ -151,24 +131,6 @@ umd("mu-jquery-loom/jquery.crank")([ "jquery", "mu-jquery-wire/jquery.crank" ], 
       }].concat(slice.call(arguments, 1)));
   }
 });
-
-})(function(name) {
-  return function(modules, root, factory) {
-    if (typeof define === "function" && define.amd) {
-      define(modules, factory);
-    } else if (typeof module === "object" && module.exports) {
-      module.exports = factory.apply(root, modules.map(require));
-    } else {
-      root[name] = factory.apply(root, modules.map(function (m) {
-        return {
-          "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, "mu-jquery-loom")];
-      }));
-    }
-  }
-});
-
-(function(umd) {
 
 umd("mu-create/transform")([], this, function() {
   var slice = Array.prototype.slice;
@@ -349,24 +311,6 @@ umd("mu-create/regexp")([], this, function() {
   }
 });
 
-})(function(name) {
-  return function(modules, root, factory) {
-    if (typeof define === "function" && define.amd) {
-      define(modules, factory);
-    } else if (typeof module === "object" && module.exports) {
-      module.exports = factory.apply(root, modules.map(require));
-    } else {
-      root[name] = factory.apply(root, modules.map(function (m) {
-        return {
-          "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, "mu-create")];
-      }));
-    }
-  }
-});
-
-(function(umd) {
-
 umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
   var re = /\s+/;
   var result = [];
@@ -468,35 +412,7 @@ umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
   });
 });
 
-})(function(name) {
-  return function(modules, root, factory) {
-    if (typeof define === "function" && define.amd) {
-      define(modules, factory);
-    } else if (typeof module === "object" && module.exports) {
-      module.exports = factory.apply(root, modules.map(require));
-    } else {
-      root[name] = factory.apply(root, modules.map(function (m) {
-        return {
-          "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, "mu-widget")];
-      }));
-    }
-  }
-});
-
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-hub/hub"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
-  }
-})(["jquery"], this, function($) {
+umd("mu-jquery-hub/hub")(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
 
   return function() {
@@ -548,8 +464,6 @@ umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
   }
 });
 
-(function(umd) {
-
 umd("mu-jquery-app/create")(["mu-create/create","mu-create/constructor","mu-create/prototype","mu-create/regexp","mu-jquery-widget/dom"], this, function(create, construct, proto, regexp, dom) {
   var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
     (result.hub = result.hub || []).push({
@@ -600,7 +514,7 @@ umd("mu-jquery-app/hub")(["jquery"], this, function($) {
       root[name] = factory.apply(root, modules.map(function (m) {
         return {
           "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, "mu-jquery-app")];
+        }[m] || root[m.replace(/^\./, name.replace(/\/.+$/, ""))];
       }));
     }
   }

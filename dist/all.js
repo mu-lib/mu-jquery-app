@@ -1,12 +1,17 @@
 (function(umd) {
 
+var bind = Function.prototype.bind;
+var toString = Object.prototype.toString
+var array = Array.prototype;
+var slice = array.slice;
+var concat = array.concat;
+var re_space = /\s+/;
+
+function collect() {
+  return slice.call(arguments);
+}
+
 umd("mu-jquery-wire/jquery.wire")(["jquery"], this, function ($) {
-  var slice = Array.prototype.slice;
-
-  function collect() {
-    return slice.call(arguments);
-  }
-
   return function (input, callback) {
     var self = this;
     var args = slice.call(arguments, 2);
@@ -32,8 +37,6 @@ umd("mu-jquery-wire/jquery.wire")(["jquery"], this, function ($) {
 });
 
 umd("mu-jquery-crank/jquery.crank")(["jquery","mu-jquery-wire/jquery.wire"], this, function($, wire) {
-  var slice = Array.prototype.slice;
-
   return function(input, eventType) {
     var args = slice.call(arguments, 2);
 
@@ -46,16 +49,12 @@ umd("mu-jquery-crank/jquery.crank")(["jquery","mu-jquery-wire/jquery.wire"], thi
 });
 
 umd("mu-jquery-loom/create")([], this, function() {
-  var bind = Function.prototype.bind;
-
   return function (c, args) {
     return new (bind.apply(c, [null].concat(args)))();
   }
 });
 
 umd("mu-jquery-loom/jquery.twist")([ "jquery", "mu-jquery-wire/jquery.wire", "./create" ], this, function($, wire, create) {
-  var slice = Array.prototype.slice;
-  var re_space = /\s+/;
   var re_clean = /@\d+$/;
 
   function clean(value) {
@@ -96,12 +95,6 @@ umd("mu-jquery-loom/jquery.twist")([ "jquery", "mu-jquery-wire/jquery.wire", "./
 });
 
 umd("mu-jquery-loom/jquery.weave")([ "jquery", "./jquery.twist", "mu-jquery-crank/jquery.crank" ], this, function($, twist, crank) {
-  var slice = Array.prototype.slice;
-
-  function collect() {
-    return slice.call(arguments);
-  }
-
   function ns(widget) {
     return widget.ns;
   }
@@ -122,20 +115,14 @@ umd("mu-jquery-loom/jquery.weave")([ "jquery", "./jquery.twist", "mu-jquery-cran
 });
 
 umd("mu-jquery-loom/jquery.crank")([ "jquery", "mu-jquery-wire/jquery.crank" ], this, function($, crank) {
-  var slice = Array.prototype.slice;
-  var re = /\s+/;
-
   return function (attr) {
       return crank.apply(this, [function($element) {
-        return ($element.attr(attr) || "").split(re);
+        return ($element.attr(attr) || "").split(re_space);
       }].concat(slice.call(arguments, 1)));
   }
 });
 
 umd("mu-create/transform")([], this, function() {
-  var slice = Array.prototype.slice;
-  var toString = Object.prototype.toString
-
   function value(key) {
     return {
       "key": key,
@@ -178,9 +165,6 @@ umd("mu-create/transform")([], this, function() {
 });
 
 umd("mu-create/process")([], this, function() {
-  var slice = Array.prototype.slice;
-  var concat = Array.prototype.concat;
-
   return function() {
     var self = this;
     var rules = concat.apply([], arguments);
@@ -209,9 +193,6 @@ umd("mu-create/process")([], this, function() {
 
 umd("mu-create/create")(["./transform", "./process"], this, function(transform, process) {
   var root = this;
-  var array = Array.prototype;
-  var slice = array.slice;
-  var concat = array.concat;
 
   function clean(data) {
     return !!data;
@@ -312,12 +293,11 @@ umd("mu-create/regexp")([], this, function() {
 });
 
 umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
-  var re = /\s+/;
   var result = [];
 
   function name(ns) {
     return this
-      .split(re)
+      .split(re_space)
       .map(function (type) {
         return type + "." + ns;
       })
@@ -377,8 +357,6 @@ umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
 });
 
 umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
-  var toString = Object.prototype.toString;
-
   function copy(o) {
     return Object.keys(o).reduce(function (result, key) {
       if (!result.hasOwnProperty(key)) {
@@ -413,8 +391,6 @@ umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
 });
 
 umd("mu-jquery-hub/hub")(["jquery"], this, function($) {
-  var slice = Array.prototype.slice;
-
   return function() {
     var args = slice.call(arguments);
     var topics = {};
@@ -478,8 +454,6 @@ umd("mu-jquery-app/create")(["mu-create/create","mu-create/constructor","mu-crea
 });
 
 umd("mu-jquery-app/hub")(["jquery"], this, function($) {
-  var slice = Array.prototype.slice;
-
   return function($element, ns, hub) {
     var me = this;
 

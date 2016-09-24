@@ -505,6 +505,8 @@ umd("mu-jquery-app/hub")(["jquery"], this, function($) {
 });
 
 })(function(name) {
+  var prefix = name.replace(/\/.+$/, "");
+
   return function(modules, root, factory) {
     if (typeof define === "function" && define.amd) {
       define(modules, factory);
@@ -514,7 +516,7 @@ umd("mu-jquery-app/hub")(["jquery"], this, function($) {
       root[name] = factory.apply(root, modules.map(function (m) {
         return {
           "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, name.replace(/\/.+$/, ""))];
+        }[m] || root[m.replace(/^\./, prefix)];
       }));
     }
   }

@@ -4,11 +4,7 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-wire/jquery.wire"] = factory.apply(root, modules.map(function (m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
+    root["mu-jquery-wire/jquery.wire"] = factory(root.jQuery);
   }
 })(["jquery"], this, function ($) {
   var slice = Array.prototype.slice;
@@ -53,10 +49,7 @@
       }[m] || root[m];
     }));
   }
-})([
-  "jquery",
-  "mu-jquery-wire/jquery.wire"
-], this, function($, wire) {
+})(["jquery","mu-jquery-wire/jquery.wire"], this, function($, wire) {
   var slice = Array.prototype.slice;
 
   return function(input, eventType) {
@@ -70,17 +63,9 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-loom/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m];
-    }));
-  }
-})([], this, function() {
+(function(umd) {
+
+umd("mu-jquery-loom/create")([], this, function() {
   var bind = Function.prototype.bind;
 
   return function (c, args) {
@@ -88,23 +73,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-loom/jquery.twist"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m = m.replace(/^\./, "mu-jquery-loom")] || root[m];
-    }));
-  }
-})([
-  "jquery",
-  "mu-jquery-wire/jquery.wire",
-  "./create"
-], this, function($, wire, create) {
+umd("mu-jquery-loom/jquery.twist")([ "jquery", "mu-jquery-wire/jquery.wire", "./create" ], this, function($, wire, create) {
   var slice = Array.prototype.slice;
   var re_space = /\s+/;
   var re_clean = /@\d+$/;
@@ -146,23 +115,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-loom/jquery.weave"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m.replace(/^\./, "mu-jquery-loom")];
-    }));
-  }
-})([
-  "jquery",
-  "./jquery.twist",
-  "mu-jquery-crank/jquery.crank"
-], this, function($, twist, crank) {
+umd("mu-jquery-loom/jquery.weave")([ "jquery", "./jquery.twist", "mu-jquery-crank/jquery.crank" ], this, function($, twist, crank) {
   var slice = Array.prototype.slice;
 
   function collect() {
@@ -188,22 +141,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-loom/jquery.crank"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
-  }
-})([
-  "jquery",
-  "mu-jquery-wire/jquery.crank"
-], this, function($, crank) {
+umd("mu-jquery-loom/jquery.crank")([ "jquery", "mu-jquery-wire/jquery.crank" ], this, function($, crank) {
   var slice = Array.prototype.slice;
   var re = /\s+/;
 
@@ -214,17 +152,25 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/transform"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
+})(function(name) {
+  return function(modules, root, factory) {
+    if (typeof define === "function" && define.amd) {
+      define(modules, factory);
+    } else if (typeof module === "object" && module.exports) {
+      module.exports = factory.apply(root, modules.map(require));
+    } else {
+      root[name] = factory.apply(root, modules.map(function (m) {
+        return {
+          "jquery": root.jQuery
+        }[m] || root[m.replace(/^\./, "mu-jquery-loom")];
+      }));
+    }
   }
-})([], this, function() {
+});
+
+(function(umd) {
+
+umd("mu-create/transform")([], this, function() {
   var slice = Array.prototype.slice;
   var toString = Object.prototype.toString
 
@@ -268,17 +214,8 @@
     };
   }
 });
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/process"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
-  }
-})([], this, function() {
+
+umd("mu-create/process")([], this, function() {
   var slice = Array.prototype.slice;
   var concat = Array.prototype.concat;
 
@@ -307,17 +244,8 @@
     }
   }
 });
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
-  }
-})(["./transform", "./process"], this, function(transform, process) {
+
+umd("mu-create/create")(["./transform", "./process"], this, function(transform, process) {
   var root = this;
   var array = Array.prototype;
   var slice = array.slice;
@@ -387,17 +315,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/constructor"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
-  }
-})([], this, function() {
+umd("mu-create/constructor")([], this, function() {
   return function(result, data) {
     var key = data.key;
 
@@ -408,17 +326,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/prototype"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
-  }
-})([], this, function() {
+umd("mu-create/prototype")([], this, function() {
   return function(result, data) {
     if (data.key === "prototype") {
       result.prototype = data.value;
@@ -429,17 +337,7 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-create/regexp"] = factory.apply(root, modules.map(function(m) {
-      return root[m.replace(/^\./, "mu-create")];
-    }));
-  }
-})([], this, function() {
+umd("mu-create/regexp")([], this, function() {
   return function(regexp, callback) {
     return function(result, data) {
       var matches = data.key.match(regexp);
@@ -451,19 +349,25 @@
   }
 });
 
-(function (modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function (m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
+})(function(name) {
+  return function(modules, root, factory) {
+    if (typeof define === "function" && define.amd) {
+      define(modules, factory);
+    } else if (typeof module === "object" && module.exports) {
+      module.exports = factory.apply(root, modules.map(require));
+    } else {
+      root[name] = factory.apply(root, modules.map(function (m) {
+        return {
+          "jquery": root.jQuery
+        }[m] || root[m.replace(/^\./, "mu-create")];
+      }));
+    }
   }
-})(["jquery"], this, function ($) {
+});
+
+(function(umd) {
+
+umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
   var re = /\s+/;
   var result = [];
 
@@ -527,17 +431,8 @@
   
   return result;
 });
-(function (modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-widget/dom"] = factory.apply(root, modules.map(function (m) {
-      return root[m];
-    }));
-  }
-})(["mu-create/regexp"], this, function (regexp) {
+
+umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
   var toString = Object.prototype.toString;
 
   function copy(o) {
@@ -571,6 +466,22 @@
 
     return false;
   });
+});
+
+})(function(name) {
+  return function(modules, root, factory) {
+    if (typeof define === "function" && define.amd) {
+      define(modules, factory);
+    } else if (typeof module === "object" && module.exports) {
+      module.exports = factory.apply(root, modules.map(require));
+    } else {
+      root[name] = factory.apply(root, modules.map(function (m) {
+        return {
+          "jquery": root.jQuery
+        }[m] || root[m.replace(/^\./, "mu-widget")];
+      }));
+    }
+  }
 });
 
 (function(modules, root, factory) {
@@ -637,23 +548,9 @@
   }
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-app/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m];
-    }));
-  }
-})([
-  "mu-create/create",
-  "mu-create/constructor",
-  "mu-create/prototype",
-  "mu-create/regexp",
-  "mu-jquery-widget/dom"
-], this, function(create, construct, proto, regexp, dom) {
+(function(umd) {
+
+umd("mu-jquery-app/create")(["mu-create/create","mu-create/constructor","mu-create/prototype","mu-create/regexp","mu-jquery-widget/dom"], this, function(create, construct, proto, regexp, dom) {
   var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
     (result.hub = result.hub || []).push({
       "topic": topic,
@@ -666,19 +563,7 @@
   return create(construct, hub, dom, proto);
 });
 
-(function(modules, root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
-  } else {
-    root["mu-jquery-app/hub"] = factory.apply(root, modules.map(function(m) {
-      return {
-        "jquery": root.jQuery
-      }[m] || root[m];
-    }));
-  }
-})(["jquery"], this, function($) {
+umd("mu-jquery-app/hub")(["jquery"], this, function($) {
   var slice = Array.prototype.slice;
 
   return function($element, ns, hub) {
@@ -702,5 +587,21 @@
     $.each(me.constructor.hub || false, function(index, op) {
       me.subscribe(op.topic, op.handler);
     });
+  }
+});
+
+})(function(name) {
+  return function(modules, root, factory) {
+    if (typeof define === "function" && define.amd) {
+      define(modules, factory);
+    } else if (typeof module === "object" && module.exports) {
+      module.exports = factory.apply(root, modules.map(require));
+    } else {
+      root[name] = factory.apply(root, modules.map(function (m) {
+        return {
+          "jquery": root.jQuery
+        }[m] || root[m.replace(/^\./, "mu-jquery-app")];
+      }));
+    }
   }
 });

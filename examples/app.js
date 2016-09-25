@@ -7,8 +7,9 @@
 })([
   "jquery",
   "mu-jquery-loom/jquery.weave",
+  "mu-jquery-loom/jquery.crank",
   "mu-jquery-hub/hub"
-], this, function (jQuery, weave, hub) {
+], this, function (jQuery, weave, crank, hub) {
   var slice = Array.prototype.slice;
   var self = this;
 

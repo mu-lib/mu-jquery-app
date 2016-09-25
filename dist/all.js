@@ -1,17 +1,22 @@
-(function(umd) {
+(function (modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-wire/jquery.wire"] = factory.apply(root, modules.map(function (m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})(["jquery"], this, function ($) {
+  var slice = Array.prototype.slice;
 
-var bind = Function.prototype.bind;
-var toString = Object.prototype.toString
-var array = Array.prototype;
-var slice = array.slice;
-var concat = array.concat;
-var re_space = /\s+/;
+  function collect() {
+    return slice.call(arguments);
+  }
 
-function collect() {
-  return slice.call(arguments);
-}
-
-umd("mu-jquery-wire/jquery.wire")(["jquery"], this, function ($) {
   return function (input, callback) {
     var self = this;
     var args = slice.call(arguments, 2);
@@ -36,7 +41,24 @@ umd("mu-jquery-wire/jquery.wire")(["jquery"], this, function ($) {
   }
 });
 
-umd("mu-jquery-crank/jquery.crank")(["jquery","mu-jquery-wire/jquery.wire"], this, function($, wire) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-crank/jquery.crank"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})([
+  "jquery",
+  "mu-jquery-wire/jquery.wire"
+], this, function($, wire) {
+  var slice = Array.prototype.slice;
+
   return function(input, eventType) {
     var args = slice.call(arguments, 2);
 
@@ -48,13 +70,43 @@ umd("mu-jquery-crank/jquery.crank")(["jquery","mu-jquery-wire/jquery.wire"], thi
   }
 });
 
-umd("mu-jquery-loom/create")([], this, function() {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-loom/create"] = factory.apply(root, modules.map(function(m) {
+      return root[m];
+    }));
+  }
+})([], this, function() {
+  var bind = Function.prototype.bind;
+
   return function (c, args) {
     return new (bind.apply(c, [null].concat(args)))();
   }
 });
 
-umd("mu-jquery-loom/jquery.twist")([ "jquery", "mu-jquery-wire/jquery.wire", "./create" ], this, function($, wire, create) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-loom/jquery.twist"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m = m.replace(/^\./, "mu-jquery-loom")] || root[m];
+    }));
+  }
+})([
+  "jquery",
+  "mu-jquery-wire/jquery.wire",
+  "./create"
+], this, function($, wire, create) {
+  var slice = Array.prototype.slice;
+  var re_space = /\s+/;
   var re_clean = /@\d+$/;
 
   function clean(value) {
@@ -94,7 +146,29 @@ umd("mu-jquery-loom/jquery.twist")([ "jquery", "mu-jquery-wire/jquery.wire", "./
   }
 });
 
-umd("mu-jquery-loom/jquery.weave")([ "jquery", "./jquery.twist", "mu-jquery-crank/jquery.crank" ], this, function($, twist, crank) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-loom/jquery.weave"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m.replace(/^\./, "mu-jquery-loom")];
+    }));
+  }
+})([
+  "jquery",
+  "./jquery.twist",
+  "mu-jquery-crank/jquery.crank"
+], this, function($, twist, crank) {
+  var slice = Array.prototype.slice;
+
+  function collect() {
+    return slice.call(arguments);
+  }
+
   function ns(widget) {
     return widget.ns;
   }
@@ -114,15 +188,46 @@ umd("mu-jquery-loom/jquery.weave")([ "jquery", "./jquery.twist", "mu-jquery-cran
   }
 });
 
-umd("mu-jquery-loom/jquery.crank")([ "jquery", "mu-jquery-wire/jquery.crank" ], this, function($, crank) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-loom/jquery.crank"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})([
+  "jquery",
+  "mu-jquery-crank/jquery.crank"
+], this, function($, crank) {
+  var slice = Array.prototype.slice;
+  var re = /\s+/;
+
   return function (attr) {
       return crank.apply(this, [function($element) {
-        return ($element.attr(attr) || "").split(re_space);
+        return ($element.attr(attr) || "").split(re);
       }].concat(slice.call(arguments, 1)));
   }
 });
 
-umd("mu-create/transform")([], this, function() {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/transform"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})([], this, function() {
+  var slice = Array.prototype.slice;
+  var toString = Object.prototype.toString
+
   function value(key) {
     return {
       "key": key,
@@ -163,8 +268,20 @@ umd("mu-create/transform")([], this, function() {
     };
   }
 });
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/process"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})([], this, function() {
+  var slice = Array.prototype.slice;
+  var concat = Array.prototype.concat;
 
-umd("mu-create/process")([], this, function() {
   return function() {
     var self = this;
     var rules = concat.apply([], arguments);
@@ -190,9 +307,21 @@ umd("mu-create/process")([], this, function() {
     }
   }
 });
-
-umd("mu-create/create")(["./transform", "./process"], this, function(transform, process) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/create"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})(["./transform", "./process"], this, function(transform, process) {
   var root = this;
+  var array = Array.prototype;
+  var slice = array.slice;
+  var concat = array.concat;
 
   function clean(data) {
     return !!data;
@@ -258,7 +387,17 @@ umd("mu-create/create")(["./transform", "./process"], this, function(transform, 
   }
 });
 
-umd("mu-create/constructor")([], this, function() {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/constructor"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})([], this, function() {
   return function(result, data) {
     var key = data.key;
 
@@ -269,7 +408,17 @@ umd("mu-create/constructor")([], this, function() {
   }
 });
 
-umd("mu-create/prototype")([], this, function() {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/prototype"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})([], this, function() {
   return function(result, data) {
     if (data.key === "prototype") {
       result.prototype = data.value;
@@ -280,7 +429,17 @@ umd("mu-create/prototype")([], this, function() {
   }
 });
 
-umd("mu-create/regexp")([], this, function() {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-create/regexp"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-create")];
+    }));
+  }
+})([], this, function() {
   return function(regexp, callback) {
     return function(result, data) {
       var matches = data.key.match(regexp);
@@ -292,19 +451,31 @@ umd("mu-create/regexp")([], this, function() {
   }
 });
 
-umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
-  var result = [];
+(function (modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-widget/widget"] = factory.apply(root, modules.map(function (m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})(["jquery"], this, function ($) {
+  var re = /\s+/;
 
   function name(ns) {
     return this
-      .split(re_space)
+      .split(re)
       .map(function (type) {
         return type + "." + ns;
       })
       .join(" ");
   }
 
-  result.push(result.widget = function($element, ns) {
+  return [function($element, ns) {
     var me = this;
 
     me.ns = ns;
@@ -322,9 +493,7 @@ umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
           break;
       }
     });
-  });
-
-  result.push(result.blueprint = {
+  }, {
     "on": function (events, selector, data, handler) {
       var me = this;
 
@@ -351,12 +520,21 @@ umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
 
       me.$element.off(name.call(events, me.ns), selector, handler);
     }
-  });
-  
-  return result;
+  }];
 });
+(function (modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-widget/dom"] = factory.apply(root, modules.map(function (m) {
+      return root[m];
+    }));
+  }
+})(["mu-create/regexp"], this, function (regexp) {
+  var toString = Object.prototype.toString;
 
-umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
   function copy(o) {
     return Object.keys(o).reduce(function (result, key) {
       if (!result.hasOwnProperty(key)) {
@@ -390,7 +568,21 @@ umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
   });
 });
 
-umd("mu-jquery-hub/hub")(["jquery"], this, function($) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-hub/hub"] = factory.apply(root, modules.map(function(m) {
+      return {
+        "jquery": root.jQuery
+      }[m] || root[m];
+    }));
+  }
+})(["jquery"], this, function($) {
+  var slice = Array.prototype.slice;
+
   return function() {
     var args = slice.call(arguments);
     var topics = {};
@@ -440,8 +632,38 @@ umd("mu-jquery-hub/hub")(["jquery"], this, function($) {
   }
 });
 
-umd("mu-jquery-app/create")(["mu-create/create","mu-create/constructor","mu-create/prototype","mu-create/regexp","mu-jquery-widget/dom"], this, function(create, construct, proto, regexp, dom) {
-  var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-app/create"] = factory.apply(root, modules.map(function(m) {
+      return root[m.replace(/^\./, "mu-jquery-app")];
+    }));
+  }
+})([
+  "mu-create/create",
+  "mu-create/constructor",
+  "mu-create/prototype",
+  "mu-jquery-widget/dom",
+  "./hub"
+], this, function(create, construct, proto, dom, hub) {
+  return create(construct, hub, dom, proto);
+});
+
+(function(modules, root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(modules, factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory.apply(root, modules.map(require));
+  } else {
+    root["mu-jquery-app/hub"] = factory.apply(root, modules.map(function(m) {
+      return root[m];
+    }));
+  }
+})([ "mu-create/regexp" ], this, function(regexp) {
+  return regexp(/^hub\/(.+)/, function(result, data, topic) {
     (result.hub = result.hub || []).push({
       "topic": topic,
       "handler": data.value
@@ -449,49 +671,4 @@ umd("mu-jquery-app/create")(["mu-create/create","mu-create/constructor","mu-crea
 
     return false;
   });
-
-  return create(construct, hub, dom, proto);
-});
-
-umd("mu-jquery-app/hub")(["jquery"], this, function($) {
-  return function($element, ns, hub) {
-    var me = this;
-
-    me.subscribe = function(topic, handler) {
-      return hub(topic).subscribe.call(this, handler);
-    };
-
-    me.unsubscribe = function(topic, handler) {
-      return hub(topic).unsubscribe.call(this, handler);
-    };
-
-    me.publish = function(topic) {
-      var t = hub(topic);
-      var p = t.publish;
-
-      return p.apply(this, slice.call(arguments, 1));
-    };
-
-    $.each(me.constructor.hub || false, function(index, op) {
-      me.subscribe(op.topic, op.handler);
-    });
-  }
-});
-
-})(function(name) {
-  var prefix = name.replace(/\/.+$/, "");
-
-  return function(modules, root, factory) {
-    if (typeof define === "function" && define.amd) {
-      define(modules, factory);
-    } else if (typeof module === "object" && module.exports) {
-      module.exports = factory.apply(root, modules.map(require));
-    } else {
-      root[name] = factory.apply(root, modules.map(function (m) {
-        return {
-          "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, prefix)];
-      }));
-    }
-  }
 });

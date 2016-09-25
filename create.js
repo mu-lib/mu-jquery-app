@@ -5,24 +5,15 @@
     module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-app/create"] = factory.apply(root, modules.map(function(m) {
-      return root[m];
+      return root[m.replace(/^\./, "mu-jquery-app")];
     }));
   }
 })([
   "mu-create/create",
   "mu-create/constructor",
   "mu-create/prototype",
-  "mu-create/regexp",
-  "mu-jquery-widget/dom"
-], this, function(create, construct, proto, regexp, dom) {
-  var hub = regexp(/^hub\/(.+)/, function(result, data, topic) {
-    (result.hub = result.hub || []).push({
-      "topic": topic,
-      "handler": data.value
-    });
-
-    return false;
-  });
-
+  "mu-jquery-widget/dom",
+  "./hub"
+], this, function(create, construct, proto, dom, hub) {
   return create(construct, hub, dom, proto);
 });

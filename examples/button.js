@@ -7,16 +7,15 @@
     root["mu-jquery-app/examples/button"] = factory.apply(root, modules.map(function(m) {
       return {
         "jquery": root.jQuery
-      }[m = m.replace(/^\.{2}/, "mu-jquery-app")] || root[m];
+      }[m] || root[m.replace(/^\.{2}/, "mu-jquery-app")];
     }));
   }
 })([
   "jquery",
   "../create",
-  "mu-jquery-widget/widget",
-  "../hub"
-], this, function($, create, widget, hub) {
-  return create(widget, hub, {
+  "../widget",
+], this, function($, create, widget) {
+  return create(widget, {
     "on/initialize": function($event) {
       this.on("mouseover", console.log.bind(console));
 
@@ -29,6 +28,11 @@
         })
         .promise();
     },
+
+    "on/finalize": function($event){
+      console.log("test");
+    },
+
     "on/click": function($event) {
       console.log("click %o", $event);
       this.off("mouseover");

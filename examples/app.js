@@ -26,6 +26,11 @@
     return weave.apply(this.find("[mu-widget]"), ["mu-widget", load, hub].concat(slice.call(arguments)));
   };
 
+  /// define $.fn.crank` with attribut set and args set
+  jQuery.fn.crank = function() {
+    return crank.apply(this.find("[mu-widget]"), ["mu-widget"].concat(slice.call(arguments)));
+  };
+
   // wait for `ready`
   jQuery(function ($) {
     // publish initial values on the `test` topic

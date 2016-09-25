@@ -21,7 +21,7 @@
 
       return $.Deferred(function(deferred) {
         console.log("initialize %o", $event);
-        setTimeout(deferred.resolve, 1000);
+        setTimeout(deferred.resolve, 100);
       })
         .done(function() {
           console.log("initialized %o", $event);

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v5.0.0...v5.0.1) (2016-09-25)
+
+
+### Bug Fixes
+
+* **packaging:** update package to include widget ([9076eda](https://github.com/mu-lib/mu-jquery-app/commit/9076eda))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v4.4.0...v5.0.0) (2016-09-25)
 

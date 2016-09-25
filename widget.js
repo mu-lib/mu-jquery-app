@@ -35,8 +35,14 @@
   return concat.call(widget,
     function ($element, ns, hub) {
       var me = this;
+      var subscriptions = [];
 
       me.subscribe = function (topic, handler) {
+        subscriptions.push({
+          "topic": topic,
+          "handler": handler
+        });
+
         return hub(topic).subscribe.call(this, handler);
       };
 
@@ -50,9 +56,15 @@
 
         return p.apply(this, slice.call(arguments, 1));
       };
+
+      me.on("finalize", function () {
+        $.each(subscriptions, function (index, subscription) {
+          me.unsubscribe(subscription.topic, subscription.handler);
+        });
+      });
     },
     {
-      "on/initialize": function() {
+      "on/initialize": function () {
         var me = this;
 
         $.each(me.constructor.hub || false, function (index, op) {

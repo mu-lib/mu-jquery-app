@@ -478,23 +478,20 @@
             "handler": handler
           });
 
-          return hub(topic).subscribe.call(this, handler);
+          hub(topic).subscribe.call(this, handler);
         };
 
         me.unsubscribe = function (topic, handler) {
-          return hub(topic).unsubscribe.call(this, handler);
+          hub(topic).unsubscribe.call(this, handler);
         };
 
         me.publish = function (topic) {
-          var t = hub(topic);
-          var p = t.publish;
-
-          return p.apply(this, slice.call(arguments, 1));
+          hub(topic).publish.apply(this, slice.call(arguments, 1));
         };
 
         me.on("finalize", function () {
-          $.each(subscriptions, function (index, subscription) {
-            me.unsubscribe(subscription.topic, subscription.handler);
+          $.each(subscriptions, function (index, s) {
+            me.unsubscribe(s.topic, s.handler);
           });
 
           me.off("." + me.ns);
@@ -504,7 +501,7 @@
         "on/initialize": function () {
           var me = this;
 
-          $.each(me.constructor.hub || false, function (index, op) {
+          $.each(me.constructor.hub, function (index, op) {
             me.subscribe(op.topic, op.handler);
           });
         },

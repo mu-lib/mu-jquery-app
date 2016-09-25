@@ -61,6 +61,8 @@
         $.each(subscriptions, function (index, subscription) {
           me.unsubscribe(subscription.topic, subscription.handler);
         });
+
+        me.off("." + me.ns);
       });
     },
     {

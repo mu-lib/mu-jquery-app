@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v4.4.0...v5.0.0) (2016-09-25)
+
+
+### Bug Fixes
+
+* **widget:** subscribe on initialize ([241bf20](https://github.com/mu-lib/mu-jquery-app/commit/241bf20))
+
+
+### Features
+
+* **widget:** added widget module ([a427ab8](https://github.com/mu-lib/mu-jquery-app/commit/a427ab8))
+* **widget:** unsubscribe on finalize ([13850e4](https://github.com/mu-lib/mu-jquery-app/commit/13850e4))
+
+
+### BREAKING CHANGES
+
+* widget: Previous to this change widgets would subscribe to the
+hub in the constructor and if the hub implemented callback-on-subscribe
+those handlers would execute before the initialize event triggered on the
+widget. This change fixes that as subscriptionsare now done during
+`initialize`.
+* widget: We've shuffled modules around to better mirror
+`mu-jquery-widget` which breaks code that dirrectly depend on those.
+
+
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/mu-lib/mu-jquery-app/compare/v4.3.0...v4.4.0) (2016-09-23)
 

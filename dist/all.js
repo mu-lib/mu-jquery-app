@@ -521,9 +521,9 @@
       module.exports = factory.apply(root, modules.map(require));
     } else {
       root[name] = factory.apply(root, modules.map(function (m) {
-        return {
-          "jquery": root.jQuery
-        }[m] || root[m.replace(/^\./, prefix)];
+        return this[m] || root[m.replace(/^\./, prefix)];
+      }, {
+        "jquery": root.jQuery
       }));
     }
   }

@@ -121,6 +121,35 @@
     }
   });
 
+  umd("mu-jquery-loom/jquery.loom")(["jquery", "./jquery.crank", "./jquery.twist", "./jquery.weave"], this, function ($, crank, twist, weave) {
+    var slice = Array.prototype.slice;
+
+    function find(selector) {
+      return this.find(selector).addBack(selector);
+    }
+
+    return function (selector) {
+      var args = slice.call(arguments, 1);
+      var a = args.slice(0, 1);
+
+      $.extend(this.constructor.fn, {
+        "crank": function () {
+          return crank.apply(find.call(this, selector), a.concat(slice.call(arguments)));
+        },
+
+        "twist": function () {
+          return twist.apply(find.call(this, selector), args.concat(slice.call(arguments)));
+        },
+
+        "weave": function () {
+          return weave.apply(find.call(this, selector), args.concat(slice.call(arguments)));
+        }
+      });
+
+      return this;
+    }
+  });
+
   umd("mu-create/transform")([], this, function () {
     function value(key) {
       return {
@@ -523,8 +552,8 @@
       root[name] = factory.apply(root, modules.map(function (m) {
         return this[m] || root[m.replace(/^\./, prefix)];
       }, {
-        "jquery": root.jQuery
-      }));
+          "jquery": root.jQuery
+        }));
     }
   }
 });

@@ -6,10 +6,9 @@
   }));
 })([
   "jquery",
-  "mu-jquery-loom/jquery.weave",
-  "mu-jquery-loom/jquery.crank",
+  "mu-jquery-loom/jquery.loom",
   "mu-jquery-hub/hub"
-], this, function (jQuery, weave, crank, hub) {
+], this, function (jQuery, loom, hub) {
   var slice = Array.prototype.slice;
   var self = this;
 
@@ -21,22 +20,17 @@
     return self[module];
   }
 
-  // define `$.fn.weave` with attribute and args set
-  jQuery.fn.weave = function() {
-    return weave.apply(this.find("[mu-widget]"), ["mu-widget", load, hub].concat(slice.call(arguments)));
-  };
-
-  /// define $.fn.crank` with attribut set and args set
-  jQuery.fn.crank = function() {
-    return crank.apply(this.find("[mu-widget]"), ["mu-widget"].concat(slice.call(arguments)));
-  };
-
   // wait for `ready`
   jQuery(function ($) {
     // publish initial values on the `test` topic
     hub("test").publish("a", "b", "c");
 
+    // Extend jQuery with loom
+    $.fn.loom = loom;
+
     $(document)
+      // Call loom to configure
+      .loom("[mu-widget]", "mu-widget", load, hub)
       // weave elements
       .weave()
       // log

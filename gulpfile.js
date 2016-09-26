@@ -9,6 +9,7 @@ gulp.task("default", function() {
     "bower_components/mu-jquery-loom/jquery.twist.js",
     "bower_components/mu-jquery-loom/jquery.weave.js",
     "bower_components/mu-jquery-loom/jquery.crank.js",
+    "bower_components/mu-jquery-loom/jquery.loom.js",
     "bower_components/mu-create/transform.js",
     "bower_components/mu-create/process.js",
     "bower_components/mu-create/create.js",

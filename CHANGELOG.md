@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v5.0.1...v6.0.0) (2016-09-26)
+
+
+* fix(widget) remove redundant return from subscribe/unsubscribe/publish ([574bc38](https://github.com/mu-lib/mu-jquery-app/commit/574bc38))
+
+
+### Bug Fixes
+
+* **deps:** bumped deps ([22754fb](https://github.com/mu-lib/mu-jquery-app/commit/22754fb))
+
+
+### BREAKING CHANGES
+
+* `widget[subscribe|unsubscribe|publish]` no longer have
+any return defined.
+
+
+
 <a name="5.0.1"></a>
 ## [5.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v5.0.0...v5.0.1) (2016-09-25)
 

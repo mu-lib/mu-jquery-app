@@ -22,7 +22,7 @@
     "mu-create": "^4.1.0",
     "mu-jquery-hub": "^1.1.2",
     "mu-jquery-widget": "^7.0.0",
-    "mu-jquery-loom": "^1.0.0"
+    "mu-jquery-loom": "^1.0.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

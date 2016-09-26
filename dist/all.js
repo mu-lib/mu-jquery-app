@@ -20,9 +20,9 @@
 
       return self.length === 0
         ? resolved
-        : $.when.apply(null, self.map(function (i, element) {
-          var $element = $(element);
-          return $.when($.isFunction(input) ? input.apply(self, [element = $element, i].concat(args)) : input).then(function (_input) {
+        : $.when.apply(null, $.map(self, function (element, i) {
+          var $element = self.constructor(element);
+          return $.when($.isFunction(input) ? input.apply(self, [$element, i].concat(args)) : input).then(function (_input) {
             return _input === undefined || _input.length === 0
               ? resolved
               : $.when.apply(null, $.map($.isArray(_input) ? _input : [_input], function (output, index) {

@@ -122,8 +122,6 @@
   });
 
   umd("mu-jquery-loom/jquery.loom")(["jquery", "./jquery.crank", "./jquery.twist", "./jquery.weave"], this, function ($, crank, twist, weave) {
-    var slice = Array.prototype.slice;
-
     function find(selector) {
       return this.find(selector).addBack(selector);
     }

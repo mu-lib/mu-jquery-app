@@ -5,10 +5,10 @@
     module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-app/widget"] = factory.apply(root, modules.map(function (m) {
-      return {
+      return this[m] || root[m.replace(/^\./, "mu-jquery-app")];
+    }, {
         "jquery": root.jQuery
-      }[m] || root[m.replace(/^\./, "mu-jquery-app")];
-    }));
+      }));
   }
 })(["jquery", "mu-jquery-widget/widget"], this, function ($, widget) {
   var slice = Array.prototype.slice;

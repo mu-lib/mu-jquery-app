@@ -1,9 +1,9 @@
-(function(modules, root, factory) {
-  root["mu-jquery-app/examples/app"] = factory.apply(root, modules.map(function(m) {
-    return {
+(function (modules, root, factory) {
+  root["mu-jquery-app/examples/app"] = factory.apply(root, modules.map(function (m) {
+    return this[m] || root[m];
+  }, {
       "jquery": root.jQuery
-    }[m] || root[m];
-  }));
+    }));
 })([
   "jquery",
   "mu-jquery-loom/jquery.loom",
@@ -36,8 +36,8 @@
       // log
       .done(console.info.bind(console))
       // publish on the `test` topic
-      .done(function() {
-        hub("test").publish(1,2,3);
+      .done(function () {
+        hub("test").publish(1, 2, 3);
       })
       // add error handler
       .fail(console.error.bind(console));

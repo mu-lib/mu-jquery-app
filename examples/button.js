@@ -1,46 +1,46 @@
-(function(modules, root, factory) {
+(function (modules, root, factory) {
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/examples/button"] = factory.apply(root, modules.map(function(m) {
-      return {
+    root["mu-jquery-app/examples/button"] = factory.apply(root, modules.map(function (m) {
+      return this[m] || root[m.replace(/^\.{2}/, "mu-jquery-app")];
+    }, {
         "jquery": root.jQuery
-      }[m] || root[m.replace(/^\.{2}/, "mu-jquery-app")];
-    }));
+      }));
   }
 })([
   "jquery",
   "../create",
   "../widget",
-], this, function($, create, widget) {
+], this, function ($, create, widget) {
   return create(widget, {
-    "on/initialize": function($event) {
+    "on/initialize": function ($event) {
       this.on("mouseover", console.log.bind(console));
 
-      return $.Deferred(function(deferred) {
+      return $.Deferred(function (deferred) {
         console.log("initialize %o", $event);
         setTimeout(deferred.resolve, 100);
       })
-        .done(function() {
+        .done(function () {
           console.log("initialized %o", $event);
         })
         .promise();
     },
 
-    "on/finalize": function($event){
+    "on/finalize": function ($event) {
       console.log("test");
     },
 
-    "on/click": function($event) {
+    "on/click": function ($event) {
       console.log("click %o", $event);
       this.off("mouseover");
     },
-    "on/click(.special)": function($event) {
+    "on/click(.special)": function ($event) {
       console.log("special %o", $event);
     },
-    "hub/test": function() {
+    "hub/test": function () {
       console.log("test %o", arguments);
     }
   });

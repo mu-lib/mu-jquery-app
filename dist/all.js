@@ -359,13 +359,6 @@
       }
     }, widget);
 
-    ["trigger", "triggerHandler"].forEach(function (op) {
-      this[op] = function (events, extraParams) {
-        var me = this;
-        return me.$element[op](name.call(events, me.ns), extraParams);
-      };
-    }, widget);
-
     return [function ($element, ns) {
       var me = this;
 

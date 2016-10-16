@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0"></a>
+# [8.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v7.1.0...v8.0.0) (2016-10-16)
+
+
+### Features
+
+* **packaging:** bumped deps ([0445eba](https://github.com/mu-lib/mu-jquery-app/commit/0445eba))
+
+
+### BREAKING CHANGES
+
+* packaging: - mu-create@5.0.0
+- mu-widget@9.0.0
+
+
+
 <a name="7.1.0"></a>
 # [7.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v7.0.0...v7.1.0) (2016-10-16)
 

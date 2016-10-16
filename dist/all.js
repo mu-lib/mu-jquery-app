@@ -296,8 +296,14 @@
   });
 
   umd("mu-create/prototype")([], this, function () {
+    function proto() {};
+
     return function (result, data) {
-      if (data.key === "prototype") {
+      if (data.key === "proto") {
+        proto.prototype = data.value;
+        result.prototype = new proto();
+      }
+      else if (data.key === "prototype") {
         result.prototype = data.value;
       }
       else {

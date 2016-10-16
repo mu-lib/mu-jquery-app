@@ -15,20 +15,18 @@
   return $.fn.runkit = function () {
     return this.each(function (index, element) {
       var $element = $(element);
-      var $parent = $element
-        .parent()
-        .attr("data-runkit", "loading");
+      var $parent = $element.parent();
 
       var notebook = runkit.createNotebook({
         "element": $parent.get(0),
         "source": runkit.sourceFromElement(element),
         "onLoad": function () {
           $element.remove();
-          $parent
-            .attr("data-runkit", "loaded")
-            .trigger("runkit", notebook);
+          $parent.trigger("ready.runkit", notebook);
         }
       });
+
+      $element.trigger("init.runkit", notebook); 
     });
   }
 });

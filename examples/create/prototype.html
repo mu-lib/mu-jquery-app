@@ -21,7 +21,8 @@ var construct = require("mu-create/constructor");
 var proto = require("mu-create/prototype");
 var i = 0;
 
-function P() {};
+var P = function () {
+};
 P.prototype = {
   "base": ++i
 };

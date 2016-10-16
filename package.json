@@ -20,9 +20,9 @@
   "dependencies": {},
   "peerDependencies": {
     "jquery": "^3.1.0",
-    "mu-create": "^4.2.1",
+    "mu-create": "^5.0.0",
     "mu-jquery-hub": "^1.1.3",
-    "mu-jquery-widget": "^8.1.1",
+    "mu-jquery-widget": "^9.0.0",
     "mu-jquery-loom": "^1.1.1"
   },
   "devDependencies": {

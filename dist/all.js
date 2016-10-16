@@ -296,18 +296,16 @@
   });
 
   umd("mu-create/prototype")([], this, function () {
-    function proto() {};
-
     return function (result, data) {
-      if (data.key === "proto") {
-        proto.prototype = data.value;
-        result.prototype = new proto();
-      }
-      else if (data.key === "prototype") {
-        result.prototype = data.value;
+      var value = data.value;
+
+      if (data.key === "prototype") {
+        result.prototype = toString.call(value) === "[object Function]"
+          ? value.call(this, result)
+          : value;
       }
       else {
-        result.prototype[data.key] = data.value;
+        result.prototype[data.key] = value;
       }
     }
   });

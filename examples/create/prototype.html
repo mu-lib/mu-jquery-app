@@ -19,9 +19,10 @@
 var create = require("mu-create/create");
 var construct = require("mu-create/constructor");
 var proto = require("mu-create/prototype");
-
 var i = 0;
-var p = {
+
+function P() {};
+P.prototype = {
   "base": ++i
 };
 
@@ -29,10 +30,8 @@ var C = create(construct, proto)(function() {
   this.instance = ++i;
 }, {
   "prototype": function(c) {
-    return Object.create(p, {
-      "constructor": {
-        "value": c
-      }
+    return Object.defineProperty(new P(), "constructor", {
+      "value": c
     });
   }
 }, {

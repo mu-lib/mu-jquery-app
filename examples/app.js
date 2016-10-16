@@ -10,8 +10,19 @@
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-runkit/jquery.runkit"], this, function ($, runkit) {
+})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-hub/hub"], this, function (jQuery, loom, hub) {
+  var self = this;
+
+  jQuery.fn.loom = loom;
+
+  function load(module) {
+    return self[module];
+  }
+
   jQuery(function ($) {
-    $(".runkit").runkit();
+    $(document)
+      .loom("[mu-widget]", "mu-widget", load, hub("memory", "stopOnFalse"))
+      .weave()
+      .fail(console.error.bind(console));
   });
 });

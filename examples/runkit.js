@@ -24,9 +24,9 @@
         .on("finalize." + me.ns, function () {
           $element.off("ready.runkit", ready);
         })
-        .on("ready.runkit", ready)
-        .children()
-        .runkit();
+        .on("ready.runkit", ready);
+
+      runkit.call($element.children());
     }
   })
 });

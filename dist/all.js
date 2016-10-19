@@ -424,10 +424,10 @@
 
   umd("mu-jquery-hub/hub")([], function () {
     return function () {
+      var $ = this;
       var args = slice.call(arguments);
       var topics = {};
       var proxied = {};
-      var $ = this.constructor;
 
       function subscribe(add) {
         return function () {

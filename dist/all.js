@@ -36,25 +36,25 @@
     }
   });
 
-  umd("mu-jquery-crank/jquery.crank")(["jquery", "mu-jquery-wire/jquery.wire"], this, function ($, wire) {
+  umd("mu-jquery-crank/jquery.crank")(["mu-jquery-wire/jquery.wire"], function (wire) {
     return function (input, eventType) {
       var args = slice.call(arguments, 2);
 
       return wire.call(this, input, function ($element, index, ns) {
-        return $.when($element.triggerHandler(eventType + "." + ns, args)).then(function (result) {
+        return $element.constructor.when($element.triggerHandler(eventType + "." + ns, args)).then(function (result) {
           return arguments.length > 1 ? slice.call(arguments) : result || ns;
         });
       });
     }
   });
 
-  umd("mu-jquery-loom/create")([], this, function () {
+  umd("mu-jquery-loom/create")([], function () {
     return function (c, args) {
       return new (bind.apply(c, [null].concat(args)))();
     }
   });
 
-  umd("mu-jquery-loom/jquery.twist")(["jquery", "mu-jquery-wire/jquery.wire", "./create"], this, function ($, wire, create) {
+  umd("mu-jquery-loom/jquery.twist")(["mu-jquery-wire/jquery.wire", "./create"], function (wire, create) {
     var re_clean = /@\d+$/;
 
     function clean(value) {
@@ -66,6 +66,7 @@
       var count = 0;
       var _create = create;
       var _callback = callback;
+      var $ = this.constructor;
 
       if (!$.isFunction(callback)) {
         _create = callback.create || _create;
@@ -94,27 +95,26 @@
     }
   });
 
-  umd("mu-jquery-loom/jquery.weave")(["jquery", "./jquery.twist", "mu-jquery-crank/jquery.crank"], this, function ($, twist, crank) {
+  umd("mu-jquery-loom/jquery.weave")(["./jquery.twist", "mu-jquery-crank/jquery.crank"], function (twist, crank) {
     function ns(widget) {
       return widget.ns;
     }
 
-    function initialize(widgets, index) {
-      return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize").then(function () {
-        return widgets;
-      });
-    }
-
-    function weave(result) {
-      return $.when.apply(null, $.map(result, initialize)).then(collect);
-    }
-
     return function () {
-      return twist.apply(this, slice.call(arguments)).then(weave);
+      var me = this;
+      var $ = me.constructor;
+
+      return twist.apply(me, slice.call(arguments)).then(function (result) {
+        return $.when.apply(null, $.map(result, function (widgets, index) {
+          return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize").then(function () {
+            return widgets;
+          });
+        })).then(collect);
+      });
     }
   });
 
-  umd("mu-jquery-loom/jquery.crank")(["jquery", "mu-jquery-crank/jquery.crank"], this, function ($, crank) {
+  umd("mu-jquery-loom/jquery.crank")(["mu-jquery-crank/jquery.crank"], function (crank) {
     return function (attr) {
       return crank.apply(this, [function ($element) {
         return ($element.attr(attr) || "").split(re_space);
@@ -122,7 +122,7 @@
     }
   });
 
-  umd("mu-jquery-loom/jquery.loom")(["jquery", "./jquery.crank", "./jquery.twist", "./jquery.weave"], this, function ($, crank, twist, weave) {
+  umd("mu-jquery-loom/jquery.loom")(["./jquery.crank", "./jquery.twist", "./jquery.weave"], function (crank, twist, weave) {
     function find(selector) {
       return this.find(selector).addBack(selector);
     }
@@ -131,7 +131,7 @@
       var args = slice.call(arguments, 1);
       var a = args.slice(0, 1);
 
-      $.extend(this.constructor.fn, {
+      this.extend({
         "crank": function () {
           return crank.apply(find.call(this, selector), a.concat(slice.call(arguments)));
         },
@@ -149,7 +149,7 @@
     }
   });
 
-  umd("mu-create/transform")([], this, function () {
+  umd("mu-create/transform")([], function () {
     function value(key) {
       return {
         "key": key,
@@ -191,7 +191,7 @@
     }
   });
 
-  umd("mu-create/process")([], this, function () {
+  umd("mu-create/process")([], function () {
     return function () {
       var self = this;
       var rules = concat.apply([], arguments);
@@ -218,9 +218,8 @@
     }
   });
 
-  umd("mu-create/create")(["./transform", "./process"], this, function (transform, process) {
+  umd("mu-create/create")(["./transform", "./process"], function (transform, process) {
     var root = this;
-
     function clean(data) {
       return !!data;
     }
@@ -240,7 +239,7 @@
         // Flatten & Clean
         result = blueprints = concat.apply(array, result).filter(clean, config);
         // Process
-        result = result.reduce(process.apply(config, rules), function Composition() {
+        result = result.reduce(process.apply(config, rules), function () {
           var self = this;
 
           (this.constructor.constructors || []).reduce(function (args, c) {
@@ -285,7 +284,7 @@
     }
   });
 
-  umd("mu-create/constructor")([], this, function () {
+  umd("mu-create/constructor")([], function () {
     return function (result, data) {
       var key = data.key;
 
@@ -296,7 +295,7 @@
     }
   });
 
-  umd("mu-create/prototype")([], this, function () {
+  umd("mu-create/prototype")([], function () {
     return function (result, data) {
       var value = data.value;
 
@@ -311,7 +310,7 @@
     }
   });
 
-  umd("mu-create/regexp")([], this, function () {
+  umd("mu-create/regexp")([], function () {
     return function (regexp, callback) {
       return function (result, data) {
         var matches = data.key.match(regexp);
@@ -323,7 +322,7 @@
     }
   });
 
-  umd("mu-jquery-widget/widget")(["jquery"], this, function ($) {
+  umd("mu-jquery-widget/widget")([], function () {
     function name(ns) {
       return this
         .split(re_space)
@@ -343,6 +342,7 @@
     ["on", "one"].forEach(function (op) {
       this[op] = function (events, selector, data, handler) {
         var me = this;
+        var $element = me.$element;
 
         switch (arguments.length) {
           case 3:
@@ -360,8 +360,8 @@
             throw new Error("not enough arguments");
         }
 
-        me.$element[op](name.call(events, me.ns), selector, data, $.proxy(handler, me));
-      }
+        $element[op](name.call(events, me.ns), selector, data, $element.constructor.proxy(handler, me));
+      };
     }, widget);
 
     return [function ($element, ns) {
@@ -370,7 +370,7 @@
       me.ns = ns;
       me.$element = $element;
 
-      $.each(me.constructor.dom, function (index, op) {
+      $element.constructor.each(me.constructor.dom, function (index, op) {
         switch (op.method) {
           case "on":
           case "one":
@@ -386,7 +386,7 @@
     }, widget];
   });
 
-  umd("mu-jquery-widget/dom")(["mu-create/regexp"], this, function (regexp) {
+  umd("mu-jquery-widget/dom")(["mu-create/regexp"], function (regexp) {
     var re_on = /^one?$/;
 
     function copy(o) {
@@ -422,7 +422,7 @@
     });
   });
 
-  umd("mu-jquery-hub/hub")(["jquery"], this, function ($) {
+  umd("mu-jquery-hub/hub")([], function () {
     return function () {
       var args = slice.call(arguments);
       var topics = {};
@@ -430,10 +430,11 @@
 
       function subscribe(add) {
         return function () {
-          var self = this;
+          var me = this;
+          var $ = me.constructor;
 
-          return add.apply(self, $.map(arguments, function (arg) {
-            proxy = $.proxy(arg, self);
+          return add.apply(me, $.map(arguments, function (arg) {
+            proxy = $.proxy(arg, me);
             proxied[proxy.guid] = arg;
             return proxy;
           }));
@@ -442,37 +443,37 @@
 
       function unsubscribe(remove) {
         return function () {
-          var self = this;
-
-          return remove.apply(self, $.map(arguments, function (arg) {
+          return remove.apply(this, this.constructor.map(arguments, function (arg) {
             return proxied[arg.guid] || arg;
           }));
         }
       }
 
       return function (id) {
-        var callbacks,
-          method,
-          topic = id && topics[id];
+        var callbacks;
+        var method;
+        var topic = id && topics[id];
 
         if (!topic) {
-          callbacks = $.Callbacks.apply(null, args);
+          callbacks = this.constructor.Callbacks.apply(null, args);
 
           topic = {
             publish: callbacks.fire,
             subscribe: subscribe(callbacks.add),
             unsubscribe: unsubscribe(callbacks.remove)
           };
+
           if (id) {
             topics[id] = topic;
           }
         }
+
         return topic;
       }
     }
   });
 
-  umd("mu-jquery-app/hub")(["mu-create/regexp"], this, function (regexp) {
+  umd("mu-jquery-app/hub")(["mu-create/regexp"], function (regexp) {
     return regexp(/^hub\/(.+)/, function (result, data, topic) {
       (result.hub = result.hub || []).push({
         "topic": topic,
@@ -483,12 +484,12 @@
     });
   });
 
-  umd("mu-jquery-app/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom", "./hub"], this, function (create, construct, proto, dom, hub) {
+  umd("mu-jquery-app/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom", "./hub"], function (create, construct, proto, dom, hub) {
     return create(construct, hub, dom, proto);
   });
 
-  umd("mu-jquery-app/widget")(["jquery", "mu-jquery-widget/widget"], this, function ($, widget) {
-    $.event.special._remove = {
+  umd("mu-jquery-app/widget")(["mu-jquery-widget/widget"], function (widget) {
+    var _remove = {
       "noBubble": true,
       "trigger": function () {
         return false;
@@ -497,7 +498,7 @@
         var me = this;
 
         if (handleObj.handler) {
-          handleObj.handler.call(me, $.Event(handleObj.type, {
+          handleObj.handler.call(me, me.constructor.Event(handleObj.type, {
             "data": handleObj.data,
             "namespace": handleObj.namespace,
             "target": me
@@ -509,7 +510,10 @@
     return concat.call(widget,
       function ($element, ns, hub) {
         var me = this;
+        var $ = $element.constructor;
         var subscriptions = [];
+
+        $.event.special._remove = _remove;
 
         me.subscribe = function (topic, handler) {
           subscriptions.push({
@@ -540,7 +544,7 @@
         "on/initialize": function () {
           var me = this;
 
-          $.each(me.constructor.hub, function (index, op) {
+          me.$element.constructor.each(me.constructor.hub, function (index, op) {
             me.subscribe(op.topic, op.handler);
           });
         },
@@ -552,18 +556,17 @@
   });
 })(function (name) {
   var prefix = name.replace(/\/.+$/, "");
+  var root = this;
 
-  return function (modules, root, factory) {
+  return function (modules, factory) {
     if (typeof define === "function" && define.amd) {
       define(modules, factory);
     } else if (typeof module === "object" && module.exports) {
       module.exports = factory.apply(root, modules.map(require));
     } else {
       root[name] = factory.apply(root, modules.map(function (m) {
-        return this[m] || root[m.replace(/^\./, prefix)];
-      }, {
-          "jquery": root.jQuery
-        }));
+        return root[m.replace(/^\./, prefix)] || m;
+      }));
     }
   }
 });

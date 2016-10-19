@@ -1,4 +1,6 @@
-(function (modules, root, factory) {
+(function (modules, factory) {
+  var root = this;
+
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
@@ -10,23 +12,20 @@
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-app/create", "mu-jquery-app/widget", "mu-jquery-runkit/jquery.runkit"], this, function ($, create, widget, runkit) {
+})(["mu-jquery-app/create", "mu-jquery-app/widget", "mu-jquery-runkit/jquery.runkit"], function (create, widget, runkit) {
   return create(widget, {
     "on/initialize": function ($event) {
       var me = this;
-      var $element = me.$element;
+      var $children = me.$element.children();
 
-      function ready() {
+      me.on("ready.runkit", function() {
         return false;
-      }
+      });
+      me.on("create.runkit", function() {
+        $children.hide();
+      });
 
-      $element
-        .on("finalize." + me.ns, function () {
-          $element.off("ready.runkit", ready);
-        })
-        .on("ready.runkit", ready);
-
-      runkit.call($element.children());
+      runkit.call($children);
     }
   })
 });

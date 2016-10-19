@@ -8,12 +8,6 @@
       return root[m.replace(/^\./, "mu-jquery-app")];
     }));
   }
-})([
-  "mu-create/create",
-  "mu-create/constructor",
-  "mu-create/prototype",
-  "mu-jquery-widget/dom",
-  "./hub"
-], this, function (create, construct, proto, dom, hub) {
+})(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom", "./hub"], this, function (create, construct, proto, dom, hub) {
   return create(construct, hub, dom, proto);
 });

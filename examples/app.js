@@ -1,4 +1,6 @@
-(function (modules, root, factory) {
+(function (modules, factory) {
+  var root = this;
+
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
@@ -10,13 +12,13 @@
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-hub/hub"], this, function (jQuery, loom, hub) {
-  var self = this;
+})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-hub/hub"], function (jQuery, loom, hub) {
+  var root = this;
 
   jQuery.fn.loom = loom;
 
   function load(module) {
-    return self[module];
+    return root[module];
   }
 
   jQuery(function ($) {

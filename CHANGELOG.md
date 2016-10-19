@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.1"></a>
+## [8.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v8.0.0...v8.0.1) (2016-10-19)
+
+
+### Bug Fixes
+
+* **examples:** added examples ([fee05c0](https://github.com/mu-lib/mu-jquery-app/commit/fee05c0))
+* **examples:** better prototype example ([901b3b2](https://github.com/mu-lib/mu-jquery-app/commit/901b3b2))
+* **examples:** clearer prototype example ([0dc5d24](https://github.com/mu-lib/mu-jquery-app/commit/0dc5d24))
+* **examples:** made examples interactive with runkit ([18dff4a](https://github.com/mu-lib/mu-jquery-app/commit/18dff4a))
+* **examples:** use mu-jquery-runkit plugin ([3ef7792](https://github.com/mu-lib/mu-jquery-app/commit/3ef7792))
+* **packaging:** bumped deps ([8cbe8d2](https://github.com/mu-lib/mu-jquery-app/commit/8cbe8d2))
+* **packaging:** ignore tests and exampes in bower ([1da55c9](https://github.com/mu-lib/mu-jquery-app/commit/1da55c9))
+* **packaging:** jQuery versions ([e2eadaf](https://github.com/mu-lib/mu-jquery-app/commit/e2eadaf))
+
+
+
 <a name="8.0.0"></a>
 # [8.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v7.1.0...v8.0.0) (2016-10-16)
 

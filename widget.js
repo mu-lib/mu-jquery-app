@@ -5,16 +5,14 @@
     module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-app/widget"] = factory.apply(root, modules.map(function (m) {
-      return this[m] || root[m.replace(/^\./, "mu-jquery-app")];
-    }, {
-        "jquery": root.jQuery
-      }));
+      return root[m];
+    }));
   }
-})(["jquery", "mu-jquery-widget/widget"], this, function ($, widget) {
+})(["mu-jquery-widget/widget"], this, function (widget) {
   var slice = Array.prototype.slice;
   var concat = Array.prototype.concat;
 
-  $.event.special._remove = {
+  var _remove = {
     "noBubble": true,
     "trigger": function () {
       return false;
@@ -23,7 +21,7 @@
       var me = this;
 
       if (handleObj.handler) {
-        handleObj.handler.call(me, $.Event(handleObj.type, {
+        handleObj.handler.call(me, me.constructor.Event(handleObj.type, {
           "data": handleObj.data,
           "namespace": handleObj.namespace,
           "target": me
@@ -35,7 +33,10 @@
   return concat.call(widget,
     function ($element, ns, hub) {
       var me = this;
+      var $ = $element.constructor;
       var subscriptions = [];
+
+      $.event.special._remove = _remove;
 
       me.subscribe = function (topic, handler) {
         subscriptions.push({
@@ -66,7 +67,7 @@
       "on/initialize": function () {
         var me = this;
 
-        $.each(me.constructor.hub, function (index, op) {
+        me.$element.constructor.each(me.constructor.hub, function (index, op) {
           me.subscribe(op.topic, op.handler);
         });
       },

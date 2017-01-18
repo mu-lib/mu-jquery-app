@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="9.0.0"></a>
+# [9.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v8.0.2...v9.0.0) (2017-01-18)
+
+
+### Features
+
+* allow for more flexible initialization ([#2](https://github.com/mu-lib/mu-jquery-app/issues/2)) ([d2d5882](https://github.com/mu-lib/mu-jquery-app/commit/d2d5882))
+
+
+### BREAKING CHANGES
+
+* Previous to this the widgets took `hub` as a third constructor argument. With this change that should be wrapped in an object like so: `{ "hub": hub }`.
+
+
+
 <a name="8.0.2"></a>
 ## [8.0.2](https://github.com/mu-lib/mu-jquery-app/compare/v8.0.1...v8.0.2) (2016-10-19)
 

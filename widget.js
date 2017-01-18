@@ -31,9 +31,10 @@
   };
 
   return concat.call(widget,
-    function ($element, ns, hub) {
+    function ($element, ns, opt) {
       var me = this;
       var $ = $element.constructor;
+      var hub = opt.hub;
       var subscriptions = [];
 
       $.event.special._remove = _remove;

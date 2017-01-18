@@ -23,7 +23,9 @@
 
   jQuery(function ($) {
     $(document)
-      .loom("[mu-widget]", "mu-widget", load, hub.call($, "memory", "stopOnFalse"))
+      .loom("[mu-widget]", "mu-widget", load, {
+        "hub": hub.call($, "memory", "stopOnFalse")
+      })
       .weave()
       .fail(console.error.bind(console));
   });

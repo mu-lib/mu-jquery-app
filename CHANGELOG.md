@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="9.0.1"></a>
+## [9.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v9.0.0...v9.0.1) (2017-01-18)
+
+
+### Bug Fixes
+
+* add dist output ([76bc0cd](https://github.com/mu-lib/mu-jquery-app/commit/76bc0cd))
+
+
+
 <a name="9.0.0"></a>
 # [9.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v8.0.2...v9.0.0) (2017-01-18)
 

@@ -1,6 +1,6 @@
 {
   "name": "mu-jquery-app",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "A jQuery app example",
   "main": "index.html",
   "scripts": {

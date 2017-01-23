@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="11.0.0"></a>
+# [11.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v10.0.0...v11.0.0) (2017-01-23)
+
+
+### Features
+
+* move widget._remove logic ([ea6605a](https://github.com/mu-lib/mu-jquery-app/commit/ea6605a))
+
+
+### BREAKING CHANGES
+
+* no more need for `mu-jquery-app/widget`, just use `mu-jquery-widget/widget`.
+
+
+
 <a name="10.0.0"></a>
 # [10.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v9.0.2...v10.0.0) (2017-01-23)
 

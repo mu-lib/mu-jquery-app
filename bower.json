@@ -4,9 +4,9 @@
     "Mikael Karon <mikael@karon.se>"
   ],
   "description": "A jQuery app example",
-  "main": "main.js",
+  "main": "",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -17,7 +17,6 @@
   "dependencies": {
     "jquery": "^3.0.0",
     "mu-create": "^5.0.1",
-    "mu-jquery-hub": "^1.1.5",
     "mu-jquery-widget": "^9.0.1",
     "mu-jquery-loom": "^1.1.2"
   },

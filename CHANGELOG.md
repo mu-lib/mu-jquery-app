@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="10.0.0"></a>
+# [10.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v9.0.2...v10.0.0) (2017-01-23)
+
+
+### Features
+
+* move hub functionality to separate package ([#3](https://github.com/mu-lib/mu-jquery-app/issues/3)) ([ed9734e](https://github.com/mu-lib/mu-jquery-app/commit/ed9734e))
+
+
+### BREAKING CHANGES
+
+* As this excludes `mu-jquery-hub` and all `hub` related functionality the user must now install that themselves.
+
+
+
 <a name="9.0.2"></a>
 ## [9.0.2](https://github.com/mu-lib/mu-jquery-app/compare/v9.0.1...v9.0.2) (2017-01-18)
 

@@ -17,7 +17,7 @@
   "dependencies": {
     "jquery": "^3.0.0",
     "mu-create": "^5.0.1",
-    "mu-jquery-widget": "^9.0.1",
+    "mu-jquery-widget": "^9.1.0",
     "mu-jquery-loom": "^1.1.2"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@
   "name": "mu-jquery-app",
   "version": "9.0.2",
   "description": "A jQuery app example",
-  "main": "index.html",
+  "main": "",
   "scripts": {
     "release": "standard-version",
     "build": "gulp"
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
   "dependencies": {
     "mu-create": "^5.0.1",
-    "mu-jquery-hub": "^1.1.5",
     "mu-jquery-widget": "^9.0.1",
     "mu-jquery-loom": "^1.1.2"
   },
@@ -35,7 +34,6 @@
   },
   "bundledDependencies": [
     "mu-create",
-    "mu-jquery-hub",
     "mu-jquery-widget",
     "mu-jquery-wire",
     "mu-jquery-crank",

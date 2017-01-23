@@ -422,70 +422,8 @@
     });
   });
 
-  umd("mu-jquery-hub/hub")([], function () {
-    return function () {
-      var $ = this;
-      var args = slice.call(arguments);
-      var topics = {};
-      var proxied = {};
-
-      function subscribe(add) {
-        return function () {
-          var me = this;
-
-          return add.apply(me, $.map(arguments, function (arg) {
-            proxy = $.proxy(arg, me);
-            proxied[proxy.guid] = arg;
-            return proxy;
-          }));
-        }
-      }
-
-      function unsubscribe(remove) {
-        return function () {
-          return remove.apply(this, $.map(arguments, function (arg) {
-            return proxied[arg.guid] || arg;
-          }));
-        }
-      }
-
-      return function (id) {
-        var callbacks;
-        var method;
-        var topic = id && topics[id];
-
-        if (!topic) {
-          callbacks = $.Callbacks.apply(null, args);
-
-          topic = {
-            publish: callbacks.fire,
-            subscribe: subscribe(callbacks.add),
-            unsubscribe: unsubscribe(callbacks.remove)
-          };
-
-          if (id) {
-            topics[id] = topic;
-          }
-        }
-
-        return topic;
-      }
-    }
-  });
-
-  umd("mu-jquery-app/hub")(["mu-create/regexp"], function (regexp) {
-    return regexp(/^hub\/(.+)/, function (result, data, topic) {
-      (result.hub = result.hub || []).push({
-        "topic": topic,
-        "handler": data.value
-      });
-
-      return false;
-    });
-  });
-
-  umd("mu-jquery-app/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom", "./hub"], function (create, construct, proto, dom, hub) {
-    return create(construct, hub, dom, proto);
+  umd("mu-jquery-app/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom"], function (create, construct, proto, dom) {
+    return create(construct, dom, proto);
   });
 
   umd("mu-jquery-app/widget")(["mu-jquery-widget/widget"], function (widget) {
@@ -507,49 +445,12 @@
       }
     };
 
-    return concat.call(widget,
+    return concat.call(
+      widget,
       function ($element, ns, opt) {
-        var me = this;
-        var $ = $element.constructor;
-        var hub = opt.hub;
-        var subscriptions = [];
-
-        $.event.special._remove = _remove;
-
-        me.subscribe = function (topic, handler) {
-          subscriptions.push({
-            "topic": topic,
-            "handler": handler
-          });
-
-          hub(topic).subscribe.call(this, handler);
-        };
-
-        me.unsubscribe = function (topic, handler) {
-          hub(topic).unsubscribe.call(this, handler);
-        };
-
-        me.publish = function (topic) {
-          hub(topic).publish.apply(this, slice.call(arguments, 1));
-        };
-
-        me.on("finalize", function () {
-          $.each(subscriptions, function (index, s) {
-            me.unsubscribe(s.topic, s.handler);
-          });
-
-          me.off("." + me.ns);
-        });
+        $element.constructor.event.special._remove = _remove;
       },
       {
-        "on/initialize": function () {
-          var me = this;
-
-          me.$element.constructor.each(me.constructor.hub, function (index, op) {
-            me.subscribe(op.topic, op.handler);
-          });
-        },
-
         "on/_remove": function () {
           this.$element.triggerHandler("finalize." + this.ns);
         }

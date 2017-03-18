@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="12.0.0"></a>
+# [12.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v11.0.0...v12.0.0) (2017-03-18)
+
+
+### Bug Fixes
+
+* **packaging:** bumped deps ([a4b66c7](https://github.com/mu-lib/mu-jquery-app/commit/a4b66c7))
+
+
+### BREAKING CHANGES
+
+* **packaging:** Overlapping rules and specs are now filtered
+
+
+
 <a name="11.0.0"></a>
 # [11.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v10.0.0...v11.0.0) (2017-01-23)
 

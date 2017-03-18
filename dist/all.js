@@ -220,8 +220,19 @@
 
   umd("mu-create/create")(["./transform", "./process"], function (transform, process) {
     var root = this;
+    var count = 0;
+
     function clean(data) {
       return !!data;
+    }
+
+    function unique(data) {
+      var me = this;
+      var id = data.id || (data.id = "blueprint-" + count++);
+
+      return me.hasOwnProperty(id)
+        ? false
+        : me[id] = data;
     }
 
     return function configure() {
@@ -234,12 +245,14 @@
 
         // Flatten & Clean
         result = concat.apply(array, result).filter(clean, config);
+        // Unique
+        result = result.filter(unique, {});
         // Transform
         result = result.map(config.transform || transform, config);
         // Flatten & Clean
         result = blueprints = concat.apply(array, result).filter(clean, config);
         // Process
-        result = result.reduce(process.apply(config, rules), function () {
+        result = result.reduce(process.apply(config, rules), function Constructor() {
           var self = this;
 
           (this.constructor.constructors || []).reduce(function (args, c) {
@@ -262,7 +275,7 @@
         });
 
         result.concat = function () {
-          return concat.apply(blueprints, arguments);
+          return concat.apply(blueprints, arguments).filter(unique, {});
         };
 
         result.extend = function () {
@@ -273,7 +286,7 @@
       }
 
       create.concat = function () {
-        return concat.apply(rules, arguments);
+        return concat.apply(rules, arguments).filter(unique, {});
       };
 
       create.extend = function () {
@@ -325,91 +338,91 @@
   umd("mu-jquery-widget/widget")([], function () {
     var re_space = /\s+/;
 
-      function name(ns) {
-        return this
-          .split(re_space)
-          .map(function (type) {
-            return type + "." + ns;
-          })
-          .join(" ");
-      }
+    function name(ns) {
+      return this
+        .split(re_space)
+        .map(function (type) {
+          return type + "." + ns;
+        })
+        .join(" ");
+    }
 
-      var widget = {
-        "off": function (events, selector, handler) {
-          var me = this;
-          me.$element.off(name.call(events, me.ns), selector, handler);
-        },
-        "on/_remove": function () {
-          this.$element.triggerHandler("finalize." + this.ns);
-        }
-      };
-      var _remove = {
-        "noBubble": true,
-        "trigger": function () {
-          return false;
-        },
-        "remove": function (handleObj) {
-          var me = this;
-
-          if (handleObj.handler) {
-            handleObj.handler.call(me, me.constructor.Event(handleObj.type, {
-              "data": handleObj.data,
-              "namespace": handleObj.namespace,
-              "target": me
-            }));
-          }
-        }
-      };
-
-      ["on", "one"].forEach(function (op) {
-        this[op] = function (events, selector, data, handler) {
-          var me = this;
-          var $element = me.$element;
-
-          switch (arguments.length) {
-            case 3:
-              handler = data;
-              data = undefined;
-              break;
-
-            case 2:
-              handler = selector;
-              selector = undefined;
-              data = undefined;
-              break;
-
-            case 1:
-              throw new Error("not enough arguments");
-          }
-
-          $element[op](name.call(events, me.ns), selector, data, $element.constructor.proxy(handler, me));
-        };
-      }, widget);
-
-      return [function ($element, ns) {
+    var widget = {
+      "off": function (events, selector, handler) {
         var me = this;
-        var $ = $element.constructor;
-        var $special = $.event.special;
+        me.$element.off(name.call(events, me.ns), selector, handler);
+      },
+      "on/_remove": function () {
+        this.$element.triggerHandler("finalize." + this.ns);
+      }
+    };
+    var _remove = {
+      "noBubble": true,
+      "trigger": function () {
+        return false;
+      },
+      "remove": function (handleObj) {
+        var me = this;
 
-        $special._remove = $special._remove || _remove;
+        if (handleObj.handler) {
+          handleObj.handler.call(me, me.constructor.Event(handleObj.type, {
+            "data": handleObj.data,
+            "namespace": handleObj.namespace,
+            "target": me
+          }));
+        }
+      }
+    };
 
-        me.ns = ns;
-        me.$element = $element;
+    ["on", "one"].forEach(function (op) {
+      this[op] = function (events, selector, data, handler) {
+        var me = this;
+        var $element = me.$element;
 
-        $.each(me.constructor.dom, function (index, op) {
-          switch (op.method) {
-            case "on":
-            case "one":
-              me[op.method](op.events, op.selector, op.data, op.handler);
-              break;
+        switch (arguments.length) {
+          case 3:
+            handler = data;
+            data = undefined;
+            break;
 
-            case "attr":
-            case "prop":
-              $element[op.method](op.name, op.value);
-              break;
-          }
-        });
-      }, widget];
+          case 2:
+            handler = selector;
+            selector = undefined;
+            data = undefined;
+            break;
+
+          case 1:
+            throw new Error("not enough arguments");
+        }
+
+        $element[op](name.call(events, me.ns), selector, data, $element.constructor.proxy(handler, me));
+      };
+    }, widget);
+
+    return [function ($element, ns) {
+      var me = this;
+      var $ = $element.constructor;
+      var $special = $.event.special;
+
+      $special._remove = $special._remove || _remove;
+
+      me.ns = ns;
+      me.$element = $element;
+
+      $.each(me.constructor.dom, function (index, op) {
+        switch (op.method) {
+          case "on":
+          case "one":
+            me[op.method](op.events, op.selector, op.data, op.handler);
+            break;
+
+          case "attr":
+          case "prop":
+            $element[op.method](op.name, op.value);
+            break;
+        }
+      });
+    }, widget];
   });
 
   umd("mu-jquery-widget/dom")(["mu-create/regexp"], function (regexp) {

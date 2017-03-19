@@ -16,9 +16,9 @@ gulp.task("default", function() {
     "bower_components/mu-create/constructor.js",
     "bower_components/mu-create/prototype.js",
     "bower_components/mu-create/regexp.js",
-    "bower_components/mu-jquery-widget/widget.js",
     "bower_components/mu-jquery-widget/dom.js",
-    "./create.js"
+    "bower_components/mu-jquery-widget/create.js",
+    "bower_components/mu-jquery-widget/widget.js"
   ])
     .pipe(concat("all.js"))
     .pipe(gulp.dest("./dist/"));

@@ -335,7 +335,47 @@
     }
   });
 
-  umd("mu-jquery-widget/widget")([], function () {
+  umd("mu-jquery-widget/dom")(["mu-create/regexp"], function (regexp) {
+    var re_on = /^one?$/;
+
+    function copy(o) {
+      return Object.keys(o).reduce(function (result, key) {
+        if (!result.hasOwnProperty(key)) {
+          result[key] = o[key];
+        }
+        return result;
+      }, this);
+    }
+
+    return regexp(/^(one?|attr|prop)\/(.+?)(?:\((.*)\))?$/, function (result, data, method, type, args) {
+      var dom = toString.call(data.value) === "[object Object]"
+        ? data.value
+        : re_on.test(method)
+          ? { "handler": data.value }
+          : { "value": data.value };
+
+      dom = copy.call(dom, re_on.test(method)
+        ? {
+          "method": method,
+          "events": type,
+          "selector": args
+        }
+        : {
+          "method": method,
+          "name": type
+        });
+
+      (result.dom = result.dom || []).push(dom);
+
+      return false;
+    });
+  });
+
+  umd("mu-jquery-widget/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "./dom"], function (create, construct, proto, dom) {
+    return create(construct, dom, proto);
+  });
+
+  umd("mu-jquery-widget/widget")(["./create"], function (create) {
     var re_space = /\s+/;
 
     function name(ns) {
@@ -399,7 +439,7 @@
       };
     }, widget);
 
-    return [function ($element, ns) {
+    return create(function ($element, ns) {
       var me = this;
       var $ = $element.constructor;
       var $special = $.event.special;
@@ -422,47 +462,7 @@
             break;
         }
       });
-    }, widget];
-  });
-
-  umd("mu-jquery-widget/dom")(["mu-create/regexp"], function (regexp) {
-    var re_on = /^one?$/;
-
-    function copy(o) {
-      return Object.keys(o).reduce(function (result, key) {
-        if (!result.hasOwnProperty(key)) {
-          result[key] = o[key];
-        }
-        return result;
-      }, this);
-    }
-
-    return regexp(/^(one?|attr|prop)\/(.+?)(?:\((.*)\))?$/, function (result, data, method, type, args) {
-      var dom = toString.call(data.value) === "[object Object]"
-        ? data.value
-        : re_on.test(method)
-          ? { "handler": data.value }
-          : { "value": data.value };
-
-      dom = copy.call(dom, re_on.test(method)
-        ? {
-          "method": method,
-          "events": type,
-          "selector": args
-        }
-        : {
-          "method": method,
-          "name": type
-        });
-
-      (result.dom = result.dom || []).push(dom);
-
-      return false;
-    });
-  });
-
-  umd("mu-jquery-app/create")(["mu-create/create", "mu-create/constructor", "mu-create/prototype", "mu-jquery-widget/dom"], function (create, construct, proto, dom) {
-    return create(construct, dom, proto);
+    }, widget);
   });
 })(function (name) {
   var prefix = name.replace(/\/.+$/, "");

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="13.0.0"></a>
+# [13.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v12.0.0...v13.0.0) (2017-03-19)
+
+
+* bump mu-jquery-widget@11.0.0 and remove create ([49ae434](https://github.com/mu-lib/mu-jquery-app/commit/49ae434))
+
+
+### BREAKING CHANGES
+
+* `mu-jquery-app/create` is now deprecated. Use `mu-jquery-widget/widget` instead.
+
+
+
 <a name="12.0.0"></a>
 # [12.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v11.0.0...v12.0.0) (2017-03-18)
 

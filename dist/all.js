@@ -221,14 +221,25 @@
   umd("mu-create/create")(["./transform", "./process"], function (transform, process) {
     var root = this;
     var count = 0;
+    var prefix = "blueprint-" + count++;
 
     function clean(data) {
       return !!data;
     }
 
+    function identify(result, data) {
+      data[prefix] = count++;
+      return result;
+    }
+
+    function anonymize(result, data) {
+      delete data[prefix];
+      return result;
+    }
+
     function unique(data) {
       var me = this;
-      var id = data.id || (data.id = "blueprint-" + count++);
+      var id = data[prefix];
 
       return me.hasOwnProperty(id)
         ? false
@@ -245,8 +256,12 @@
 
         // Flatten & Clean
         result = concat.apply(array, result).filter(clean, config);
+        // Identify
+        result = result.reduce(identify, result);
         // Unique
         result = result.filter(unique, {});
+        // Anonymize
+        result = result.reduce(anonymize, result);
         // Transform
         result = result.map(config.transform || transform, config);
         // Flatten & Clean
@@ -275,7 +290,11 @@
         });
 
         result.concat = function () {
-          return concat.apply(blueprints, arguments).filter(unique, {});
+          var r = concat.apply(blueprints, arguments);
+          r = r.reduce(identify, r);
+          r = r.filter(unique, {});
+          r = r.reduce(anonymize, r);
+          return r;
         };
 
         result.extend = function () {
@@ -286,7 +305,11 @@
       }
 
       create.concat = function () {
-        return concat.apply(rules, arguments).filter(unique, {});
+        var r = concat.apply(rules, arguments);
+        r = r.reduce(identify, r);
+        r = r.filter(unique, {});
+        r = r.reduce(anonymize, r);
+        return r;
       };
 
       create.extend = function () {

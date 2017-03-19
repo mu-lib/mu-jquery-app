@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="13.0.1"></a>
+## [13.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v13.0.0...v13.0.1) (2017-03-19)
+
+
+### Bug Fixes
+
+* bump deps ([f9cc597](https://github.com/mu-lib/mu-jquery-app/commit/f9cc597))
+
+
+
 <a name="13.0.0"></a>
 # [13.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v12.0.0...v13.0.0) (2017-03-19)
 

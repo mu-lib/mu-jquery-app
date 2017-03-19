@@ -399,7 +399,9 @@
   });
 
   umd("mu-jquery-widget/widget")(["./create"], function (create) {
-    var re_space = /\s+/;
+    function falsy() {
+      return false;
+    }
 
     function name(ns) {
       return this
@@ -413,26 +415,24 @@
     var widget = {
       "off": function (events, selector, handler) {
         var me = this;
-        me.$element.off(name.call(events, me.ns), selector, handler);
+        me.$element.off(name.call(events || "", me.ns), selector, handler);
       },
       "on/_remove": function () {
-        this.$element.triggerHandler("finalize." + this.ns);
-      }
-    };
-    var _remove = {
-      "noBubble": true,
-      "trigger": function () {
-        return false;
-      },
-      "remove": function (handleObj) {
         var me = this;
-
-        if (handleObj.handler) {
-          handleObj.handler.call(me, me.constructor.Event(handleObj.type, {
-            "data": handleObj.data,
-            "namespace": handleObj.namespace,
-            "target": me
-          }));
+        var $element = me.$element;
+        var finalized = $element.constructor.Callbacks("once");
+        $element.triggerHandler("finalize." + me.ns, finalized.add);
+        finalized.fire();
+      },
+      "on/finalize": function ($event, cb) {
+        var me = this;
+        if (cb) {
+          cb(function () {
+            me.off();
+          });
+        }
+        else {
+          me.off();
         }
       }
     };
@@ -467,7 +467,17 @@
       var $ = $element.constructor;
       var $special = $.event.special;
 
-      $special._remove = $special._remove || _remove;
+      $special._remove = $special._remove || {
+        "noBubble": true,
+        "trigger": falsy,
+        "remove": function (handleObj) {
+          handleObj.handler($.Event(handleObj.type, {
+            "data": handleObj.data,
+            "namespace": handleObj.namespace,
+            "target": this
+          }));
+        }
+      };
 
       me.ns = ns;
       me.$element = $element;

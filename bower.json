@@ -16,12 +16,11 @@
   ],
   "dependencies": {
     "jquery": "^3.0.0",
-    "mu-jquery-widget": "^11.0.1",
+    "mu-jquery-widget": "^12.0.0",
     "mu-jquery-loom": "^1.1.2"
   },
   "devDependencies": {
     "qunit": "^2.0.1",
     "jquery": "^3.1.1"
-  },
-  "version": "13.0.1"
+  }
 }

@@ -421,19 +421,7 @@
         var me = this;
         var $element = me.$element;
         var finalized = $element.constructor.Callbacks("once");
-        $element.triggerHandler("finalize." + me.ns, finalized.add);
-        finalized.fire();
-      },
-      "on/finalize": function ($event, cb) {
-        var me = this;
-        if (cb) {
-          cb(function () {
-            me.off();
-          });
-        }
-        else {
-          me.off();
-        }
+        finalized.fire($element.triggerHandler("finalize." + me.ns, finalized.add));
       }
     };
 

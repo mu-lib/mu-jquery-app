@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="14.0.0"></a>
+# [14.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v13.1.0...v14.0.0) (2017-03-22)
+
+
+### Features
+
+* bumped mu-jquery-widget ([0924c68](https://github.com/mu-lib/mu-jquery-app/commit/0924c68))
+
+
+### BREAKING CHANGES
+
+* `finalize` no longer removes handlers so you have to do it yourselfe with `.off()`
+
+
+
 <a name="13.1.0"></a>
 # [13.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v13.0.1...v13.1.0) (2017-03-19)
 

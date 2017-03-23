@@ -5,6 +5,7 @@
   var slice = array.slice;
   var concat = array.concat;
   var re_space = /\s+/;
+  var CONSTRUCTOR = "constructor";
 
   function collect() {
     return slice.call(arguments);
@@ -13,7 +14,7 @@
   umd("mu-jquery-wire/jquery.wire")([], function () {
     return function (input, callback) {
       var me = this;
-      var $ = me.constructor;
+      var $ = me[CONSTRUCTOR];
       var args = slice.call(arguments, 2);
       var resolved = $.Deferred(function (dfd) {
         dfd.resolveWith(me);
@@ -41,7 +42,7 @@
       var args = slice.call(arguments, 2);
 
       return wire.call(this, input, function ($element, index, ns) {
-        return $element.constructor.when($element.triggerHandler(eventType + "." + ns, args)).then(function (result) {
+        return $element[CONSTRUCTOR].when($element.triggerHandler(eventType + "." + ns, args)).then(function (result) {
           return arguments.length > 1 ? slice.call(arguments) : result || ns;
         });
       });
@@ -66,7 +67,7 @@
       var count = 0;
       var _create = create;
       var _callback = callback;
-      var $ = this.constructor;
+      var $ = this[CONSTRUCTOR];
 
       if (!$.isFunction(callback)) {
         _create = callback.create || _create;
@@ -102,7 +103,7 @@
 
     return function () {
       var me = this;
-      var $ = me.constructor;
+      var $ = me[CONSTRUCTOR];
 
       return twist.apply(me, slice.call(arguments)).then(function (result) {
         return $.when.apply(null, $.map(result, function (widgets, index) {
@@ -270,7 +271,7 @@
         result = result.reduce(process.apply(config, rules), function Constructor() {
           var self = this;
 
-          (this.constructor.constructors || []).reduce(function (args, c) {
+          (this[CONSTRUCTOR].constructors || []).reduce(function (args, c) {
             var r = c.apply(self, args);
 
             switch (toString.call(r)) {
@@ -420,7 +421,7 @@
       "on/_remove": function () {
         var me = this;
         var $element = me.$element;
-        var finalized = $element.constructor.Callbacks("once");
+        var finalized = $element[CONSTRUCTOR].Callbacks("once");
         finalized.fire($element.triggerHandler("finalize." + me.ns, finalized.add));
       }
     };
@@ -446,13 +447,13 @@
             throw new Error("not enough arguments");
         }
 
-        $element[op](name.call(events, me.ns), selector, data, $element.constructor.proxy(handler, me));
+        $element[op](name.call(events, me.ns), selector, data, $element[CONSTRUCTOR].proxy(handler, me));
       };
     }, widget);
 
     return create(function ($element, ns) {
       var me = this;
-      var $ = $element.constructor;
+      var $ = $element[CONSTRUCTOR];
       var $special = $.event.special;
 
       $special._remove = $special._remove || {
@@ -470,7 +471,7 @@
       me.ns = ns;
       me.$element = $element;
 
-      $.each(me.constructor.dom, function (index, op) {
+      $.each(me[CONSTRUCTOR].dom, function (index, op) {
         switch (op.method) {
           case "on":
           case "one":

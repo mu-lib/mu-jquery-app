@@ -20,8 +20,8 @@
     "mu-jquery-loom": "^1.1.2"
   },
   "devDependencies": {
-    "qunit": "^2.0.1",
-    "jquery": "^3.1.1"
+    "qunit": "^2.2.1",
+    "jquery": "^3.2.1"
   },
   "version": "14.0.0"
 }

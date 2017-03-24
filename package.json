@@ -28,8 +28,8 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "standard-version": "^4.0.0",
-    "qunitjs": "^2.0.1",
-    "jquery": "^3.1.1"
+    "qunitjs": "^2.2.1",
+    "jquery": "^3.2.1"
   },
   "bundledDependencies": [
     "mu-create",

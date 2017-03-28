@@ -492,7 +492,7 @@
 
   return function (modules, factory) {
     if (typeof define === "function" && define.amd) {
-      define(modules, factory);
+      define(name, modules, factory);
     } else if (typeof module === "object" && module.exports) {
       module.exports = factory.apply(root, modules.map(require));
     } else {

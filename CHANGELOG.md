@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="14.0.1"></a>
+## [14.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v14.0.0...v14.0.1) (2017-03-28)
+
+
+### Bug Fixes
+
+* AMD fix ([49ca8d2](https://github.com/mu-lib/mu-jquery-app/commit/49ca8d2))
+
+
+
 <a name="14.0.0"></a>
 # [14.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v13.1.0...v14.0.0) (2017-03-22)
 

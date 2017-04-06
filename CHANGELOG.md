@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="15.0.0"></a>
+# [15.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v14.0.1...v15.0.0) (2017-04-06)
+
+
+### Bug Fixes
+
+* bumped deps ([9117651](https://github.com/mu-lib/mu-jquery-app/commit/9117651))
+* bumped deps ([588c5fe](https://github.com/mu-lib/mu-jquery-app/commit/588c5fe))
+* remove CJS bundle (as it's broken) ([155901d](https://github.com/mu-lib/mu-jquery-app/commit/155901d))
+* use Array.prototype over [] ([d787b05](https://github.com/mu-lib/mu-jquery-app/commit/d787b05))
+
+
+### Features
+
+* bump deps ([fc6c1a7](https://github.com/mu-lib/mu-jquery-app/commit/fc6c1a7))
+
+
+### BREAKING CHANGES
+
+* mu-jquery-loom bumps a few other deps that break how async initialize events work. If you have an async event you should wrap your handler in `mu-jquery-crank/collect` in order for it to be used when constructing the final promise.
+
+
+
 <a name="14.0.1"></a>
 ## [14.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v14.0.0...v14.0.1) (2017-03-28)
 

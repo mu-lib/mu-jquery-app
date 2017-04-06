@@ -27,7 +27,7 @@
           return $.when($.isFunction(input) ? input.apply(me, [$element, i].concat(args)) : input).then(function (_input) {
             return _input === undefined || _input.length === 0
               ? resolved
-              : $.when.apply(null, $.map($.isArray(_input) ? _input : [_input], function (output, index) {
+              : $.when.apply(null, $.map($.makeArray(_input), function (output, index) {
                 return $.when(callback.call(me, $element, index, output)).then(function (result) {
                   return arguments.length > 1 ? slice.call(arguments) : result || output;
                 });
@@ -37,12 +37,20 @@
     }
   });
 
+  umd("mu-jquery-crank/collect")([], function () {
+    return function (fn) {
+      return function ($event) {
+        return ($event.result || []).concat(fn.apply(this, arguments));
+      }
+    }
+  });
+
   umd("mu-jquery-crank/jquery.crank")(["mu-jquery-wire/jquery.wire"], function (wire) {
     return function (input, eventType) {
       var args = slice.call(arguments, 2);
 
       return wire.call(this, input, function ($element, index, ns) {
-        return $element[CONSTRUCTOR].when($element.triggerHandler(eventType + "." + ns, args)).then(function (result) {
+        return $element[CONSTRUCTOR].when.apply(null, $.makeArray($element.triggerHandler(eventType + "." + ns, args))).then(function (result) {
           return arguments.length > 1 ? slice.call(arguments) : result || ns;
         });
       });
@@ -107,9 +115,12 @@
 
       return twist.apply(me, slice.call(arguments)).then(function (result) {
         return $.when.apply(null, $.map(result, function (widgets, index) {
-          return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize").then(function () {
-            return widgets;
-          });
+          var callbacks;
+          return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize", (callbacks = $.Callbacks("once")).add)
+            .then(callbacks.fire)
+            .then(function () {
+              return widgets;
+            });
         })).then(collect);
       });
     }

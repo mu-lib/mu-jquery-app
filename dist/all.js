@@ -11,7 +11,7 @@
     return slice.call(arguments);
   }
 
-  umd("mu-jquery-wire/jquery.wire")([], function () {
+  umd("mu-jquery-wire/jquery.wire")(array, function () {
     return function (input, callback) {
       var me = this;
       var $ = me[CONSTRUCTOR];
@@ -37,10 +37,10 @@
     }
   });
 
-  umd("mu-jquery-crank/collect")([], function () {
+  umd("mu-jquery-crank/collect")(array, function () {
     return function (fn) {
       return function ($event) {
-        return ($event.result || []).concat(fn.apply(this, arguments));
+        return ($event.result || array).concat(fn.apply(this, arguments));
       }
     }
   });
@@ -57,7 +57,7 @@
     }
   });
 
-  umd("mu-jquery-loom/create")([], function () {
+  umd("mu-jquery-loom/create")(array, function () {
     return function (c, args) {
       return new (bind.apply(c, [null].concat(args)))();
     }
@@ -161,7 +161,7 @@
     }
   });
 
-  umd("mu-create/transform")([], function () {
+  umd("mu-create/transform")(array, function () {
     function value(key) {
       return {
         "key": key,
@@ -203,10 +203,10 @@
     }
   });
 
-  umd("mu-create/process")([], function () {
+  umd("mu-create/process")(array, function () {
     return function () {
       var self = this;
-      var rules = concat.apply([], arguments);
+      var rules = concat.apply(array, arguments);
 
       return function (input) {
         var skip = false;
@@ -282,7 +282,7 @@
         result = result.reduce(process.apply(config, rules), function Constructor() {
           var self = this;
 
-          (this[CONSTRUCTOR].constructors || []).reduce(function (args, c) {
+          (this[CONSTRUCTOR].constructors || array).reduce(function (args, c) {
             var r = c.apply(self, args);
 
             switch (toString.call(r)) {
@@ -332,7 +332,7 @@
     }
   });
 
-  umd("mu-create/constructor")([], function () {
+  umd("mu-create/constructor")(array, function () {
     return function (result, data) {
       var key = data.key;
 
@@ -343,7 +343,7 @@
     }
   });
 
-  umd("mu-create/prototype")([], function () {
+  umd("mu-create/prototype")(array, function () {
     return function (result, data) {
       var value = data.value;
 
@@ -358,7 +358,7 @@
     }
   });
 
-  umd("mu-create/regexp")([], function () {
+  umd("mu-create/regexp")(array, function () {
     return function (regexp, callback) {
       return function (result, data) {
         var matches = data.key.match(regexp);

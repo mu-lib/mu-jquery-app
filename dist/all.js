@@ -491,7 +491,7 @@
 
           case "attr":
           case "prop":
-            $element[op.method](op.name, op.value);
+            $element[op.method](op.name, $.isFunction(op.value) ? $.proxy(op.value, me) : op.value);
             break;
         }
       });

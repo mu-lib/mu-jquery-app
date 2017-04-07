@@ -12,19 +12,19 @@
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-loom/jquery.loom"], function (jQuery, loom) {
+})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-capture/jquery.event.add"], function (jQuery, loom, add) {
   var root = this;
-
-  jQuery.fn.loom = loom;
+  var $event = jQuery.event;
 
   function load(module) {
     return root[module];
   }
 
+  $event.add = add.call(jQuery, $event.add);
+  
+  loom.call(jQuery.fn, "[mu-widget]", "mu-widget", load, {});
+  
   jQuery(function ($) {
-    $(document)
-      .loom("[mu-widget]", "mu-widget", load, {})
-      .weave()
-      .fail(console.error.bind(console));
+    $(document).weave().fail(console.error.bind(console));
   });
 });

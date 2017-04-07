@@ -7,21 +7,19 @@
     module.exports = factory.apply(root, modules.map(require));
   } else {
     root["mu-jquery-app/examples/runkit"] = factory.apply(root, modules.map(function (m) {
-      return this[m] || root[m];
-    }, {
-        "jquery": root.jQuery
-      }));
+      return root[m];
+    }));
   }
-})(["mu-jquery-app/create", "mu-jquery-app/widget", "mu-jquery-runkit/jquery.runkit"], function (create, widget, runkit) {
-  return create(widget, {
+})(["mu-jquery-widget/widget", "mu-jquery-runkit/jquery.runkit"], function (widget, runkit) {
+  return widget.extend({
     "on/initialize": function ($event) {
       var me = this;
       var $children = me.$element.children();
 
-      me.on("ready.runkit", function() {
+      me.on("ready.runkit", function () {
         return false;
       });
-      me.on("create.runkit", function() {
+      me.on("create.runkit", function () {
         $children.hide();
       });
 

@@ -37,10 +37,36 @@
     }
   });
 
-  umd("mu-jquery-crank/collect")(array, function () {
+  umd("mu-jquery-capture/capture")(array, function () {
     return function (fn) {
-      return function ($event) {
-        return ($event.result || array).concat(fn.apply(this, arguments));
+      function proxy($event) {
+        var $result = $event.result;
+        var ret = fn.apply(this, arguments);
+
+        if (ret !== undefined) {
+          if (ret === false) {
+            $event.preventDefault();
+            if (($event.isTrigger & 1) === 1) {
+              $event.stopPropagation();
+            }
+            ret = undefined;
+          }
+        }
+
+        return ret === undefined ? $result || [] : ($result || array).concat(ret);
+      }
+
+      proxy.guid = fn.guid = fn.guid || this.guid++;
+
+      return proxy;
+    }
+  });
+
+  umd("mu-jquery-capture/jquery.event.add")(["./capture"], function (capture) {
+    return function (add) {
+      var $ = this;
+      return function (elem, types, handler, data, selector) {
+        return add.call(this, elem, types, capture.call($, handler), data, selector);
       }
     }
   });

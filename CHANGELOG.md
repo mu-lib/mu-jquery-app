@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="15.1.0"></a>
+# [15.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v15.0.1...v15.1.0) (2017-04-07)
+
+
+### Features
+
+* bumped deps ([5e684cc](https://github.com/mu-lib/mu-jquery-app/commit/5e684cc))
+
+
+### BREAKING CHANGES
+
+* `mu-jquery-crank/collect` has been deprecated in favor of `mu-jquery-capture/capture` that is now included in the bundle
+
+
+
 <a name="15.0.1"></a>
 ## [15.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v15.0.0...v15.0.1) (2017-04-07)
 

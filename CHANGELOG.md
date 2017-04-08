@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="16.0.0"></a>
+# [16.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v15.1.2...v16.0.0) (2017-04-08)
+
+
+### Bug Fixes
+
+* bumped deps ([e3f9bc6](https://github.com/mu-lib/mu-jquery-app/commit/e3f9bc6))
+* fix renamed mu-jquery-crank/add.js ([dfdb8c8](https://github.com/mu-lib/mu-jquery-app/commit/dfdb8c8))
+* rename all -> bundle ([d413fe3](https://github.com/mu-lib/mu-jquery-app/commit/d413fe3))
+
+
+### BREAKING CHANGES
+
+* `mu-jquery-capture/add` has changed signature from `add.call($, $.event.add)` to simply `add($)`
+
+
+
 <a name="15.1.2"></a>
 ## [15.1.2](https://github.com/mu-lib/mu-jquery-app/compare/v15.1.1...v15.1.2) (2017-04-08)
 

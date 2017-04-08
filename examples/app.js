@@ -12,7 +12,7 @@
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-capture/jquery.event.add"], function (jQuery, loom, add) {
+})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-capture/add"], function (jQuery, loom, add) {
   var root = this;
   var $event = jQuery.event;
 

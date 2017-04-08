@@ -14,16 +14,18 @@
   }
 })(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-capture/add"], function (jQuery, loom, add) {
   var root = this;
-  var $event = jQuery.event;
 
   function load(module) {
     return root[module];
   }
 
-  $event.add = add.call(jQuery, $event.add);
+  // Replace jQuery.event.add with a version that captures event results
+  jQuery.event.add = add(jQuery);
   
+  // Extend jQuery.fn with .crank/.twist/.weave
   loom.call(jQuery.fn, "[mu-widget]", "mu-widget", load, {});
-  
+
+  // Wait for document ready and weave the document element
   jQuery(function ($) {
     $(document).weave().fail(console.error.bind(console));
   });

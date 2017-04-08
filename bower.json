@@ -4,7 +4,7 @@
     "Mikael Karon <mikael@karon.se>"
   ],
   "description": "A jQuery app example",
-  "main": "",
+  "main": "dist/bundle.js",
   "license": "MIT",
   "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
   "ignore": [

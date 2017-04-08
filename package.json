@@ -2,7 +2,7 @@
   "name": "mu-jquery-app",
   "version": "15.1.2",
   "description": "A jQuery app example",
-  "main": "",
+  "main": "dist/bundle.js",
   "scripts": {
     "release": "standard-version",
     "build": "gulp"

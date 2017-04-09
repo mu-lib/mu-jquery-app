@@ -20,7 +20,8 @@ gulp.task("default", function() {
     "bower_components/mu-create/regexp.js",
     "bower_components/mu-jquery-widget/dom.js",
     "bower_components/mu-jquery-widget/create.js",
-    "bower_components/mu-jquery-widget/widget.js"
+    "bower_components/mu-jquery-widget/widget.js",
+    "bower_components/mu-jquery-widget/extended.js",
   ])
     .pipe(concat("bundle.js"))
     .pipe(gulp.dest("./dist/"));

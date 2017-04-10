@@ -5,6 +5,7 @@
   var array = Array.prototype;
   var slice = array.slice;
   var concat = array.concat;
+  var map = array.map;
   var re_space = /\s+/;
   var CONSTRUCTOR = "constructor";
 
@@ -531,20 +532,25 @@
     }, widget);
   });
 
-  umd("mu-jquery-widget/extended")(["./widget"], function (widget) {
-    var methods = ["addClass", "append", "appendTo", "attr", "css", "data", "empty", "hasClass", "html", "is", "insertAfter", "insertBefore", "prependTo", "prop", "removeAttr", "removeClass", "removeProp", "text", "toggleClass", "val", "wrap"];
+  umd("mu-jquery-widget/jquery")([], function (widget) {
+    var blueprints = {};
+    var jq = /^(?:children|closest|contents|find|next(?:All|Until)?|parent(?:s|sUntil)?|prev(?:Until)?|siblings)$/;
 
-    function draw(blueprint, method) {
-      blueprint[method] = function () {
-        var me = this;
-        var $element = me.$element;
-        var result = $element[method].apply($element, arguments);
-        return result instanceof $element[CONSTRUCTOR] ? me : result;
-      };
-      return blueprint;
+    function blueprint(method) {
+      return blueprints[method] || (blueprints[method] = {
+        "key": method,
+        "value": function () {
+          var me = this;
+          var $element = me.$element;
+          var result = $element[method].apply($element, arguments);
+          return !jq.test(method) && result instanceof $element.constructor ? me : result;
+        }
+      });
     }
 
-    return widget.extend(methods.reduce(draw, {}));
+    return function () {
+      return map.call(arguments, blueprint);
+    }
   });
 
 })(function (name) {

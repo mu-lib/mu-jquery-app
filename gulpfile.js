@@ -21,7 +21,7 @@ gulp.task("default", function() {
     "bower_components/mu-jquery-widget/dom.js",
     "bower_components/mu-jquery-widget/create.js",
     "bower_components/mu-jquery-widget/widget.js",
-    "bower_components/mu-jquery-widget/extended.js",
+    "bower_components/mu-jquery-widget/jquery.js",
   ])
     .pipe(concat("bundle.js"))
     .pipe(gulp.dest("./dist/"));

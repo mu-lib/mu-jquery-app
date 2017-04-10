@@ -13,7 +13,7 @@
     return slice.call(arguments);
   }
 
-  umd("mu-jquery-wire/jquery.wire")(array, function () {
+  umd("mu-jquery-wire/jquery.wire")([], function () {
     return function (input, callback) {
       var me = this;
       var $ = me[CONSTRUCTOR];
@@ -39,7 +39,7 @@
     }
   });
 
-  umd("mu-jquery-capture/capture")(array, function () {
+  umd("mu-jquery-capture/capture")([], function () {
     return function (fn) {
       function proxy($event) {
         var $result = $event.result;
@@ -85,7 +85,7 @@
     }
   });
 
-  umd("mu-jquery-loom/create")(array, function () {
+  umd("mu-jquery-loom/create")([], function () {
     return function (c, args) {
       return new (bind.apply(c, [null].concat(args)))();
     }
@@ -189,7 +189,7 @@
     }
   });
 
-  umd("mu-create/transform")(array, function () {
+  umd("mu-create/transform")([], function () {
     function value(key) {
       return {
         "key": key,
@@ -231,7 +231,7 @@
     }
   });
 
-  umd("mu-create/process")(array, function () {
+  umd("mu-create/process")([], function () {
     return function () {
       var self = this;
       var rules = concat.apply(array, arguments);
@@ -360,7 +360,7 @@
     }
   });
 
-  umd("mu-create/constructor")(array, function () {
+  umd("mu-create/constructor")([], function () {
     return function (result, data) {
       var key = data.key;
 
@@ -371,7 +371,7 @@
     }
   });
 
-  umd("mu-create/prototype")(array, function () {
+  umd("mu-create/prototype")([], function () {
     return function (result, data) {
       var value = data.value;
 
@@ -386,7 +386,7 @@
     }
   });
 
-  umd("mu-create/regexp")(array, function () {
+  umd("mu-create/regexp")([], function () {
     return function (regexp, callback) {
       return function (result, data) {
         var matches = data.key.match(regexp);

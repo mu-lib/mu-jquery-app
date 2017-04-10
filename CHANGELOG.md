@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="17.0.1"></a>
+## [17.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.0...v17.0.1) (2017-04-10)
+
+
+### Bug Fixes
+
+* fix broken UMD/define reuse of array ([3bef9dc](https://github.com/mu-lib/mu-jquery-app/commit/3bef9dc))
+
+
+
 <a name="17.0.0"></a>
 # [17.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v16.1.0...v17.0.0) (2017-04-10)
 

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="17.0.0"></a>
+# [17.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v16.1.0...v17.0.0) (2017-04-10)
+
+
+### Bug Fixes
+
+* add mu-jquery-widget/extended to gulpfile ([e3502cc](https://github.com/mu-lib/mu-jquery-app/commit/e3502cc))
+
+
+### Features
+
+* bumped deps ([815a9bd](https://github.com/mu-lib/mu-jquery-app/commit/815a9bd))
+
+
+### BREAKING CHANGES
+
+* `mu-jquery-widget/extended` is superseeded by `mu-jquery-widget/jquery`.
+
+
+
 <a name="16.1.0"></a>
 # [16.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v16.0.0...v16.1.0) (2017-04-09)
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button mu-widget="quickstart-systemjs/widget">click me</button>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.12/system.src.js" integrity="sha256-QwuZywVgvsAljog0t1dq17O4h5erdhOGMjDipaWLbvE=" crossorigin="anonymous"></script>
+  <script>
+    SystemJS.config({
+      baseURL: "https://cdnjs.cloudflare.com/ajax/libs",
+      map: {
+        "jquery": "jquery/3.2.1/jquery.slim.min.js",
+        "mu-jquery-app": "../../dist/bundle.js",
+        "quickstart-systemjs": "./"
+      },
+      bundles: {
+        "mu-jquery-app": [
+          "mu-create/*",
+          "mu-jquery-widget/*",
+          "mu-jquery-wire/*",
+          "mu-jquery-capture/*",
+          "mu-jquery-crank/*",
+          "mu-jquery-loom/*"
+        ]
+      },
+      meta: {
+        "mu-jquery-app": {
+          format: "amd"
+        }
+      },
+      packages: {
+        "quickstart-systemjs": {
+          main: "app.js"
+        }
+      }
+    });
+    SystemJS.import('quickstart-systemjs');
+  </script>
+</html>

@@ -1,18 +1,17 @@
 (function (modules, factory) {
   var root = this;
-
   if (typeof define === "function" && define.amd) {
     define(modules, factory);
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/examples/runkit/app"] = factory.apply(root, modules.map(function (m) {
-      return this[m] || root[m];
+    root["quickstart-umd/app"] = factory.apply(root, modules.map(function (m) {
+      return this[m] || root[m.replace(/^\./, "quickstart-umd")];
     }, {
         "jquery": root.jQuery
       }));
   }
-})(["jquery", "mu-jquery-loom/jquery.loom", "mu-jquery-capture/add"], function (jQuery, loom, add) {
+})(["jquery", "mu-jquery-capture/add", "mu-jquery-loom/jquery.loom"], function (jQuery, add, loom) {
   var root = this;
 
   function load(module) {
@@ -21,7 +20,7 @@
 
   // Replace jQuery.event.add with a version that captures event results
   jQuery.event.add = add(jQuery);
-  
+
   // Extend jQuery.fn with .crank/.twist/.weave
   loom.call(jQuery.fn, "[mu-widget]", "mu-widget", load, {});
 

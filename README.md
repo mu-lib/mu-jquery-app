@@ -1,9 +1,8 @@
-# Quickstart
+# Start your app in 3 steps
 
-- [source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart)
-- [example](examples/quickstart)
+Check out [the source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart) or try a [live example](examples/quickstart).
 
-## App
+## Application
 
 file: `app.js`.
 

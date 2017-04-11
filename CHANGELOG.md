@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="17.0.2"></a>
+## [17.0.2](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.1...v17.0.2) (2017-04-11)
+
+
+### Bug Fixes
+
+* bundle CONSTRUCTOR ([7c1d7cb](https://github.com/mu-lib/mu-jquery-app/commit/7c1d7cb))
+* update REDME ([c51910b](https://github.com/mu-lib/mu-jquery-app/commit/c51910b))
+
+
+
 <a name="17.0.1"></a>
 ## [17.0.1](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.0...v17.0.1) (2017-04-10)
 

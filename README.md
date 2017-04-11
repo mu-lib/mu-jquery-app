@@ -1,5 +1,8 @@
 # Quickstart
 
+- [source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart)
+- [example](examples/quickstart)
+
 ## App
 
 file: `app.js`.
@@ -12,7 +15,7 @@ file: `app.js`.
   }, {
       "jquery": root.jQuery
     }));
-})(["jquery","mu-jquery-capture/add", "mu-jquery-loom/jquery.loom"], function (jQuery, add, loom) {
+})(["jquery", "mu-jquery-capture/add", "mu-jquery-loom/jquery.loom"], function (jQuery, add, loom) {
   var root = this;
 
   function load(module) {
@@ -21,7 +24,7 @@ file: `app.js`.
 
   // Replace jQuery.event.add with a version that captures event results
   jQuery.event.add = add(jQuery);
-  
+
   // Extend jQuery.fn with .crank/.twist/.weave
   loom.call(jQuery.fn, "[mu-widget]", "mu-widget", load, {});
 

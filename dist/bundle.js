@@ -543,7 +543,7 @@
           var me = this;
           var $element = me.$element;
           var result = $element[method].apply($element, arguments);
-          return !jq.test(method) && result instanceof $element.constructor ? me : result;
+          return !jq.test(method) && result instanceof $element[CONSTRUCTOR] ? me : result;
         }
       });
     }

@@ -1,8 +1,24 @@
-# Start your app in 3 steps
+# µ jQuery Application Toolkit
+
+- [bundle](dist/bundle.js) ([minified](dist/bundle.min.js))
+- [tests](tests)
+- [examples](examples)
+
+## Installation
+
+```
+npm install mu-jquery-app --save
+```
+
+```
+bower install mu-jquery-app --save
+```
+
+## QuickStart your app in 3 steps
 
 Check out [the source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart) or try a [live example](examples/quickstart).
 
-## Application
+### Application
 
 file: `app.js`.
 
@@ -34,7 +50,7 @@ file: `app.js`.
 });
 ```
 
-# Widget
+### Widget
 
 file: `widget.js`
 
@@ -53,7 +69,7 @@ file: `widget.js`
 });
 ```
 
-# HTML
+### HTML
 
 file: `index.html`
 

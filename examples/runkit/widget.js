@@ -6,7 +6,7 @@
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory.apply(root, modules.map(require));
   } else {
-    root["mu-jquery-app/examples/runkit/widget"] = factory.apply(root, modules.map(function (m) {
+    root["runkit/widget"] = factory.apply(root, modules.map(function (m) {
       return root[m];
     }));
   }

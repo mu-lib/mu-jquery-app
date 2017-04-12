@@ -8,8 +8,8 @@
 })(["jquery", "mu-jquery-capture/add", "mu-jquery-loom/jquery.loom"], function (jQuery, add, loom) {
   var root = this;
 
-  function load(module) {
-    return root[module];
+  function load(name) {
+    return root[name];
   }
 
   // Replace jQuery.event.add with a version that captures event results

@@ -2,8 +2,8 @@ var jQuery = require("jquery");
 var add = require("mu-jquery-capture/add");
 var loom = require("mu-jquery-loom/jquery.loom");
 
-function load(module) {
-  return SystemJS.import(module);
+function load(name) {
+  return SystemJS.import(name);
 }
 
 // Replace jQuery.event.add with a version that captures event results

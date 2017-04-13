@@ -1,12 +1,10 @@
 (function (modules, factory) {
   var root = this;
   if (typeof define === "function" && define.amd) {
-    define(modules, factory);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = factory.apply(root, modules.map(require));
+    factory.apply(root, typeof module === "object" && module.exports ? require : modules.map(require));
   } else {
     root["quickstart-umd/app"] = factory.apply(root, modules.map(function (m) {
-      return this[m] || root[m.replace(/^\./, "quickstart-umd")];
+      return this[m] || root[m];
     }, {
         "jquery": root.jQuery
       }));

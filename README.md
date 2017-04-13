@@ -25,8 +25,8 @@ file: `app.js`.
 ```javascript
 (function (modules, factory) {
   var root = this;
-  root["package/app"] = factory.apply(root, modules.map(function (m) {
-    return this[m] || root[m.replace(/^\./, "package")];
+  factory.apply(root, modules.map(function (m) {
+    return this[m] || root[m];
   }, {
       "jquery": root.jQuery
     }));

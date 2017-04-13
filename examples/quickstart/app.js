@@ -1,7 +1,7 @@
 (function (modules, factory) {
   var root = this;
-  root["quickstart/app"] = factory.apply(root, modules.map(function (m) {
-    return this[m] || root[m.replace(/^\./, "quickstart")];
+  factory.apply(root, modules.map(function (m) {
+    return this[m] || root[m];
   }, {
       "jquery": root.jQuery
     }));

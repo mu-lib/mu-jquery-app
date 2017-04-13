@@ -28,9 +28,11 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "standard-version": "^4.0.0",
+    "jquery": "^3.2.1",
+    "mu-jquery-widget-runkit": "^0.0.1",
+    "mu-jquery-widget-selectize": "^0.0.1",
     "qunitjs": "^2.3.0",
-    "jquery": "^3.2.1"
+    "standard-version": "^4.0.0"
   },
   "bundledDependencies": [
     "mu-create",

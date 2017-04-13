@@ -3,7 +3,7 @@
   if (typeof define === "function" && define.amd) {
     factory.apply(root, typeof module === "object" && module.exports ? require : modules.map(require));
   } else {
-    root["quickstart-umd/app"] = factory.apply(root, modules.map(function (m) {
+    factory.apply(root, modules.map(function (m) {
       return this[m] || root[m];
     }, {
         "jquery": root.jQuery

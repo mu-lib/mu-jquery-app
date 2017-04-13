@@ -1,6 +1,6 @@
 {
   "name": "mu-jquery-app",
-  "version": "17.0.2",
+  "version": "17.0.3",
   "description": "A jQuery app example",
   "main": "dist/bundle.js",
   "scripts": {

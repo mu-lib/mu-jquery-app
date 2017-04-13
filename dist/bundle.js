@@ -100,7 +100,6 @@
 
     return function (attr, callback) {
       var args = slice.call(arguments, 2);
-      var count = 0;
       var _create = create;
       var _callback = callback;
       var $ = this[CONSTRUCTOR];
@@ -114,15 +113,15 @@
         function ($element) {
           return ($element.attr(attr) || "").split(re_space).filter(clean);
         },
-        function ($element, index, module) {
+        function ($element, index, name) {
           var self = this;
 
-          return $.when(_callback.call(self, module, index)).then(function (result) {
-            result = _create.call(self, result, [$element, module = module + "@" + ++count].concat(args));
+          return $.when(_callback.call(self, name, index)).then(function (result) {
+            result = _create.call(self, result, [$element, name = name + "@" + $.guid++].concat(args));
 
             $element.attr(attr, function (i, value) {
               value = value.split(re_space);
-              value[index] = module;
+              value[index] = name;
               return value.join(" ");
             });
 

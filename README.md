@@ -16,7 +16,7 @@ bower install mu-jquery-app --save
 
 ## QuickStart your app in 3 steps
 
-Check out [the source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart) or try a [live example](examples/quickstart).
+Check out [the source](https://github.com/mu-lib/mu-jquery-app/tree/master/examples/quickstart) or try a [live example](http://mu-lib.org/mu-jquery-app/examples/quickstart).
 
 ### Application
 

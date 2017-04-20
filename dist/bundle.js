@@ -45,14 +45,10 @@
         var $result = $event.result;
         var ret = fn.apply(this, arguments);
 
-        if (ret !== undefined) {
-          if (ret === false) {
-            $event.preventDefault();
-            if (($event.isTrigger & 1) === 1) {
-              $event.stopPropagation();
-            }
-            ret = undefined;
-          }
+        if (ret === false) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          ret = undefined;
         }
 
         return ret === undefined ? $result || [] : ($result || array).concat(ret);

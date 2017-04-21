@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="17.0.6"></a>
+## [17.0.6](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.5...v17.0.6) (2017-04-21)
+
+
+
 <a name="17.0.5"></a>
 ## [17.0.5](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.4...v17.0.5) (2017-04-21)
 

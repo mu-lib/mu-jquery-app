@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="18.1.0"></a>
+# [18.1.0](https://github.com/mu-lib/mu-jquery-app/compare/v18.0.0...v18.1.0) (2017-04-22)
+
+
+### Bug Fixes
+
+* add mu-jquery-widget/get to gulpfile ([a266185](https://github.com/mu-lib/mu-jquery-app/commit/a266185))
+
+
+### Features
+
+* bumped deps ([2ba5fb8](https://github.com/mu-lib/mu-jquery-app/commit/2ba5fb8))
+
+
+
 <a name="18.0.0"></a>
 # [18.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.6...v18.0.0) (2017-04-22)
 

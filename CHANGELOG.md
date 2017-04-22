@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="18.0.0"></a>
+# [18.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.6...v18.0.0) (2017-04-22)
+
+
+### Bug Fixes
+
+* use correct qunitjs in bundle ([4ce0d67](https://github.com/mu-lib/mu-jquery-app/commit/4ce0d67))
+
+
+### Features
+
+* bumped deps ([bf8320d](https://github.com/mu-lib/mu-jquery-app/commit/bf8320d))
+
+
+### BREAKING CHANGES
+
+* `trigger` is now deprecated
+
+
+
 <a name="17.0.6"></a>
 ## [17.0.6](https://github.com/mu-lib/mu-jquery-app/compare/v17.0.5...v17.0.6) (2017-04-21)
 

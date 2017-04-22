@@ -393,6 +393,16 @@
     }
   });
 
+  umd("mu-jquery-widget/get")([], function () {
+    return function (search) {
+      var me = this;
+      var $ = me[CONSTRUCTOR];
+      return $.map(me.data(), function (value, key) {
+        return key.startsWith($.expando + "#" + search) ? value : undefined;
+      });
+    }
+  });
+
   umd("mu-jquery-widget/dom")(["mu-create/regexp"], function (regexp) {
     var re_on = /^one?$/;
 
@@ -455,7 +465,11 @@
       "on/_remove": function () {
         var me = this;
         var finalized = me.$.Callbacks("once");
-        finalized.fire(me.$element.triggerHandler("finalize." + me.ns, finalized.add));
+        finalized.fire(me.triggerHandler("finalize", finalized.add));
+      },
+      "triggerHandler": function (events, args) {
+        var me = this;
+        return me.$element.triggerHandler(name.call(events, me.ns), args);
       }
     };
 
@@ -480,14 +494,6 @@
         }
 
         me.$element[op](name.call(events, me.ns), selector, data, me.$.proxy(handler, me));
-      };
-    }, widget);
-
-    ["trigger", "triggerHandler"].forEach(function (op) {
-      this[op] = function (events, args) {
-        var me = this;
-        var result = me.$element[op](name.call(events, me.ns), args);
-        return op === "trigger" ? me : result;
       };
     }, widget);
 
@@ -524,6 +530,8 @@
             break;
         }
       });
+
+      $element.data($.expando + "#" + ns, me);
     }, widget);
   });
 

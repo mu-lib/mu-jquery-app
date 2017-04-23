@@ -1,6 +1,5 @@
 (function (umd) {
   var undefined;
-  var bind = Function.prototype.bind;
   var toString = Object.prototype.toString
   var array = Array.prototype;
   var slice = array.slice;
@@ -101,7 +100,7 @@
 
   umd("mu-jquery-loom/create")([], function () {
     return function (c, args) {
-      return new (bind.apply(c, [null].concat(args)))();
+      return new (Function.prototype.bind.apply(c, [null].concat(args)))();
     }
   });
 

@@ -83,9 +83,7 @@
   umd("mu-jquery-loom/expr")([], function () {
     function matches($, element, attr, search) {
       var value = $(element).attr(attr);
-      return search
-        ? new RegExp("(?:^|\s+)" + search).test(value)
-        : value;
+      return value !== undefined && new RegExp("(?:^|\\s)" + (search || "") + "[^@]*(?:\\s|$)").test(value);
     }
 
     return function ($, attr) {
@@ -409,7 +407,7 @@
 
   umd("mu-jquery-widget/expr")([], function () {
     function matches($, element, search) {
-      search = $.expando + "#" + (search || "");
+      search = $.expando + "#" + $.camelCase(search || "");
       return Object.keys($.data(element)).some(function (key) {
         return key.startsWith(search);
       });

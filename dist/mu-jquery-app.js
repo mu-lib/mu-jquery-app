@@ -28,7 +28,7 @@
           return $.when($.isFunction(input) ? input.apply(me, [$element, i].concat(args)) : input).then(function (_input) {
             return _input === undefined || _input.length === 0
               ? resolved
-              : $.when.apply(null, $.map($.makeArray(_input), function (output, index) {
+              : $.when.apply(null, $.makeArray(_input).map(function (output, index) {
                 return $.when(callback.call(me, $element, index, output)).then(function (result) {
                   return arguments.length > 1 ? slice.call(arguments) : result || output;
                 });
@@ -155,9 +155,9 @@
       var $ = me[CONSTRUCTOR];
 
       return twist.apply(me, slice.call(arguments)).then(function (result) {
-        return $.when.apply(null, $.map(result, function (widgets, index) {
+        return $.when.apply(null, result.map(function (widgets, index) {
           var callbacks;
-          return widgets && crank.call(widgets[0].$element, $.map(widgets, ns), "initialize", (callbacks = $.Callbacks("once")).add)
+          return widgets && crank.call(widgets[0].$element, widgets.map(ns), "initialize", (callbacks = $.Callbacks("once")).add)
             .then(callbacks.fire)
             .then(function () {
               return widgets;
@@ -556,7 +556,7 @@
       me.ns = ns;
       me.$element = $element;
 
-      $.each(me[CONSTRUCTOR].dom, function (index, op) {
+      me[CONSTRUCTOR].dom.forEach(function (op, index) {
         switch (op.method) {
           case "on":
           case "one":

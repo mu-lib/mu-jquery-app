@@ -5,7 +5,6 @@
   var array = Array.prototype;
   var slice = array.slice;
   var concat = array.concat;
-  var map = array.map;
   var re_space = /\s+/;
   var CONSTRUCTOR = "constructor";
 
@@ -81,13 +80,34 @@
     }
   });
 
+  umd("mu-jquery-loom/expr")([], function () {
+    function matches($, element, attr, search) {
+      var value = $(element).attr(attr);
+      return search
+        ? new RegExp("(?:^|\s+)" + search).test(value)
+        : value;
+    }
+
+    return function ($, attr) {
+      return $.expr.createPseudo
+        ? $.expr.createPseudo(function (search) {
+          return function (element) {
+            return matches($, element, attr, search);
+          }
+        })
+        : function (element, index, match) {
+          return matches($, element, attr, match[3]);
+        };
+    }
+  });
+
   umd("mu-jquery-loom/create")([], function () {
     return function (c, args) {
       return new (bind.apply(c, [null].concat(args)))();
     }
   });
 
-  umd("mu-jquery-loom/jquery.twist")(["mu-jquery-wire/jquery.wire", "./create"], function (wire, create) {
+  umd("mu-jquery-loom/jquery.wire")(["mu-jquery-wire/jquery.wire", "./create"], function (wire, create) {
     var re_clean = /@\d+$/;
 
     function clean(value) {
@@ -127,7 +147,7 @@
     }
   });
 
-  umd("mu-jquery-loom/jquery.weave")(["./jquery.twist", "mu-jquery-crank/jquery.crank"], function (twist, crank) {
+  umd("mu-jquery-loom/jquery.weave")(["./jquery.wire", "mu-jquery-crank/jquery.crank"], function (twist, crank) {
     function ns(widget) {
       return widget.ns;
     }
@@ -157,30 +177,24 @@
     }
   });
 
-  umd("mu-jquery-loom/jquery.loom")(["./jquery.crank", "./jquery.twist", "./jquery.weave"], function (crank, twist, weave) {
-    function find(selector) {
-      return this.find(selector).addBack(selector);
+  umd("mu-jquery-loom/jquery.loom")(["./jquery.crank", "./jquery.weave"], function (crank, weave) {
+    function find($element, selector) {
+      return $element.find(selector).addBack(selector);
     }
 
-    return function (selector) {
-      var args = slice.call(arguments, 1);
-      var a = args.slice(0, 1);
+    return function (attr) {
+      var arg = [attr];
+      var args = slice.call(arguments);
+      var selector = "[" + attr + "]";
 
-      this.extend({
+      return this.extend({
         "crank": function () {
-          return crank.apply(find.call(this, selector), a.concat(slice.call(arguments)));
+          return crank.apply(find(this, selector), arg.concat(slice.call(arguments)));
         },
-
-        "twist": function () {
-          return twist.apply(find.call(this, selector), args.concat(slice.call(arguments)));
-        },
-
         "weave": function () {
-          return weave.apply(find.call(this, selector), args.concat(slice.call(arguments)));
+          return weave.apply(find(this, selector), args.concat(slice.call(arguments)));
         }
       });
-
-      return this;
     }
   });
 
@@ -393,15 +407,39 @@
     }
   });
 
-  umd("mu-jquery-widget/get")([], function () {
+  umd("mu-jquery-widget/expr")([], function () {
+    function matches($, element, search) {
+      search = $.expando + "#" + (search || "");
+      return Object.keys($.data(element)).some(function (key) {
+        return key.startsWith(search);
+      });
+    }
+
+    return function ($) {
+      return $.expr.createPseudo
+        ? $.expr.createPseudo(function (search) {
+          return function (element) {
+            return matches($, element, search);
+          }
+        })
+        : function (element, index, match) {
+          return matches($, element, match[3]);
+        };
+    }
+  });
+
+  umd("mu-jquery-widget/jquery.get")([], function () {
     return function (search) {
       var me = this;
       var $ = me[CONSTRUCTOR];
+      var values = {};
 
       search = $.expando + "#" + (search || "");
 
-      return $.map(me.data(), function (value, key) {
-        return key.startsWith(search) ? value : undefined;
+      return $.map(me, function (element) {
+        return $.map($.data(element), function (value, key) {
+          return values.hasOwnProperty(key) ? undefined : values[key] = key.startsWith(search) ? value : undefined;
+        });
       });
     }
   });
@@ -537,28 +575,6 @@
       $element.data($.expando + "#" + ns, me);
     }, widget);
   });
-
-  umd("mu-jquery-widget/jquery")([], function (widget) {
-    var blueprints = {};
-    var jq = /^(?:children|closest|contents|find|next(?:All|Until)?|parent(?:s|sUntil)?|prev(?:Until)?|siblings)$/;
-
-    function blueprint(method) {
-      return blueprints[method] || (blueprints[method] = {
-        "key": method,
-        "value": function () {
-          var me = this;
-          var $element = me.$element;
-          var result = $element[method].apply($element, arguments);
-          return !jq.test(method) && result instanceof $element[CONSTRUCTOR] ? me : result;
-        }
-      });
-    }
-
-    return function () {
-      return map.call(arguments, blueprint);
-    }
-  });
-
 })(function (name) {
   var prefix = name.replace(/\/.+$/, "");
   var root = this;

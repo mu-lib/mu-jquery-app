@@ -1,6 +1,6 @@
 # µ jQuery Application Toolkit
 
-- [bundle](dist/bundle.js) ([minified](dist/bundle.min.js))
+- [bundle](dist/mu-jquery-app.js) ([minified](dist/mu-jquery-app.min.js))
 - [tests](tests)
 - [examples](examples)
 
@@ -40,8 +40,8 @@ file: `app.js`.
   // Replace jQuery.event.add with a version that captures event results
   jQuery.event.add = add(jQuery);
 
-  // Extend jQuery.fn with .crank/.twist/.weave
-  loom.call(jQuery.fn, "[mu-widget]", "mu-widget", load, {});
+  // Extend jQuery.fn with .crank/.weave
+  loom.call(jQuery.fn, "mu-widget", load);
 
   // Wait for document ready and weave the document element
   jQuery(function ($) {
@@ -80,7 +80,7 @@ file: `index.html`
     <button mu-widget="package/widget">click me</button>
   </body>
   <script src="https://rawgit.com/jquery/jquery/3.2.1/dist/jquery.js"></script>
-  <script src="https://rawgit.com/mu-lib/mu-jquery-app/master/dist/bundle.min.js"></script>
+  <script src="https://rawgit.com/mu-lib/mu-jquery-app/master/dist/mu-jquery-app.min.js"></script>
   <script src="widget.js"></script>
   <script src="app.js"></script>
 </html>

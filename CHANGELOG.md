@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="20.0.0"></a>
+# [20.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v19.0.2...v20.0.0) (2017-04-25)
+
+
+* bumped deps: ([7dd7c77](https://github.com/mu-lib/mu-jquery-app/commit/7dd7c77))
+
+
+### BREAKING CHANGES
+
+* `mu-jquery-capture/capture` changed signature and `mu-jquery-loom/expr` now includes woven elements.
+
+
+
 <a name="19.0.2"></a>
 ## [19.0.2](https://github.com/mu-lib/mu-jquery-app/compare/v19.0.1...v19.0.2) (2017-04-23)
 

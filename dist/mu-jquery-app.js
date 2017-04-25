@@ -38,7 +38,7 @@
   });
 
   umd("mu-jquery-capture/capture")([], function () {
-    return function (fn) {
+    return function ($, fn) {
       function proxy($event) {
         var $result = $event.result;
         var ret = fn.apply(this, arguments);
@@ -52,7 +52,7 @@
         return ret === undefined ? $result || [] : ($result || array).concat(ret);
       }
 
-      proxy.guid = fn.guid = fn.guid || this.guid++;
+      proxy.guid = fn.guid = fn.guid || $.guid++;
 
       return proxy;
     }
@@ -62,7 +62,7 @@
     return function ($) {
       var add = $.event.add;
       return function (elem, types, handler, data, selector) {
-        return add.call(this, elem, types, capture.call($, handler), data, selector);
+        return add.call(this, elem, types, capture($, handler), data, selector);
       }
     }
   });
@@ -82,7 +82,7 @@
   umd("mu-jquery-loom/expr")([], function () {
     function matches($, element, attr, search) {
       var value = $(element).attr(attr);
-      return value !== undefined && new RegExp("(?:^|\\s)" + (search || "") + "[^@]*(?:\\s|$)").test(value);
+      return value !== undefined && new RegExp("(?:^|\\s)" + (search || "")).test(value);
     }
 
     return function ($, attr) {
@@ -144,7 +144,7 @@
     }
   });
 
-  umd("mu-jquery-loom/jquery.weave")(["./jquery.wire", "mu-jquery-crank/jquery.crank"], function (twist, crank) {
+  umd("mu-jquery-loom/jquery.weave")(["./jquery.wire", "mu-jquery-crank/jquery.crank"], function (weave, crank) {
     function ns(widget) {
       return widget.ns;
     }
@@ -153,7 +153,7 @@
       var me = this;
       var $ = me[CONSTRUCTOR];
 
-      return twist.apply(me, slice.call(arguments)).then(function (result) {
+      return weave.apply(me, slice.call(arguments)).then(function (result) {
         return $.when.apply(null, result.map(function (widgets, index) {
           var callbacks;
           return widgets && crank.call(widgets[0].$element, widgets.map(ns), "initialize", (callbacks = $.Callbacks("once")).add)
@@ -431,7 +431,7 @@
       var $ = me[CONSTRUCTOR];
       var values = {};
 
-      search = $.expando + "#" + (search || "");
+      search = $.expando + "#" + $.camelCase(search || "");
 
       return $.map(me, function (element) {
         return $.map($.data(element), function (value, key) {

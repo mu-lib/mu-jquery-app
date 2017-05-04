@@ -16,8 +16,8 @@
   ],
   "dependencies": {
     "mu-jquery-widget": "^17.0.3",
-    "mu-jquery-loom": "^5.0.2",
-    "mu-jquery-capture": "^3.0.0"
+    "mu-jquery-loom": "^5.0.3",
+    "mu-jquery-capture": "^3.0.1"
   },
   "devDependencies": {
     "qunit": "^2.3.2",

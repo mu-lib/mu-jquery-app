@@ -62,7 +62,7 @@
     return function ($) {
       var add = $.event.add;
       return function (elem, types, handler, data, selector) {
-        return add.call(this, elem, types, capture($, handler), data, selector);
+        return add.call(this, elem, types, handler.handler ? $.extend({}, handler, { handler: capture($, handler.handler) }) : capture($, handler), data, selector);
       }
     }
   });

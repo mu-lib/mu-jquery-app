@@ -19,7 +19,7 @@
   "homepage": "https://github.com/mu-lib/mu-jquery-app#readme",
   "dependencies": {
     "mu-jquery-widget": "^17.0.3",
-    "mu-jquery-loom": "^5.0.3",
+    "mu-jquery-loom": "^5.0.5",
     "mu-jquery-capture": "^3.0.1"
   },
   "devDependencies": {

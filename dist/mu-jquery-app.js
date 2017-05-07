@@ -105,7 +105,7 @@
   });
 
   umd("mu-jquery-loom/jquery.wire")(["mu-jquery-wire/jquery.wire", "./create"], function (wire, create) {
-    var re_clean = /@\d+$/;
+    var re_clean = /(?:^|@\d+)$/;
 
     function clean(value) {
       return !re_clean.test(value);
@@ -130,7 +130,7 @@
           var self = this;
 
           return $.when(_callback.call(self, name, index)).then(function (result) {
-            result = _create.call(self, result, [$element, name = name + "@" + $.guid++].concat(args));
+            result = result && _create.call(self, result, [$element, name = name + "@" + $.guid++].concat(args));
 
             $element.attr(attr, function (i, value) {
               value = value.split(re_space);

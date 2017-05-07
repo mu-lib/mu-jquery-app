@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="21.0.0"></a>
+# [21.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v20.0.2...v21.0.0) (2017-05-07)
+
+
+### Features
+
+* normalize array result ([989baa8](https://github.com/mu-lib/mu-jquery-app/commit/989baa8))
+
+
+### BREAKING CHANGES
+
+* `undefined` results are now mapped to `[]`.
+
+
+
 <a name="20.0.2"></a>
 ## [20.0.2](https://github.com/mu-lib/mu-jquery-app/compare/v20.0.1...v20.0.2) (2017-05-07)
 

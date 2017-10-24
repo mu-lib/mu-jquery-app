@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="22.0.0"></a>
+# [22.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v21.0.0...v22.0.0) (2017-10-24)
+
+
+### Bug Fixes
+
+* bump deps ([220210c](https://github.com/mu-lib/mu-jquery-app/commit/220210c))
+
+
+### BREAKING CHANGES
+
+* loom.crank no longer  executes on child widgets
+
+
+
 <a name="21.0.0"></a>
 # [21.0.0](https://github.com/mu-lib/mu-jquery-app/compare/v20.0.2...v21.0.0) (2017-05-07)
 

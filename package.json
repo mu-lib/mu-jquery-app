@@ -1,6 +1,6 @@
 {
   "name": "mu-jquery-app",
-  "version": "21.0.0",
+  "version": "22.0.0",
   "description": "A jQuery app example",
   "main": "dist/mu-jquery-app.js",
   "scripts": {

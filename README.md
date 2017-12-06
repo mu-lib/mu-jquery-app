@@ -5,6 +5,15 @@
 - [examples](examples)
 - [changelog](CHANGELOG.md)
 
+## Bundled
+
+- [mu-create](../mu-create)
+- [mu-jquery-widget](../mu-jquery-widget)
+- [mu-jquery-wire](../mu-jquery-wire)
+- [mu-jquery-capture](../mu-jquery-capture)
+- [mu-jquery-crank](../mu-jquery-crank)
+- [mu-jquery-loom](../mu-jquery-loom)
+
 ## Installation
 
 ```

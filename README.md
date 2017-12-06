@@ -3,6 +3,7 @@
 - [bundle](dist/mu-jquery-app.js) ([minified](dist/mu-jquery-app.min.js))
 - [tests](tests)
 - [examples](examples)
+- [changelog](CHANGELOG.md)
 
 ## Installation
 

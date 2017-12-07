@@ -12,7 +12,9 @@
     "node_modules",
     "bower_components",
     "tests",
-    "examples"
+    "examples",
+    "_config.yaml",
+    "Gemfile"
   ],
   "dependencies": {
     "mu-jquery-widget": "^17.0.4",

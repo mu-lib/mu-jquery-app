@@ -1,0 +1,5 @@
+plugins:
+  - jekyll-remote-theme
+
+# Remote theme
+remote_theme: "mu-lib/jekyll-theme-basically-basic"
